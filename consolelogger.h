@@ -1,14 +1,14 @@
 #ifndef NAISYS_CONSOLELOGGER_H
 #define NAISYS_CONSOLELOGGER_H
 
-#include "NaiSys_DesktopUtils_global.h"
+
 
 #include <QObject>
 #include <QDebug>
 
 namespace NaiSys {
 
-class NAISYSDESKTOPUTILS_EXPORT ConsoleLogger : public QObject
+class  ConsoleLogger : public QObject
 {
     Q_OBJECT
 public:

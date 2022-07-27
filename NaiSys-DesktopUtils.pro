@@ -4,6 +4,7 @@ QT += core sql printsupport
 TEMPLATE = lib
 DEFINES += NAISYSDESKTOPUTILS_LIBRARY
 
+CONFIG += staticlib
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -21,7 +22,6 @@ SOURCES += \
     systemconfig.cpp
 
 HEADERS += \
-    NaiSys_DesktopUtils_global.h \
     consolelogger.h \
     databasehandler.h \
     naisysdesktoputil.h \

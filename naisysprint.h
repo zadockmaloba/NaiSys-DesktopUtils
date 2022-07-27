@@ -1,7 +1,7 @@
 #ifndef NAISYSPRINT_H
 #define NAISYSPRINT_H
 
-#include "NaiSys_DesktopUtils_global.h"
+
 
 #include <QObject>
 #include <QFile>
@@ -18,7 +18,7 @@
 #include "naisysdocumenthandler.h"
 #include "systemconfig.h"
 
-class NAISYSDESKTOPUTILS_EXPORT NaiSysPrint : public QObject
+class  NaiSysPrint : public QObject
 {
     Q_OBJECT
 public:

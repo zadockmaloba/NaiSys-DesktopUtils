@@ -1,7 +1,7 @@
 #ifndef NAISYSJSONOBJECT_H
 #define NAISYSJSONOBJECT_H
 
-#include "NaiSys_DesktopUtils_global.h"
+
 
 #include <QObject>
 #include <QJsonValue>
@@ -13,7 +13,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 
-class NAISYSDESKTOPUTILS_EXPORT NaiSysJsonObject : public QObject
+class  NaiSysJsonObject : public QObject
 {
     Q_OBJECT
 public:

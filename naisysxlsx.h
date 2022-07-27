@@ -1,7 +1,7 @@
 #ifndef NAISYS_NAISYSXLSX_H
 #define NAISYS_NAISYSXLSX_H
 
-#include "NaiSys_DesktopUtils_global.h"
+
 
 #include <QObject>
 #include <QJsonArray>
@@ -17,7 +17,7 @@
 
 namespace NaiSys {
 
-class NAISYSDESKTOPUTILS_EXPORT NaiSysXLSX : public QObject
+class  NaiSysXLSX : public QObject
 {
     Q_OBJECT
 public:

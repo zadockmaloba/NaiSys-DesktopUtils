@@ -1,7 +1,7 @@
 #ifndef NAISYS_DATABASEHANDLER_H
 #define NAISYS_DATABASEHANDLER_H
 
-#include "NaiSys_DesktopUtils_global.h"
+
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -20,7 +20,7 @@
 
 namespace NaiSys {
 
-class NAISYSDESKTOPUTILS_EXPORT DatabaseHandler : public QObject
+class  DatabaseHandler : public QObject
 {
     Q_OBJECT
 private:

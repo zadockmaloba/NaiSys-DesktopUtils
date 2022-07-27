@@ -1,7 +1,7 @@
 #ifndef NAISYS_NAISYSDOCUMENTHANDLER_H
 #define NAISYS_NAISYSDOCUMENTHANDLER_H
 
-#include "NaiSys_DesktopUtils_global.h"
+
 
 #include <QObject>
 #include <QJsonObject>
@@ -14,7 +14,7 @@
 
 namespace NaiSys {
 
-class NAISYSDESKTOPUTILS_EXPORT NaiSysDocumentHandler
+class  NaiSysDocumentHandler
 {
     enum DocTypes{
         Receipt,
