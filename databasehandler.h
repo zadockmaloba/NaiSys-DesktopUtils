@@ -1,7 +1,11 @@
 #ifndef NAISYS_DATABASEHANDLER_H
 #define NAISYS_DATABASEHANDLER_H
 
-
+#ifdef NAISYS_READFROMCONFIG
+#define READFROMCONFIG 1
+#else
+#define READFROMCONFIG 0
+#endif
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -52,7 +56,7 @@ private:
 public:
     explicit DatabaseHandler(QObject *parent = nullptr);
     DatabaseHandler(const QSqlDatabase &dbH, QObject *parent = nullptr);
-    DatabaseHandler(const QString &connectionName, const QString &databaseName, QObject *parent = nullptr);
+    DatabaseHandler(const QString &connectionName, const QString &databaseName, const QString &dbType = "QSQLITE", QObject *parent = nullptr);
     void initialiseDb();
     void reConnectDb();
     Q_INVOKABLE bool createAndOrInsertRowToTable(const QString &tableName, const QJsonObject &data);
@@ -66,6 +70,9 @@ public:
     QSqlQueryModel *runSqlQuerry(const QString &querry); //
     Q_INVOKABLE const QString json_runSqlQuerry(const QString &querry);
 
+    const QString &dbType() const;
+    void setDbType(const QString &newDbType);
+
 signals:
 
 private://methods
@@ -74,7 +81,7 @@ private://methods
 
 private://members
     QSqlDatabase m_dbHandle;
-    QString m_dbName, m_dbConnectionName;
+    QString m_dbName, m_dbConnectionName, m_dbType;
 };
 
 } // namespace NaiSys

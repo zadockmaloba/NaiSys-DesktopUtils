@@ -15,12 +15,33 @@ DatabaseHandler::DatabaseHandler(const QSqlDatabase &dbH, QObject *parent)
 
 }
 
-DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &databaseName, QObject *parent)
+DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &databaseName, const QString &db, QObject *parent)
     : QObject{parent},
       m_dbName{databaseName},
-      m_dbConnectionName{connectionName}
+      m_dbConnectionName{connectionName},
+      m_dbType{db}
 {
-    this->m_dbHandle = QSqlDatabase::addDatabase("QSQLITE", m_dbConnectionName);
+    this->m_dbHandle = QSqlDatabase::addDatabase(m_dbType, m_dbConnectionName);
+
+    if(m_dbType == "QPSQL"){
+        if(READFROMCONFIG){
+            qDebug() << "{{DATABASEHANDLER - QPSQL}} :: READING FROM CONFIG FILE";
+            auto const obj = SystemConfig::readConfigFile().value("DataBase").toObject();
+            qDebug() << obj;
+
+            this->m_dbHandle.setHostName(obj.value("DbHostName").toString());
+            this->m_dbHandle.setPort(obj.value("DbPort").toInt());
+            this->m_dbHandle.setUserName(obj.value("DbUser").toString());
+            this->m_dbHandle.setPassword(obj.value("DbPassword").toString());
+        }
+        else {
+            this->m_dbHandle.setHostName("localhost");
+            this->m_dbHandle.setPort(5432);
+            this->m_dbHandle.setUserName("postgres");
+            this->m_dbHandle.setPassword("postgres");
+        }
+    }
+
     this->m_dbHandle.setDatabaseName(m_dbName);
 }
 
@@ -117,6 +138,12 @@ bool DatabaseHandler::closeDatabaseSocket()
     m_dbHandle.close();
     return true; //:^}
 }
+
+const QString &DatabaseHandler::dbType() const
+{return m_dbType;}
+
+void DatabaseHandler::setDbType(const QString &newDbType)
+{m_dbType = newDbType;}
 
 inline QSqlQueryModel *DatabaseHandler::runSqlQuerry(const QString &querry)
 {
