@@ -65,6 +65,7 @@ public:
 public: //static methods
     static bool checkForFile(const QString &filename);
     static bool checkForFolder(const QString &folderpath);
+    static void setRootFolderName(const QString &fname);
     static void createRootConfigFolder();
     static QJsonObject readConfigFile();
     static QString getRootTemplateFolder();
@@ -79,7 +80,7 @@ private:
     static void createConfigFile();
 
 private:
-    static constexpr char m_sRootConfigFolder[] {"NaiSys-Test-Utils-Lib"};
+    static QString m_sRootConfigFolder;
     static constexpr char m_sRootTemplateFolder[] {"templates"};
     static constexpr char m_sConfigFile[] {"appconfig.json"};
     static const QJsonObject m_sInitData;

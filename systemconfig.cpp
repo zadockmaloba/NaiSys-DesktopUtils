@@ -7,6 +7,8 @@ SystemConfig::SystemConfig()
 
 }
 
+QString SystemConfig::m_sRootConfigFolder = "NaiSys-Defaults";
+
 const QString &SystemConfig::rootConfigFolder() const
 {return m_rootConfigFolder;}
 
@@ -29,7 +31,15 @@ const QJsonObject SystemConfig::m_sInitData = { //TODO: create other docs
     {"App-Name", QJsonValue("Default")},
     {"Template-Dir", QJsonValue("templates")},
     {"Default-Template", QJsonValue("default_receipt.html")},
-    {"DataBase", QJsonValue("test.sqlite")},
+    {"DataBase", QJsonObject{
+         {"DbType", "QSQLITE"}, //QSQLITE OR QPSQL
+         {"DbName", "test.sqlite"},
+         {"DbPath", ""},
+         {"DbHost", "localhost"},
+         {"DbPort", 5432},
+         {"DbUser", "postgres"},
+         {"DbPassword", "postgres"}
+     }},
     {"Templates", QJsonObject({
          {"Statement", QJsonObject({
               {"StatementFile", "defualt_statement.html"},
@@ -55,6 +65,9 @@ bool SystemConfig::checkForFile(const QString &filename)
 
 bool SystemConfig::checkForFolder(const QString &folderpath)
 {return QDir(folderpath).exists();}
+
+void SystemConfig::setRootFolderName(const QString &fname)
+{m_sRootConfigFolder = fname;}
 
 void SystemConfig::createRootConfigFolder()
 {
