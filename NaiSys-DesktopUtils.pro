@@ -14,6 +14,7 @@ CONFIG += c++17
 SOURCES += \
     consolelogger.cpp \
     databasehandler.cpp \
+    naisyscompression.cpp \
     naisysdesktoputil.cpp \
     naisysdocumenthandler.cpp \
     naisysjsonobject.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 HEADERS += \
     consolelogger.h \
     databasehandler.h \
+    naisyscompression.h \
     naisysdesktoputil.h \
     naisysdocumenthandler.h \
     naisysjsonobject.h \
@@ -33,8 +35,12 @@ HEADERS += \
 
 INCLUDEPATH += QSimpleXlsxWriter/simplexlsx-code
 
+LIBS += /usr/lib/libz.so
+
 # Default rules for deployment.
 unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
+
+unix|win32: LIBS += -lz
