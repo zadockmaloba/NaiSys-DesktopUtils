@@ -172,6 +172,15 @@ void SystemConfig::editConfigFile(const QString &key, const QString &newV)
 
 }
 
+const QString SystemConfig::createPath(const QString &path)
+{
+    QDir dir;
+    dir.mkpath(getRootApplicationFolder()+path) ? qDebug() << "{{SYSTEM_CONFIG}} :: Path created":
+                                                  qDebug() << "{{SYSTEM_CONFIG}} :: Could not create path";
+
+    return getRootApplicationFolder()+path;
+}
+
 void SystemConfig::createRootTemplateFolder([[maybe_unused]]const QString &foldername)
 {
     QFile m_file(":/templates/templates/default-receipt.html");

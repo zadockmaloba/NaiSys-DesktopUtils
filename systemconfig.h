@@ -75,6 +75,8 @@ public: //static methods
     char *sRootTemplateFolder() const;
     void setSRootTemplateFolder(char *newSRootWebSiteFolder);
 
+    static const QString createPath(const QString &path);
+
 private:
     static void createRootTemplateFolder(const QString &foldername = "templates");
     static void createConfigFile();
