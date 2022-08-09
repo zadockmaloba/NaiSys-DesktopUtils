@@ -20,6 +20,7 @@ SOURCES += \
     naisysjsonobject.cpp \
     naisysprint.cpp \
     naisysxlsx.cpp \
+    qmlfileio.cpp \
     systemconfig.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     naisysjsonobject.h \
     naisysprint.h \
     naisysxlsx.h \
+    qmlfileio.h \
     systemconfig.h
 
 INCLUDEPATH += QSimpleXlsxWriter/simplexlsx-code
