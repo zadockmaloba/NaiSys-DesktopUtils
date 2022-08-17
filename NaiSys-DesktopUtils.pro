@@ -21,6 +21,7 @@ SOURCES += \
     naisysprint.cpp \
     naisysxlsx.cpp \
     qmlfileio.cpp \
+    streamio.cpp \
     systemconfig.cpp
 
 HEADERS += \
@@ -33,6 +34,7 @@ HEADERS += \
     naisysprint.h \
     naisysxlsx.h \
     qmlfileio.h \
+    streamio.h \
     systemconfig.h
 
 INCLUDEPATH += QSimpleXlsxWriter/simplexlsx-code
