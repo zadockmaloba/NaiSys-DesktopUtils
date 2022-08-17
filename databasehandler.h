@@ -21,6 +21,7 @@
 
 #include "systemconfig.h"
 #include "naisysjsonobject.h"
+#include "streamio.h"
 
 namespace NaiSys {
 
