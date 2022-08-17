@@ -16,7 +16,7 @@ public:
     Q_INVOKABLE static const QString readTextFile(const QString &fURL);
     Q_INVOKABLE static bool writeTextFile(const QString &fURL, const QString &data);
     Q_INVOKABLE static const QByteArray readBinaryFile(const QString &fURL);
-    Q_INVOKABLE static const bool writeBinaryFile(const QString &fURL, const QByteArray &data);
+    Q_INVOKABLE static bool writeBinaryFile(const QString &fURL, const QByteArray &data);
 
 signals:
 
