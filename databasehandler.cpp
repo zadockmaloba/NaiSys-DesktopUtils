@@ -25,7 +25,7 @@ DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &d
 
     if(m_dbType == "QPSQL"){
         if(READFROMCONFIG){
-            qDebug() << "{{DATABASEHANDLER - QPSQL}} :: READING FROM CONFIG FILE";
+            StreamIO::println("{{DATABASEHANDLER - QPSQL}} :: READING FROM CONFIG FILE");
             auto const obj = SystemConfig::readConfigFile().value("DataBase").toObject();
             qDebug() << obj;
 
@@ -129,7 +129,9 @@ bool DatabaseHandler::createAndOrInsertRowToTable(const QString &tableName, cons
 
 bool DatabaseHandler::openDatabaseSocket()
 {
-    qDebug() << "ATTEMPTING TO CONNECT DATABASE";
+    StreamIO::println("[DATABASE_HANDLER]: Opening DB with connection: %arg",
+                      QSTRING_TO_CSTR(m_dbHandle.connectionName()));
+
     return m_dbHandle.open();
 }
 
@@ -150,7 +152,11 @@ inline QSqlQueryModel *DatabaseHandler::runSqlQuerry(const QString &querry)
     this->openDatabaseSocket();
     auto m_model = new QSqlQueryModel; //TODO: Fix leak
     m_model->setQuery(querry, m_dbHandle);
-    qDebug() << "{"+m_dbName+"} "<< "[ "+querry+" ]: "<< m_model->lastError().text();
+    StreamIO::println("[DATABASE_HANDLER]: TBL{ %arg } :: QRY-> %arg \n RESULT{ %arg }",
+                      QSTRING_TO_CSTR(m_dbName),
+                      QSTRING_TO_CSTR(querry),
+                      QSTRING_TO_CSTR(m_model->lastError().text()));
+
     this->closeDatabaseSocket();
     return m_model;
 }
@@ -160,7 +166,12 @@ const QString DatabaseHandler::json_runSqlQuerry(const QString &querry)
     this->openDatabaseSocket();
     auto m_model = new QSqlQueryModel; //TODO: Fix leak
     m_model->setQuery(querry, m_dbHandle);
-    qDebug() << "{"+m_dbName+"} "<< "[ "+querry+" ]: "<< m_model->lastError().text();
+
+    StreamIO::println("[DATABASE_HANDLER]: TBL{ %arg } :: QRY-> %arg \n RESULT{ %arg }",
+                      QSTRING_TO_CSTR(m_dbName),
+                      QSTRING_TO_CSTR(querry),
+                      QSTRING_TO_CSTR(m_model->lastError().text()));
+
     this->closeDatabaseSocket();
 
     auto const resp = NaiSysJsonObject::qryModelToJson(m_model);
