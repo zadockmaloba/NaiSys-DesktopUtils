@@ -53,6 +53,7 @@ const QByteArray QmlFileIO::readBinaryFile(const QString &fURL)
 
 bool QmlFileIO::writeBinaryFile(const QString &fURL, const QByteArray &data)
 {
+    fURL;data;
     return true; //TODO: implement
 }
 
