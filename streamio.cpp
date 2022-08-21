@@ -60,13 +60,11 @@ StreamIO::IODevice::IODevice(std::stringstream &buffer)
 
 const std::string StreamIO::IODevice::readLine()
 {
-    std::cout << "Attempting read at: "<<m_cursor<<"\n";
     auto const ret = m_vecbuffer[m_cursor];
     m_cursor < m_lineCount-1 ?
                 m_canReadLine = true :
                 m_canReadLine = false;
     m_canReadLine ? m_cursor += 1 : m_cursor += 0;
-    std::cout << "Finished read at: "<<m_cursor<<"\n";
     return ret;
 }
 
