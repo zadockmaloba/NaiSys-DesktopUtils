@@ -23,16 +23,20 @@ DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &d
 {
     this->m_dbHandle = QSqlDatabase::addDatabase(m_dbType, m_dbConnectionName);
 
-    if(m_dbType == "QPSQL"){
-        if(READFROMCONFIG){
-            StreamIO::println("{{DATABASEHANDLER - QPSQL}} :: READING FROM CONFIG FILE");
+    if(m_dbType == "QPSQL" || m_dbType == "QMYSQL"){
+        if(m_readFromConfig){
+            StreamIO::println("{{DATABASEHANDLER}} :: READING FROM CONFIG FILE");
             auto const obj = SystemConfig::readConfigFile().value("DataBase").toObject();
             qDebug() << obj;
 
-            this->m_dbHandle.setHostName(obj.value("DbHostName").toString());
+            this->m_dbHandle.setHostName(obj.value("DbHost").toString());
+            qDebug() << "[DBHOST] :: " << m_dbHandle.hostName();
             this->m_dbHandle.setPort(obj.value("DbPort").toInt());
+            qDebug() << "[DBPORT] :: " << m_dbHandle.port();
             this->m_dbHandle.setUserName(obj.value("DbUser").toString());
+            qDebug() << "[DBUSER] :: " << m_dbHandle.userName();
             this->m_dbHandle.setPassword(obj.value("DbPassword").toString());
+            qDebug() << "[DBPASSWORD] :: " << m_dbHandle.password();
         }
         else {
             this->m_dbHandle.setHostName("localhost");
@@ -43,6 +47,7 @@ DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &d
     }
 
     this->m_dbHandle.setDatabaseName(m_dbName);
+    StreamIO::println("[DATABASE_INIT] DB Name : %arg", QSTRING_TO_CSTR(m_dbName));
 }
 
 void DatabaseHandler::initialiseDb()
@@ -94,7 +99,7 @@ bool DatabaseHandler::createAndOrInsertRowToTable(const QString &tableName, cons
 //    QObject::connect(thread, &QThread::finished, thread, &QThread::deleteLater);
 //    thread->start();
 
-    QString colString, valString;
+    QString colString, typeColString, valString;
 
     for(auto const &v : colStringList) colString.append(v.toLower()+",");
     colString.chop(1);
@@ -125,6 +130,16 @@ bool DatabaseHandler::createAndOrInsertRowToTable(const QString &tableName, cons
 
 
     return 1;
+}
+
+bool DatabaseHandler::runDefinedSQLFunction(const QString &fname, const QJsonObject &data)
+{
+    auto const valList = data.toVariantMap().values();
+    QString valString;
+    for(auto const &v : valList) valString.append("'"+v.toString()+"' ,");
+    valString.chop(1);
+    auto const qry = QString("SELECT * FROM "+fname+"( "+valString+" )");
+    return (bool)this->runSqlQuerry(qry);
 }
 
 bool DatabaseHandler::openDatabaseSocket()

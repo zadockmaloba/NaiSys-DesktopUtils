@@ -61,6 +61,7 @@ public:
     void initialiseDb();
     void reConnectDb();
     Q_INVOKABLE bool createAndOrInsertRowToTable(const QString &tableName, const QJsonObject &data);
+    bool runDefinedSQLFunction(const QString &fname, const QJsonObject &data);
 
     const QSqlDatabase &dbHandle() const;
     void setDbHandle(const QSqlDatabase &newDbHandle);
@@ -81,6 +82,7 @@ private://methods
     bool closeDatabaseSocket();
 
 private://members
+    bool m_readFromConfig = true;
     QSqlDatabase m_dbHandle;
     QString m_dbName, m_dbConnectionName, m_dbType;
 };
