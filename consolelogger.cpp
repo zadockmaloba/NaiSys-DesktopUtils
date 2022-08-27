@@ -14,6 +14,7 @@ const QString ConsoleLogger::readLogBuffer()
     QString ret;
     NAISYS_BUFFER_DEV(s, dev)
     while(dev.canReadLine()){
+        ret.append(QString::number(dev.cursor())+" | ");
         ret.append(QString::fromStdString(dev.readLine())+"\n");
     }
     return ret;
