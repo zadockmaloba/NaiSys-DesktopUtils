@@ -23,7 +23,7 @@ const QString ConsoleLogger::readLogBuffer()
 void ConsoleLogger::writeToLogBuffer(const QString &data)
 {
     m_msgCounter += 1;
-    m_LogBuffer.append(data + "\n");
+    StreamIO::println(QSTRING_TO_CSTR(data));
 }
 
 const QJsonArray ConsoleLogger::readJsonLogBuffer()
