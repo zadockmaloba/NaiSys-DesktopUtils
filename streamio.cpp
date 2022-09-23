@@ -32,7 +32,7 @@ size_t StreamIO::println(const char *wrd, ...)
 
     *StreamIO::sBufferStream << v <<"\n";
     //FIXME: Find a way to make writing to stdout faster...
-    //*StreamIO::sOutputStream << v <<"\n";
+    *StreamIO::sOutputStream << v <<"\n";
 
     va_end(args);
     return sizeof(wrd);
