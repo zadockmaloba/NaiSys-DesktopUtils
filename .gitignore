@@ -43,7 +43,7 @@ Thumbs.db
 
 # xemacs temporary files
 *.flc
-
+moc_*
 # Vim temporary files
 .*.swp
 
