@@ -14,6 +14,7 @@ CONFIG += c++17
 SOURCES += \
     consolelogger.cpp \
     databasehandler.cpp \
+    databasepool.cpp \
     naisyscompression.cpp \
     naisysdesktoputil.cpp \
     naisysdocumenthandler.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 HEADERS += \
     consolelogger.h \
     databasehandler.h \
+    databasepool.h \
     naisyscompression.h \
     naisysdesktoputil.h \
     naisysdocumenthandler.h \
