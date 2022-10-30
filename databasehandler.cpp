@@ -1,4 +1,7 @@
 #include "databasehandler.h"
+#include "systemconfig.h"
+#include "naisysjsonobject.h"
+#include "streamio.h"
 
 namespace NaiSys {
 
@@ -44,6 +47,28 @@ DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &d
             this->m_dbHandle.setUserName("postgres");
             this->m_dbHandle.setPassword("postgres");
         }
+    }
+
+    this->m_dbHandle.setDatabaseName(m_dbName);
+    StreamIO::println("[DATABASE_INIT] DB Name : %arg", QSTRING_TO_CSTR(m_dbName));
+}
+
+DatabaseHandler::DatabaseHandler(const ConnectionStrct &conn, QObject *parent)
+    : QObject{parent},
+      m_dbName{conn.db_name},
+      m_dbConnectionName{QString::number(rand())},
+      m_dbType{conn.db_type}
+{
+    this->m_dbHandle = QSqlDatabase::addDatabase(m_dbType, m_dbConnectionName);
+    if(m_dbType == "QPSQL" || m_dbType == "QMYSQL"){
+        this->m_dbHandle.setHostName(conn.db_host);
+        qDebug() << "[DBHOST] :: " << m_dbHandle.hostName();
+        this->m_dbHandle.setPort(conn.db_port);
+        qDebug() << "[DBPORT] :: " << m_dbHandle.port();
+        this->m_dbHandle.setUserName(conn.db_user);
+        qDebug() << "[DBUSER] :: " << m_dbHandle.userName();
+        this->m_dbHandle.setPassword(conn.db_password);
+        qDebug() << "[DBPASSWORD] :: " << m_dbHandle.password();
     }
 
     this->m_dbHandle.setDatabaseName(m_dbName);

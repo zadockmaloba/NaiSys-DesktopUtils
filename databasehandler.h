@@ -19,15 +19,17 @@
 
 #include <QThread>
 
-#include "systemconfig.h"
-#include "naisysjsonobject.h"
-#include "streamio.h"
-
 namespace NaiSys {
 
 class  DatabaseHandler : public QObject
 {
     Q_OBJECT
+public:
+    struct ConnectionStrct
+    {
+        QString db_type, db_name, db_host, db_password, db_user;
+        int db_port;
+    };
 private:
     class DataBaseWorker : public QThread
     {
@@ -58,6 +60,7 @@ public:
     explicit DatabaseHandler(QObject *parent = nullptr);
     DatabaseHandler(const QSqlDatabase &dbH, QObject *parent = nullptr);
     DatabaseHandler(const QString &connectionName, const QString &databaseName, const QString &dbType = "QSQLITE", QObject *parent = nullptr);
+    DatabaseHandler(const ConnectionStrct &conn, QObject *parent = nullptr);
     void initialiseDb();
     void reConnectDb();
     Q_INVOKABLE bool createAndOrInsertRowToTable(const QString &tableName, const QJsonObject &data);
@@ -74,8 +77,6 @@ public:
 
     const QString &dbType() const;
     void setDbType(const QString &newDbType);
-
-signals:
 
 private://methods
     bool openDatabaseSocket();
