@@ -51,6 +51,7 @@ DatabaseHandler::DatabaseHandler(const QString &connectionName, const QString &d
 
     this->m_dbHandle.setDatabaseName(m_dbName);
     StreamIO::println("[DATABASE_INIT] DB Name : %arg", QSTRING_TO_CSTR(m_dbName));
+    this->updateDbTables();
 }
 
 DatabaseHandler::DatabaseHandler(const ConnectionStrct &conn, QObject *parent)
@@ -73,6 +74,7 @@ DatabaseHandler::DatabaseHandler(const ConnectionStrct &conn, QObject *parent)
 
     this->m_dbHandle.setDatabaseName(m_dbName);
     StreamIO::println("[DATABASE_INIT] DB Name : %arg", QSTRING_TO_CSTR(m_dbName));
+    this->updateDbTables();
 }
 
 void DatabaseHandler::initialiseDb()
@@ -180,6 +182,16 @@ bool DatabaseHandler::closeDatabaseSocket()
     m_dbHandle.close();
     return true; //:^}
 }
+
+void DatabaseHandler::updateDbTables()
+{
+    m_dbHandle.open();
+    m_dbTables = m_dbHandle.tables();
+    m_dbHandle.close();
+}
+
+const QStringList &DatabaseHandler::dbTables() const
+{return m_dbTables;}
 
 const QString &DatabaseHandler::dbType() const
 {return m_dbType;}

@@ -78,14 +78,18 @@ public:
     const QString &dbType() const;
     void setDbType(const QString &newDbType);
 
+    const QStringList &dbTables() const;
+
 private://methods
     bool openDatabaseSocket();
     bool closeDatabaseSocket();
+    inline void updateDbTables();
 
 private://members
     bool m_readFromConfig = true;
     QSqlDatabase m_dbHandle;
     QString m_dbName, m_dbConnectionName, m_dbType;
+    QStringList m_dbTables;
 };
 
 } // namespace NaiSys
