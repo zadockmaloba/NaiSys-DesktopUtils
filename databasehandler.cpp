@@ -256,7 +256,7 @@ inline QSqlQueryModel *DatabaseHandler::runSqlQuerry(const QString &querry)
     this->openDatabaseSocket();
     auto m_model = new QSqlQueryModel; //TODO: Fix leak
     m_model->setQuery(querry, m_dbHandle);
-    StreamIO::println("[DATABASE_HANDLER]: TBL{ %arg } :: QRY-> %arg \n RESULT{ %arg }",
+    StreamIO::println("[DATABASE_HANDLER]: TBL{ %arg } :: QRY-> %arg \n ERRORS{ %arg }",
                       QSTRING_TO_CSTR(m_dbName),
                       QSTRING_TO_CSTR(querry),
                       QSTRING_TO_CSTR(m_model->lastError().text()));
@@ -271,7 +271,7 @@ const QString DatabaseHandler::json_runSqlQuerry(const QString &querry)
     auto m_model = new QSqlQueryModel; //TODO: Fix leak
     m_model->setQuery(querry, m_dbHandle);
 
-    StreamIO::println("[DATABASE_HANDLER]: TBL{ %arg } :: QRY-> %arg \n RESULT{ %arg }",
+    StreamIO::println("[DATABASE_HANDLER]: TBL{ %arg } :: QRY-> %arg \n ERRORS{ %arg }",
                       QSTRING_TO_CSTR(m_dbName),
                       QSTRING_TO_CSTR(querry),
                       QSTRING_TO_CSTR(m_model->lastError().text()));
