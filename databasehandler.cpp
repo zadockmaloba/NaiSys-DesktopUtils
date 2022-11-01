@@ -159,6 +159,58 @@ bool DatabaseHandler::createAndOrInsertRowToTable(const QString &tableName, cons
     return 1;
 }
 
+bool DatabaseHandler::insertJsonDataToTable(const QString &table, const QJsonObject &cols, const QJsonObject &dat)
+{
+    QString colList, colDefList, datList;
+
+    for(auto const &v : cols.keys()){
+        colList.append(v).append(",");
+        colDefList.append(v)
+                .append(" ")
+                .append(cols.value(v).toString().toUpper()).append(",");
+    }
+    for(auto const &v : dat){
+        if(v.isString() || v.isObject() || v.isArray()){
+            datList.append(
+                        v.toString("").prepend("'").append("'")
+                        ).append(",");
+        }
+        else if(v.isDouble()){
+            datList.append(QString::number(v.toInt())).append(",");
+        }
+        else if(v.isNull()){
+            datList.append("").append(",");
+        }
+    }
+    colList.chop(1);colDefList.chop(1);datList.chop(1);
+
+    qDebug() << "COLUMNS_DEF: " << colDefList;
+    qDebug() << "DATA_LIST: " << datList;
+
+    if(m_dbTables.contains(table)){
+        auto const qry = QString("INSERT INTO %tabl (%cols) VALUES(%vals)")
+                .replace("%tabl", table)
+                .replace("%cols", colList)
+                .replace("%vals", datList);
+        this->runSqlQuerry(qry)->deleteLater();
+    }
+    else {
+        StreamIO::println("[DATABASE]: Table %arg does not exist, attempting to create it.",
+                          QSTRING_TO_CSTR(table));
+        auto const crt = QString("CREATE TABLE %tabl (%coldef)")
+                .replace("%tabl", table)
+                .replace("%coldef", colDefList);
+        auto const qry = QString("INSERT INTO %tabl (%cols) VALUES(%vals)")
+                .replace("%tabl", table)
+                .replace("%cols", colList)
+                .replace("%vals", datList);
+        this->runSqlQuerry(crt)->deleteLater();
+        this->runSqlQuerry(qry)->deleteLater();
+        this->updateDbTables();
+    }
+    return true;
+}
+
 bool DatabaseHandler::runDefinedSQLFunction(const QString &fname, const QJsonObject &data)
 {
     auto const valList = data.toVariantMap().values();

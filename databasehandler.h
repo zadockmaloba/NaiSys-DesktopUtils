@@ -64,6 +64,7 @@ public:
     void initialiseDb();
     void reConnectDb();
     Q_INVOKABLE bool createAndOrInsertRowToTable(const QString &tableName, const QJsonObject &data);
+    Q_INVOKABLE bool insertJsonDataToTable(const QString &table, const QJsonObject &cols, const QJsonObject &dat);
     bool runDefinedSQLFunction(const QString &fname, const QJsonObject &data);
 
     const QSqlDatabase &dbHandle() const;
