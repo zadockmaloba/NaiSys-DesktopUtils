@@ -4,7 +4,6 @@ namespace NaiSys {
 
 SystemConfig::SystemConfig()
 {
-
 }
 
 QString SystemConfig::m_sRootConfigFolder = "NaiSys-Defaults";
@@ -39,7 +38,7 @@ const QJsonObject SystemConfig::m_sInitData = { //TODO: create other docs
          {"DbPort", 5432},
          {"DbUser", "postgres"},
          {"DbPassword", "postgres"}
-     }},
+     }},//FIXME:Remove program specific entries from initData
     {"Templates", QJsonObject({
          {"Statement", QJsonObject({
               {"StatementFile", "defualt_statement.html"},
@@ -187,8 +186,9 @@ void SystemConfig::insertToConfigFile(const QString &key, const QJsonValue &newV
 const QString SystemConfig::createPath(const QString &path)
 {
     QDir dir;
-    dir.mkpath(getRootApplicationFolder()+path) ? qDebug() << "{{SYSTEM_CONFIG}} :: Path created":
-                                                  qDebug() << "{{SYSTEM_CONFIG}} :: Could not create path";
+    dir.mkpath(getRootApplicationFolder()+path) ?
+                qDebug() << "{{SYSTEM_CONFIG}} :: Path created":
+                qDebug() << "{{SYSTEM_CONFIG}} :: Could not create path";
 
     return getRootApplicationFolder()+path;
 }
