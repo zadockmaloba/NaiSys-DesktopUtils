@@ -1,7 +1,7 @@
 #ifndef NAISYS_SYSTEMCONFIG_H
 #define NAISYS_SYSTEMCONFIG_H
 
-#define __doc_dir__ QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+#define __doc_dir__ QStandardPaths::writableLocation(QStandardPaths::HomeLocation).append("/.naisys")
 
 #include <QObject>
 #include <QDebug>
