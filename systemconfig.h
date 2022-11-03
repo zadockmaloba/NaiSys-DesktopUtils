@@ -71,6 +71,7 @@ public: //static methods
     static QString getRootTemplateFolder();
     static QString getRootApplicationFolder();
     static void editConfigFile(const QString &key, const QString &newVal);
+    static void insertToConfigFile(const QString &key, const QJsonValue &newVal);
 
     char *sRootTemplateFolder() const;
     void setSRootTemplateFolder(char *newSRootWebSiteFolder);

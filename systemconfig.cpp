@@ -172,6 +172,18 @@ void SystemConfig::editConfigFile(const QString &key, const QString &newV)
 
 }
 
+void SystemConfig::insertToConfigFile(const QString &key, const QJsonValue &newVal)
+{
+    auto obj = SystemConfig::readConfigFile();
+    if(obj.contains(key)) obj.find(key).value() = newVal;
+    else obj.insert(key, newVal);
+
+    QFile _file(__doc_dir__ +'/'+ m_sRootConfigFolder +'/'+ m_sConfigFile);
+    _file.open(QIODevice::WriteOnly);
+    _file.write(QJsonDocument(obj).toJson());
+    _file.close();
+}
+
 const QString SystemConfig::createPath(const QString &path)
 {
     QDir dir;
