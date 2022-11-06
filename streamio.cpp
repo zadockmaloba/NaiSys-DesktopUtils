@@ -21,13 +21,15 @@ size_t StreamIO::println(const char *wrd, ...)
     va_start(args, wrd);
 
     std::string v = wrd;
-
     size_t arg_count = std::count(v.begin(), v.end(), '%');
+    //size_t arg_count = v.find_last_of("%arg");
 
     for(int i=0; i<(int)arg_count; ++i){
-        int pos = v.find("%arg");
-        auto val = va_arg(args,char *);
-        v.replace(pos, 4, val);
+        size_t pos = v.find("%arg");
+        if(pos < v.length()-1){
+            auto val = va_arg(args,char *);
+            v.replace(pos, 4, val);
+        }
     }
 
     *StreamIO::sBufferStream << v <<"\n";
