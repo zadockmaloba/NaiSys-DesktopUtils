@@ -31,6 +31,12 @@ bool SystemConfig::checkForFile(const QString &filename)
 bool SystemConfig::checkForFolder(const QString &folderpath)
 {return QDir(folderpath).exists();}
 
+bool SystemConfig::checkForConfigFile()
+{
+    auto const cdir = getRootApplicationFolder()+m_sConfigFile;
+    return QFile(cdir).exists();
+}
+
 void SystemConfig::setRootFolderName(const QString &fname)
 {m_sRootConfigFolder = fname;}
 
