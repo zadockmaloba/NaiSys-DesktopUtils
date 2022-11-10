@@ -74,7 +74,7 @@ const QString &NaiSysDocumentHandler::renderDocument()
 
         qDebug() << "{{DEFAULT_PRINTER_NAME}} :: "<< m_defaultPrinterName;
 
-        QFile m_file(SystemConfig::getRootTemplateFolder()
+        QFile m_file(SystemConfig::getRootApplicationFolder()
                      +m_templatesObject.value("Receipt")
                      .toObject().value("ReceiptFile").toString());
 
@@ -110,7 +110,7 @@ const QString &NaiSysDocumentHandler::renderDocument()
 
         qDebug() << "{{DEFAULT_PRINTER_NAME}} :: "<< m_defaultPrinterName;
 
-        QFile m_file(SystemConfig::getRootTemplateFolder()
+        QFile m_file(SystemConfig::getRootApplicationFolder()
                      +m_templatesObject.value("Report")
                      .toObject().value("ReportFile").toString());
 

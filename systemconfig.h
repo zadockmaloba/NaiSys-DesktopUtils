@@ -57,24 +57,19 @@ public:
     SystemConfig();
     const QString &rootConfigFolder() const;
     void setRootConfigFolder(const QString &newRootConfigFolder);
-    const QString &rootWebSiteFolder() const;
-    void setRootTemplateFolder(const QString &newRootWebSiteFolder);
     const QString &appName() const;
     void setAppName(const QString &newAppName);
 
 public: //static methods
     static bool checkForFile(const QString &filename);
     static bool checkForFolder(const QString &folderpath);
+    static bool checkForConfigFile();
     static void setRootFolderName(const QString &fname);
     static void createRootConfigFolder();
     static QJsonObject readConfigFile();
-    static QString getRootTemplateFolder();
     static QString getRootApplicationFolder();
     static void editConfigFile(const QString &key, const QString &newVal);
     static void insertToConfigFile(const QString &key, const QJsonValue &newVal);
-
-    char *sRootTemplateFolder() const;
-    void setSRootTemplateFolder(char *newSRootWebSiteFolder);
 
     static const QString createPath(const QString &path);
 
@@ -84,13 +79,11 @@ private:
 
 private:
     static QString m_sRootConfigFolder;
-    static constexpr char m_sRootTemplateFolder[] {"templates"};
     static constexpr char m_sConfigFile[] {"appconfig.json"};
     static const QJsonObject m_sInitData;
 
 private:
     QString m_rootConfigFolder;
-    QString m_rootTemplateFolder;
     QString m_appName;
 };
 
