@@ -1,9 +1,6 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
-[Bb]uild/*
-[Bb]uild*
-
 *~
 *.autosave
 *.a
@@ -38,12 +35,29 @@ Thumbs.db
 /.qmake.cache
 /.qmake.stash
 
+#build directories
+[Bb]uild/*
+[Bb]uild*
+
+#Cmake files
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
 # qtcreator generated files
 *.pro.user*
 
 # xemacs temporary files
 *.flc
-moc_*
+
 # Vim temporary files
 .*.swp
 
