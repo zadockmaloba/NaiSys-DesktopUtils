@@ -9,7 +9,7 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
 find_package(Qt6 6.2 COMPONENTS Core Network REQUIRED)
 
-qt_add_library( naisysnetwork )
+qt_add_library( naisysnetwork STATIC )
 
 target_include_directories( naisysnetwork PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

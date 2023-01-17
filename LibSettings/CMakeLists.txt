@@ -9,7 +9,7 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
 find_package(Qt6 6.2 COMPONENTS Core Network Sql PrintSupport Gui REQUIRED)
 
-qt_add_library( naisyssettings )
+qt_add_library( naisyssettings STATIC )
 
 target_include_directories( naisyssettings PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

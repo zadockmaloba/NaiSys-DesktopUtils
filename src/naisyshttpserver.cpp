@@ -1,6 +1,5 @@
 #include "naisyshttpserver.h"
 #include "connectionthread.h"
-#include "sslconnectionthread.h"
 #include "streamio.h"
 
 namespace NaiSys {
@@ -37,7 +36,7 @@ void NaiSysHttpServer::incomingConnection(qintptr socketDescriptor)
 {
     if(serverParams().Ssl){
         StreamIO::println(nMsgLog"Opening SSL socket");
-        auto workerThread = new sslConnectionThread(socketDescriptor);
+        auto workerThread = new ConnectionThread(socketDescriptor);
         workerThread->setServerParams(m_serverParams);
         workerThread->setListenPort(m_listenPort);
         workerThread->setListenAddress(m_listenAddress);

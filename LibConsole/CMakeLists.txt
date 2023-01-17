@@ -9,7 +9,7 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
 find_package(Qt6 6.2 COMPONENTS Core REQUIRED)
 
-qt_add_library( naisysconsole )
+qt_add_library( naisysconsole STATIC )
 
 target_include_directories( naisysconsole PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

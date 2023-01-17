@@ -7,9 +7,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
-find_package(Qt6 6.2 COMPONENTS Core REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Sql REQUIRED)
 
-qt_add_library( naisysserverlang )
+qt_add_library( naisysserverlang STATIC )
 
 target_include_directories( naisysserverlang PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -47,6 +47,9 @@ set_target_properties( naisysserverlang PROPERTIES
 
 target_link_libraries( naisysserverlang
     PRIVATE Qt6::Core
+    PRIVATE Qt6::Sql
+    naisysconsole
+    naisyssql
 )
 
 install( TARGETS naisysserverlang
