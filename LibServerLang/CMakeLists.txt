@@ -16,6 +16,13 @@ target_include_directories( naisysserverlang PUBLIC
     ${SOURCE_DIR}
 )
 
+add_subdirectory(Tests)
+
+add_test(
+    NAME LIBSERVERLANG_TESTS
+    COMMAND GeneralTestss
+)
+
 set(PROJECT_HEADERS
     ${SOURCE_DIR}/serverlangfunctions.h
     ${SOURCE_DIR}/serverlanglexer.h
