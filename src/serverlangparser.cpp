@@ -10,8 +10,8 @@ parser::parser()
 
 }
 
-parser::parser(const QStringView &entryFileName, const QString &pwd)
-    : m_fileName{ entryFileName.toString() },
+parser::parser(const QString &entryFileName, const QString &pwd)
+    : m_fileName{ entryFileName },
       m_workingDir{ pwd }
 {
 

@@ -22,7 +22,7 @@ class parser
 
 public:
     parser();
-    parser(const QStringView& entryFileName, const QString& pwd = "");
+    parser(const QString& entryFileName, const QString& pwd = "");
 
     void READ();
 
