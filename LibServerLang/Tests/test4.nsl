@@ -1,0 +1,20 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//STRUCT DECLARATION TEST
+
+var struct Test = {
+    "name": "Test Struct",
+    "date": 2022,
+    "status": true
+}
+//
+//
+
+//Test.name = "Modified String"
+
+//FIXME: Work on struct accessor
+var string vr = Test![name]
+
+call Core::Println(vr)
+call Core::Println("*****************")
+call Core::Println(Test)

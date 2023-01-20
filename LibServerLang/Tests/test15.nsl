@@ -1,0 +1,14 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//IMPORT STATEMENTS
+
+//#impo//rt!<test15.defs.nsl>
+
+//call test_fn("File successfully imported")
+
+var string m_str = call Core::FileRead("/home/zadock/Pictures/ScreenShots/serverlang_2.png", FILE_BIN)
+
+//var string m_str = call Core::FileRead("/home/zadock/vim_test.cpp", FILE_CHAR)
+
+var int zwr = call Core::FileWrite("/home/zadock/tst_img.png", m_str, FILE_BIN)
+//var int zwr = call Core::FileWrite("/home/zadock/tst_src.txt", m_str, FILE_CHAR)

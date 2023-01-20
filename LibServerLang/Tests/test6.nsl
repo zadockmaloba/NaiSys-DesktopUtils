@@ -1,0 +1,17 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//ARRAY DECLARATION TEST
+
+call Core::Println : "IF_STATEMENT_TEST"
+
+var int test = 5
+
+if (test == 4)
+{
+    call Core::Println : "EQUAL TO 4"
+}
+
+if (test == 5)
+{
+    call Core::Println : "EQUAL TO 5"
+}

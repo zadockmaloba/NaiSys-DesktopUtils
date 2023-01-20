@@ -1,0 +1,31 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//DATABASE OPS - DBWRITE
+
+var struct conn = {
+    "db_type" : "QPSQL",
+    "db_name" : "naisys_rs",
+    "db_host" : "localhost",
+    "db_port" : 5432,
+    "db_user" : "postgres",
+    "db_password" : "postgres"
+}
+
+var struct a_tst_data = {
+    "usr_name": "Zedxon",
+    "usr_age": 24,
+    "usr_indx": 1234567
+}
+
+var struct a_tst_cols = {
+    "name": "text",
+    "age": "int",
+    "index_col": "int UNIQUE"
+}
+
+var string DB_HANDLE = call Core::DatabaseOpen(conn)
+
+var bool stat = call Core::DatabaseWrite(DB_HANDLE, "nsl_test_table", a_tst_cols, a_tst_data)
+call Core::Println(stat)
+
+call Core::DatabaseClose(DB_HANDLE)

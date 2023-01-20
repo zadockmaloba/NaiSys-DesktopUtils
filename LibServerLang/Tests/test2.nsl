@@ -1,0 +1,18 @@
+//NAISYS SERVER LANGUAGE
+//Class Declaration Test
+
+class FirstObject = {
+    var test_string : String = "Hello World";
+    var test_int : I16 = 1234;
+};
+
+class SecondObject
+{
+    var string2 : String = "Second string";
+    var num : Float = 0.234;
+
+    class NestedClass {
+            var test_nested = "This is a nested class";
+    }
+    var string3 : String = "Third string";
+};

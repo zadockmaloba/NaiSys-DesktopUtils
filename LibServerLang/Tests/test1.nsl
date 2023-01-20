@@ -1,0 +1,30 @@
+//NAISYS SERVER LANGUAGE
+//Variable Declaration Test
+
+var test_string : String = "Hello World";
+
+var test_int : I16 = 1234;
+
+var test_float : Float = 0.234;
+
+var test_double : Double = 1.23;
+
+//========================================
+
+var test_string2 :String = "Hello World";
+
+var test_int2 :I16 = 1234;
+
+var test_float2 :Float = 0.234;
+
+var test_double2 :Double = 1.23;
+
+//========================================
+
+var test_string3 :String="Hello World";
+
+var test_int3 :I16=1234;
+
+var test_float3 :Float=0.234;
+
+var test_double3 :Double=1.23;

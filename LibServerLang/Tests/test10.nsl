@@ -1,0 +1,11 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//CORE::STRINGREPLACE TEST
+
+var string test = "Test string with a placeholder: %{}"
+var string test2 = call Core::StringReplace(test, "%{}", "TESTING")
+
+call Core::Println("================")
+call Core::Println(test)
+call Core::Println(test2)
+call Core::Println("================")

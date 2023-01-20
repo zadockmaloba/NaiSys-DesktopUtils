@@ -1,0 +1,25 @@
+//NAISYS SERVER LANGUAGE
+//Struct Declaration Test
+
+struct FirstObject = {
+    "val1": "test1",
+    "val2": "test2",
+    "val3": "test3"
+};
+
+struct SecondObject
+{
+    "servlet-mapping": {
+        "cofaxCDS":    "/",
+        "cofaxEmail":  "/cofaxutil/aemail/*",
+        "cofaxAdmin":  "/admin/*",
+        "fileServlet": "/static/*",
+        "cofaxTools":  "/tools/*"
+    }
+};
+
+struct ThirdObject {
+    "val1": "test1",
+    "val2": "test2",
+    "val3": "test3"
+};

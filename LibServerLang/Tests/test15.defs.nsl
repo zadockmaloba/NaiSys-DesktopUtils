@@ -1,0 +1,7 @@
+def void test_fn(var string m_name)
+{
+    call Core::Println("====================")
+    call Core::Println(m_name)
+    call Core::Println("====================")
+    return
+}

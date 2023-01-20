@@ -1,0 +1,11 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//CORE::STRINGCONCAT TEST
+
+var string test = "This is a test"
+var string test2 = call Core::StringConcat(test, " string")
+
+call Core::Println("==================")
+call Core::Println(test)
+call Core::Println(test2)
+call Core::Println("==================")

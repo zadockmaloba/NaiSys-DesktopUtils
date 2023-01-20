@@ -1,0 +1,24 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//ARRAY DECLARATION TEST
+var array numbers = []
+
+var array cars = [
+    "lorry",
+    "sedan",
+    "SUV",
+    "coupe",
+    "van"
+]
+numbers = [101,23,25,77]
+
+var string testcar = cars[3]
+
+var array cities = ["Nairobi", "Kisumu", "Mombasa", "Eldoret"]
+
+call Core::Println : "**********************"
+call Core::Println : numbers[1]
+call Core::Println : cars[1]
+call Core::Println : cities[2]
+call Core::Println : cities
+call Core::Println : testcar

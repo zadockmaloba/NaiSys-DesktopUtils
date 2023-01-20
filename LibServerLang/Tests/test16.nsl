@@ -1,0 +1,23 @@
+//NAISYS SERVER LANGUAGE
+//**********************
+//CLASS DECL
+
+def class TestClass
+{
+    var int m_num = 1234
+    var string m_str = "This is a class member"
+}
+
+var string atestdat = call Core::FileRead("/home/zadock/vim_test.cpp", FILE_CHAR)
+
+TestClass->m_num = 123456
+
+def void TestFunc()
+{
+//    FIXME: Fix issue where class member cannot be assigned to inside a scope
+//    TestClass->m_str = "Hello World"
+    call Core::ClassModify(TestClass->m_str, atestdat)
+    call Core::Println(TestClass->m_str)
+}
+
+call TestFunc()
