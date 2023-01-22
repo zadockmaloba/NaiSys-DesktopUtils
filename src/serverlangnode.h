@@ -17,6 +17,7 @@ enum class NodeType {
     FLOAT,
     BYTEARRAY,
     STRING,
+    LITERAL,
     VARIANT,
     STRUCT,
     CLASS,

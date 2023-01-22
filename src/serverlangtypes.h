@@ -10,7 +10,7 @@ namespace NaiSys {
 namespace ServerLang {
 
 struct Array : STNode {
-    Array(const QByteArray &data)
+    Array(const QByteArray &data = "")
     {
         setRaw(data);
         setType(NodeType::ARRAY);
@@ -185,6 +185,17 @@ private:
     const ast_operator concat = [this]()mutable{
         this->setReturnval(value().toString()+operand()->value().toString());
     };
+};
+
+struct Literal : STNode
+{
+    Literal(const QByteArray &data = "")
+    {
+        setRaw(data);
+        setType(NodeType::LITERAL);
+        setTypeName("Literal");
+        setName(QString::number(rand())+" val: "+data);
+    }
 };
 \
 struct Variant : STNode
