@@ -33,6 +33,10 @@ private slots:
     {
         PARSE_TEST_FILE("test4.nsl")
     }
+    void hook_decl()
+    {
+        PARSE_TEST_FILE("test5.nsl")
+    }
 
 };
 

@@ -1,24 +1,20 @@
 //NAISYS SERVER LANGUAGE
-//**********************
-//ARRAY DECLARATION TEST
-var array numbers = []
+//Hook Declaration Test
 
-var array cars = [
-    "lorry",
-    "sedan",
-    "SUV",
-    "coupe",
-    "van"
-]
-numbers = [101,23,25,77]
+@ /home {
+    var test_string : String = "Hello World";
+    var test_int : I16 = 1234;
+    var test_float : Float = 0.234;
+    var test_double : Double = 1.23;
 
-var string testcar = cars[3]
+    return:= test_double;
+};
 
-var array cities = ["Nairobi", "Kisumu", "Mombasa", "Eldoret"]
+@ /admin {
+    var test_string : String = "Hello World";
+    var test_int : I16 = 1234;
+    var test_float : Float = 0.234;
+    var test_double : Double = 1.23;
 
-call Core::Println : "**********************"
-call Core::Println : numbers[1]
-call Core::Println : cars[1]
-call Core::Println : cities[2]
-call Core::Println : cities
-call Core::Println : testcar
+    return:= test_float;
+};
