@@ -1,20 +1,16 @@
 //NAISYS SERVER LANGUAGE
-//**********************
-//STRUCT DECLARATION TEST
+//Function Declaration Test
 
-var struct Test = {
-    "name": "Test Struct",
-    "date": 2022,
-    "status": true
+def first_func() : Float {
+    return:= 0.234;
 }
-//
-//
 
-//Test.name = "Modified String"
+def second_func()
+{
+    return:= void;
+}
 
-//FIXME: Work on struct accessor
-var string vr = Test![name]
-
-call Core::Println(vr)
-call Core::Println("*****************")
-call Core::Println(Test)
+def third_func() : I16
+{
+    return:= 24;
+}
