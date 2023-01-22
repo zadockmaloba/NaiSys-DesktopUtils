@@ -2,16 +2,19 @@
 //**********************
 //ARRAY DECLARATION TEST
 
-call Core::Println : "IF_STATEMENT_TEST"
+var FirstArray[]: Float = {
+        0.456,
+        0.65,
+        0.75,
+        0.4
+};
 
-var int test = 5
+var SecondArray[7]: I16 = {};
 
-if (test == 4)
-{
-    call Core::Println : "EQUAL TO 4"
-}
-
-if (test == 5)
-{
-    call Core::Println : "EQUAL TO 5"
-}
+var ThirdArray[5]: String = {
+    "Hello",
+    "Ola",
+    "Bonjour",
+    "Shalom",
+    "Salaam"
+};
