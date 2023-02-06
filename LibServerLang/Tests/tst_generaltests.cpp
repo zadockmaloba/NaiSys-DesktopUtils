@@ -41,6 +41,10 @@ private slots:
     {
         PARSE_TEST_FILE("test6.nsl")
     }
+    void function_call()
+    {
+        PARSE_TEST_FILE("test7.nsl")
+    }
 
 };
 
