@@ -21,6 +21,7 @@ const QRegularExpression parser::fnmatch = QRegularExpression("\\w+\\([^)]*\\)")
 const QRegularExpression parser::parammatch = QRegularExpression("(?=\")\"[^\"]*\"|[\\w+\\.\\-\\>]*[^\\,\\s\"\\)]");
 const QRegularExpression parser::varmatch = QRegularExpression("var \\w+ \\w+");
 const QRegularExpression parser::importmatch = QRegularExpression("#import\\!\\<[^>]*\\>");
+//TODO: Create exprssion for code comments.
 
 void parser::READ()
 {
