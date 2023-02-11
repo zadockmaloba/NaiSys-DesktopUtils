@@ -50,6 +50,8 @@ public:
         m_lexicalScope.remove(returnexpression_capture);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
         m_lexicalScope.remove(function_call);
+        auto const string_literals = find_regex_match(string_literal_capture, m_lexicalScope);
+        m_lexicalScope.remove(string_literal_capture);
 
         __MATCH_ITERATOR(hks_dcl, Hook);
         __MATCH_ITERATOR(cls_dcl, Class);
@@ -61,6 +63,7 @@ public:
         __MATCH_ITERATOR(var_dcl, Variant);
         __MATCH_ITERATOR(ret_expr, ReturnExpression);
         __MATCH_ITERATOR(func_call, CallExpression);
+        __MATCH_ITERATOR(string_literals, Literal);
 
         qDebug() << "[SERVERLANG_LEXER]: Number of Tokens captured: "
                  << m_tokenList.size();
@@ -122,8 +125,22 @@ private://methods
                     .match(temp).captured();
             temp.remove(scope_capture);
             auto _name = temp.remove("def ");
+            auto const _params = brackets_capture
+                    .match(_name).captured();
+            _name.remove(brackets_capture);
             auto spec = _name.split(":");
             node->setName(spec.at(0).trimmed());
+
+            auto const p =analyze(_params);
+            auto const ArgObj = STNode::nodeptr(new STNode);
+            ArgObj->setType(NodeType::SCOPE);
+            ArgObj->setTypeName("Scope");
+            ArgObj->setName("Args");
+            node->add_declaration(ArgObj);
+
+            for(auto &v: p)
+                ArgObj->add_declaration(v);
+
             auto const decls = analyze(_body);
             for(auto &v : decls)
                 node->add_declaration(v);
@@ -190,6 +207,23 @@ private://methods
                 node->setTypeName(spec.at(1).trimmed());
                 node->setType(STNode::get_typecode_from_typename(node->typeName()));
             }
+            auto const decls = analyze(_body);
+            qDebug() << "VARIANT_RAW_DATA: "<< _body;
+            for(auto &v : decls)
+                node->add_declaration(v);
+            break;
+        }
+        case NodeType::CALL_EXPRESSION: {
+            auto temp = QString(node->raw());
+            auto const _args = brackets_capture.match(temp)
+                    .captured().trimmed();
+            auto const _name = temp.remove(brackets_capture);
+            node->setName(QString::number(rand())+"::"+_name);
+
+            auto const decls = analyze(_args);
+            for(auto &v : decls)
+                node->add_declaration(v);
+
             break;
         }
         default:
@@ -213,6 +247,9 @@ private://static members
     static const QRegularExpression binexpression_capture;
     static const QRegularExpression returnexpression_capture;
     static const QRegularExpression squarebrackets_capture;
+    static const QRegularExpression brackets_capture;
+    static const QRegularExpression var_identifier_capture;
+    static const QRegularExpression string_literal_capture;
 
 };
 
@@ -221,7 +258,7 @@ inline const QRegularExpression Lexer::hook_decl =
 inline const QRegularExpression Lexer::function_decl =
         QRegularExpression{"def\\s+\\w+\\s*\\([\\s\\S]*?\\)*\\s*\\{[\\s\\S]*?\\}"};
 inline const QRegularExpression Lexer::function_call =
-        QRegularExpression{"\\w+\\s*\\([\\s\\S]*?\\)\\s*\\;"};
+        QRegularExpression{"\\w+\\s*\\([\\s\\S]*?\\)"};
 inline const QRegularExpression Lexer::class_decl =
         QRegularExpression{"class\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}\\;"};
 inline const QRegularExpression Lexer::class_decl_inner =
@@ -231,7 +268,7 @@ inline const QRegularExpression Lexer::struct_decl =
 inline const QRegularExpression Lexer::struct_decl_inner =
         QRegularExpression{"struct\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};
 inline const QRegularExpression Lexer::variable_decl =
-        QRegularExpression{"var\\s+\\w+\\s*(\\:\\s*\\w+\\s*)*\\=[\\s\\S]*?\\;"};
+        QRegularExpression{"var\\s+\\w+\\s*(\\:\\s*\\w+\\s*)*(\\=[\\s\\S]*?\\;)*"};
 inline const QRegularExpression Lexer::scope_capture =
         QRegularExpression{"{[\\s\\S]*\\}"};
 inline const QRegularExpression Lexer::varvalue_capture =
@@ -244,6 +281,12 @@ inline const QRegularExpression Lexer::array_decl =
         QRegularExpression{"var\\s\\w+\\[[\\s\\S]*?\\]\\s*(\\:\\s*\\w+\\s*)*\\=\\s*\\{[\\s\\S]*?\\}\\;"};
 inline const QRegularExpression Lexer::squarebrackets_capture =
         QRegularExpression{"\\[\\d*\\]"};
+inline const QRegularExpression Lexer::brackets_capture =
+        QRegularExpression{"\\([\\s\\S]*?\\)"};
+inline const QRegularExpression Lexer::var_identifier_capture =
+        QRegularExpression{"\\$\\w+(\\s*[\\=\\-\\>\\.\\:]\\s*[\\s\\S]*?\\;)*"};
+inline const QRegularExpression Lexer::string_literal_capture =
+        QRegularExpression{"\"[\\s\\S]*?\""};
 
 }
 }
