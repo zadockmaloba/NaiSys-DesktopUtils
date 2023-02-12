@@ -52,6 +52,8 @@ public:
         m_lexicalScope.remove(function_call);
         auto const string_literals = find_regex_match(string_literal_capture, m_lexicalScope);
         m_lexicalScope.remove(string_literal_capture);
+        auto const numeric_literals = find_regex_match(numeric_literal_capture, m_lexicalScope);
+        m_lexicalScope.remove(numeric_literal_capture);
 
         __MATCH_ITERATOR(hks_dcl, Hook);
         __MATCH_ITERATOR(cls_dcl, Class);
@@ -64,6 +66,7 @@ public:
         __MATCH_ITERATOR(ret_expr, ReturnExpression);
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(string_literals, Literal);
+        __MATCH_ITERATOR(numeric_literals, Literal);
 
         qDebug() << "[SERVERLANG_LEXER]: Number of Tokens captured: "
                  << m_tokenList.size();
@@ -171,22 +174,24 @@ private://methods
                     .remove('[')
                     .remove(']')
                     .toInt();
+            auto const _elements = analyze(_body);
+
             if(arr_length > 0){
-                auto const _dsplt = _body.split(",");
                 for(int i=0; i<arr_length; ++i)
                 {
                     STNode::nodeptr nd;
-                    i < _dsplt.size() ?
-                        nd = STNode::nodeptr(new Literal(_dsplt.at(i).toUtf8().trimmed())) :
-                        nd = STNode::nodeptr(new Literal("0x00"));
+                    i < _elements.size() ?
+                        nd = STNode::nodeptr(_elements.at(i)) :
+                        nd = STNode::nodeptr(new Literal("0x00", QString::number(i)));
+                    nd->setName(QString::number(i)+"::"+nd->raw());
                     node->add_declaration(nd);
                 }
             }
             else {
-                auto const _dsplt = _body.split(",");
-                for(int i=0; i<_dsplt.size(); ++i)
+                for(int i=0; i<_elements.size(); ++i)
                 {
-                    auto nd = STNode::nodeptr(new Literal(_dsplt.at(i).toUtf8().trimmed()));
+                    auto nd = STNode::nodeptr(_elements.at(i));
+                    nd->setName(QString::number(i)+"::"+nd->raw());
                     node->add_declaration(nd);
                 }
             }
@@ -250,6 +255,7 @@ private://static members
     static const QRegularExpression brackets_capture;
     static const QRegularExpression var_identifier_capture;
     static const QRegularExpression string_literal_capture;
+    static const QRegularExpression numeric_literal_capture;
 
 };
 
@@ -287,6 +293,8 @@ inline const QRegularExpression Lexer::var_identifier_capture =
         QRegularExpression{"\\$\\w+(\\s*[\\=\\-\\>\\.\\:]\\s*[\\s\\S]*?\\;)*"};
 inline const QRegularExpression Lexer::string_literal_capture =
         QRegularExpression{"\"[\\s\\S]*?\""};
+inline const QRegularExpression Lexer::numeric_literal_capture =
+        QRegularExpression{"\\d+\\.*\\d*"};
 
 }
 }
