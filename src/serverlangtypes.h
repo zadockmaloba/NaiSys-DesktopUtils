@@ -189,12 +189,12 @@ private:
 
 struct Literal : STNode
 {
-    Literal(const QByteArray &data = "")
+    Literal(const QByteArray &data = "", const QString &_id = QString::number(rand()) )
     {
         setRaw(data);
         setType(NodeType::LITERAL);
         setTypeName("Literal");
-        setName(QString::number(rand())+" val: "+data);
+        setName(_id+" val: "+data);
     }
 };
 \
