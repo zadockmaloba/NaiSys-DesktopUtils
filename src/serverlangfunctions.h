@@ -12,42 +12,54 @@ class CoreFunctions
 public:
     CoreFunctions() = default;
 
-    std::map<const QString, const ast_operator> functionMap() const
+    static std::map<const QString, const ast_operator> functionMap()
     {
         return m_functionMap;
     }
 
-private://registers
-    QStringList args_reg, params_reg;
-    const std::map<const QString, const ast_operator> m_functionMap =
+    static void registerParameters(const QStringList &params)
     {
-        {"Println", println},
-        {"FileRead", readfile},
-        {"FileWrite", writefle}
-    };
+        params_reg = params;
+    }
+
 
 private://private members
-    const ast_operator println = [this]()mutable
-    {
-        Function func;
-        func.setArguments({"fmt", "args"});
-        //NOTE: Always set params after args
-        func.setParameters(params_reg);
-        auto fmt = func.parameters().at(0);
-        StreamIO::println(QSTRING_TO_CSTR(fmt));
+    static const ast_operator println;
+    static const ast_operator readfile;
+    static const ast_operator writefle;
+    static const ast_operator stringreplace;
+    static const ast_operator stringconcat;
 
-    };
-    const ast_operator readfile = [this]()mutable
-    {
-        Function func;
-        func.setArguments({"fmt", "args"});
-        //NOTE: Always set params after args
-        func.setParameters(params_reg);
-    };
-    const ast_operator writefle;
-    const ast_operator stringreplace;
-    const ast_operator stringconcat;
+private://registers
+    static QStringList args_reg, params_reg;
+    static const std::map<const QString, const ast_operator> m_functionMap;
 
+};
+
+const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
+{
+    {"Println", println},
+    {"FileRead", readfile},
+    {"FileWrite", writefle}
+};
+
+const ast_operator CoreFunctions::println = []()mutable
+{
+    Function func;
+    func.setArguments({"fmt", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    auto fmt = func.parameters().at(0);
+    StreamIO::println(QSTRING_TO_CSTR(fmt));
+
+};
+
+const ast_operator CoreFunctions::readfile = []()mutable
+{
+    Function func;
+    func.setArguments({"fmt", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
 };
 
 }
