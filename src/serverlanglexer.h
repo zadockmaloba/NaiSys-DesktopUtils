@@ -280,7 +280,7 @@ inline const QRegularExpression Lexer::scope_capture =
 inline const QRegularExpression Lexer::varvalue_capture =
         QRegularExpression{"(?==)\\=[\\s\\S]*(?=;)"};
 inline const QRegularExpression Lexer::binexpression_capture =
-        QRegularExpression{"[\\s\\S]*[\\+\\-\\*\\/][\\s\\S]*\\;"};
+        QRegularExpression{"[\\s\\S]*?[\\+\\-\\*\\/][\\s\\S]*?\\;"};
 inline const QRegularExpression Lexer::returnexpression_capture =
         QRegularExpression{"return\\:\\=[\\s\\S]*\\;"};
 inline const QRegularExpression Lexer::array_decl =
