@@ -26,12 +26,14 @@ set(PROJECT_HEADERS
     ${SOURCE_DIR}/serverlangruntime.h
     ${SOURCE_DIR}/serverlangsyntaxtree.h
     ${SOURCE_DIR}/serverlangtypes.h
+    ${SOURCE_DIR}/serverlangcore.h
 )
 set(PROJECT_SOURCES
     ${SOURCE_DIR}/serverlangnode.cpp
     ${SOURCE_DIR}/serverlangparser.cpp
     ${SOURCE_DIR}/serverlangruntime.cpp
     ${SOURCE_DIR}/serverlangsyntaxtree.cpp
+    ${SOURCE_DIR}/serverlangcore.cpp
 )
 
 target_sources( naisysserverlang
