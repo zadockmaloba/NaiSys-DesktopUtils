@@ -15,40 +15,15 @@
 #include "serverlangsyntaxtree.h"
 #include "databasehandler.h"
 #include "databasepool.h"
+#include "serverlangnode.h"
+#include "serverlangfunctions.h"
 
 namespace NaiSys {
 namespace ServerLang {
 
 class RunTime
 {
-    enum class CoreFunctions{
-        Println = 1,
-        ReadFile,
-        WriteFile,
-        String_Replace,
-        String_Concat,
-        Struct_Modify,
-        Struct_Insert,
-        Class_Modify,
-        DB_Open,
-        DB_Close,
-        DB_Exec,
-        DB_Write
-    };
-    const QMap<QString, CoreFunctions> m_coreLibMap = {
-        {"Println",       CoreFunctions::Println},
-        {"FileRead",      CoreFunctions::ReadFile},
-        {"FileWrite",     CoreFunctions::WriteFile},
-        {"StringReplace", CoreFunctions::String_Replace},
-        {"StringConcat",  CoreFunctions::String_Concat},
-        {"StructModify",  CoreFunctions::Struct_Modify},
-        {"StructInsert",  CoreFunctions::Struct_Insert},
-        {"ClassModify",   CoreFunctions::Class_Modify},
-        {"DatabaseOpen",  CoreFunctions::DB_Open},
-        {"DatabaseClose", CoreFunctions::DB_Close},
-        {"DatabaseExec",  CoreFunctions::DB_Exec},
-        {"DatabaseWrite", CoreFunctions::DB_Write}
-    };
+
 public:
     RunTime();
     explicit RunTime(const SyntaxTree &ast);
@@ -56,14 +31,14 @@ public:
     void start();
     void injectRTDeclarations(const std::map<const QString, const QVariant> &rtDecls);
 
-    const QVariantMap &BufferAST() const;
-    void setBufferAST(const QVariantMap &newBufferAST);
+    const STNode &BufferAST() const;
+    void setBufferAST(const STNode &newBufferAST);
 
     const QMap<QString, std::function<const QVariantMap ()> > &hookMap() const;
     void setHookMap(const QMap<QString, std::function<const QVariantMap ()> > &newHookMap);
 
 private:
-    void interprate(QVariantMap &ast);
+    void interprate(STNode &ast);
     void functionCallsHandler(QVariantMap &fn, QVariantMap &scope);
     void functionDefsHandler(const QVariantMap &fn);
     void variableDefsHandler(QVariantMap &var);
@@ -91,7 +66,7 @@ private:
      QMap<QString, std::function<const QVariantMap ()>> m_hookMap;
      //std::map<QString, std::shared_ptr<DatabaseHandler>> m_databaseMap;
      DatabasePool m_databaseMap;
-     QVariantMap m_BufferAST, m_tmpParentScope;
+     STNode m_BufferAST, m_tmpParentScope;
      QVariantMap::Iterator m_BufferCursor;
      std::shared_ptr<DatabaseHandler> m_dbHandler;
 
