@@ -30,13 +30,13 @@ const NaiSysHttpResponse MethodHandler::get()
     ServerLang::parser prs(serverParams().Entry_Script,
                            serverParams().Site_Dir);
     prs.READ();
-//    NaiSys::ServerLang::RunTime rt(ServerLang::SyntaxTree());
+    NaiSys::ServerLang::RunTime rt(prs.globalAST());
 //    rt.injectRTDeclarations({
 //                                {"RUNTIME_URL_PARAMS", QString(QJsonDocument(m_parameters.url_dict).toJson())},
 //                                {"RUNTIME_HTTP_HEADERS", QString(QJsonDocument(m_desirialized._header).toJson())},
 //                                {"RUNTIME_HTTP_BODY", QString(m_desirialized._body)}
 //                            });
-//    rt.start();
+    rt.start();
 
 //    StreamIO::println("[[GET]]: %arg", QSTRING_TO_CSTR(l));
 //    QVariantMap resp;
