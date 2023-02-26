@@ -89,10 +89,10 @@ inline const ast_operator CoreFunctions::writefile = []()mutable->QVariant
 
 inline const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
 {
-    {"Exec"     , exec_cmd},
-    {"Println"  , println},
-    {"FileRead" , readfile},
-    {"FileWrite", writefile}
+    {"Core::Exec"     , exec_cmd},
+    {"Core::Println"  , println},
+    {"Core::FileRead" , readfile},
+    {"Core::FileWrite", writefile}
 };
 
 }
