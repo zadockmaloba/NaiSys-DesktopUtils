@@ -86,8 +86,12 @@ public: //GETTERS AND SETTERS
     QString typeName() const;
     void setTypeName(const QString &newTypeName);
 
+    QStringList parametersMap() const;
+    void setParametersMap(const QStringList &newParametersMap);
+
 private: //Private members
     declscope m_declarationMap;
+    QStringList m_parametersMap;
     nodeptr m_operand,
     m_parentScope,
     m_innerScope;

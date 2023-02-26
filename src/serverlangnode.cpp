@@ -136,6 +136,16 @@ void STNode::setTypeName(const QString &newTypeName)
     m_typeName = newTypeName;
 }
 
+QStringList STNode::parametersMap() const
+{
+    return m_parametersMap;
+}
+
+void STNode::setParametersMap(const QStringList &newParametersMap)
+{
+    m_parametersMap = newParametersMap;
+}
+
 NodeType STNode::get_typecode_from_typename(const QString &tname)
 {
     if(tname == "I16") return NodeType::INTEGER;
