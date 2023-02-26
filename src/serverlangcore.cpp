@@ -7,7 +7,7 @@
 namespace NaiSys {
 namespace ServerLang {
 
-const QVariant Core::exec(const QString &symbol, const QStringList &args)
+const QVariant Core::exec(const QString &symbol, const QStringList &args) throw()
 {
     auto const func = CoreFunctions::functionMap().at(symbol);
     CoreFunctions::registerParameters(args);

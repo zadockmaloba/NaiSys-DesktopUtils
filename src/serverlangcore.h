@@ -42,7 +42,7 @@ private:
     Core() = default;
 
 public:
-    static const QVariant exec(const QString &symbol, const QStringList &args = {});
+    static const QVariant exec(const QString &symbol, const QStringList &args = {}) throw();
 };
 
 } // namespace ServerLang
