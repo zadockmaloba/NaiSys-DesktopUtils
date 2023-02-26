@@ -54,6 +54,8 @@ public://getters and setters
         m_workingDir = newWorkingDir;
     }
 
+    ServerLang::SyntaxTree globalAST() const;
+
 private://methods
 
 

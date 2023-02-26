@@ -39,5 +39,10 @@ void parser::READ()
                           ));
 }
 
+ServerLang::SyntaxTree parser::globalAST() const
+{
+    return m_globalAST;
+}
+
 } // namespace ServerLang
 } // namespace NaiSys
