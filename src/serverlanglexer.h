@@ -231,8 +231,14 @@ private://methods
             node->setName(QString::number(rand())+"::"+_name);
 
             auto const decls = analyze(_args);
-            for(auto &v : decls)
+            QStringList _params;
+            for(auto &v : decls) {
                 node->add_declaration(v);
+                _params << v->value().toString();
+                qDebug() << "PARAMETER_VAL: " << v->value().toString();
+            }
+            node->setParametersMap(_params);
+            qDebug() << "Arguments: " << node->parametersMap();
 
             break;
         }
