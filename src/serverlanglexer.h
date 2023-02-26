@@ -86,6 +86,11 @@ private://methods
     }
     static void node_recursive_analysis(const STNode::nodeptr &node){
         switch (node->type()) {
+        case NodeType::LITERAL: {
+            node->setValue(node->raw());
+            node->setName(QString::number(rand())+"::Literal");
+            break;
+        }
         case NodeType::CLASS: {
             auto temp = QString(node->raw());
             auto const _body = scope_capture
