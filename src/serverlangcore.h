@@ -43,6 +43,7 @@ private:
 
 public:
     static const QVariant exec(const QString &symbol, const QStringList &args = {}) throw();
+    static const void define(const QString &symbol, const QStringList &params = {}) throw();
 };
 
 } // namespace ServerLang

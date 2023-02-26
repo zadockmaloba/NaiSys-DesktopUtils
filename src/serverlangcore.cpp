@@ -15,5 +15,10 @@ const QVariant Core::exec(const QString &symbol, const QStringList &args) throw(
     return 0;
 }
 
+const void Core::define(const QString &symbol, const QStringList &params) throw()
+{
+
+}
+
 } // namespace ServerLang
 } // namespace NaiSys
