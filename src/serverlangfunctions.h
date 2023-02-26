@@ -4,6 +4,8 @@
 #include "serverlangtypes.h"
 #include "streamio.h"
 
+#include <QProcess>
+
 namespace NaiSys {
 namespace ServerLang {
 
@@ -24,9 +26,10 @@ public:
 
 
 private://private members
+    static const ast_operator exec_cmd;
     static const ast_operator println;
     static const ast_operator readfile;
-    static const ast_operator writefle;
+    static const ast_operator writefile;
     static const ast_operator stringreplace;
     static const ast_operator stringconcat;
 
@@ -36,30 +39,59 @@ private://registers
 
 };
 
-const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
+inline QStringList CoreFunctions::args_reg = {};
+inline QStringList CoreFunctions::params_reg = {};
+
+inline const ast_operator CoreFunctions::exec_cmd = []()mutable
 {
-    {"Println", println},
-    {"FileRead", readfile},
-    {"FileWrite", writefle}
+    Function func;
+    func.setArguments({"exec", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    auto user_args = func.parameters();
+    user_args.remove(0);
+
+    QProcess::execute(func.parameters().at(0), user_args);
 };
 
-const ast_operator CoreFunctions::println = []()mutable
+inline const ast_operator CoreFunctions::println = []()mutable
 {
     Function func;
     func.setArguments({"fmt", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     auto fmt = func.parameters().at(0);
+
+    auto user_args = func.parameters();
+    user_args.remove(0);
+
+    for(int i=0; i<user_args.size(); ++i) {
+        fmt.replace("%{"+QString::number(i)+"}", user_args.at(i));
+    }
+
     StreamIO::println(QSTRING_TO_CSTR(fmt));
 
 };
 
-const ast_operator CoreFunctions::readfile = []()mutable
+inline const ast_operator CoreFunctions::readfile = []()mutable
 {
     Function func;
-    func.setArguments({"fmt", "args"});
+    func.setArguments({"file", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
+};
+
+inline const ast_operator CoreFunctions::writefile = []()mutable
+{
+
+};
+
+inline const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
+{
+    {"Exec"     , exec_cmd},
+    {"Println"  , println},
+    {"FileRead" , readfile},
+    {"FileWrite", writefile}
 };
 
 }
