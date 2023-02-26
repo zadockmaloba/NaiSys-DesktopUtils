@@ -32,7 +32,7 @@ void RunTime::interprate(STNode &ast)
         case NodeType::CALL_EXPRESSION:{
             auto nm = temp->name();
             qDebug() << "Executing Function symbol: " << nm;
-            if(nm.contains("::")) nm = nm.split("::").at(1);
+            if(nm.contains("://")) nm = nm.split("://").at(1);
             Core::exec(nm, temp->parametersMap());
             break;
         }

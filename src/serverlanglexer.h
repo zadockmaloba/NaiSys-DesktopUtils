@@ -88,7 +88,7 @@ private://methods
         switch (node->type()) {
         case NodeType::LITERAL: {
             node->setValue(node->raw());
-            node->setName(QString::number(rand())+"::Literal");
+            node->setName(QString::number(rand())+"://Literal");
             break;
         }
         case NodeType::CLASS: {
@@ -188,7 +188,7 @@ private://methods
                     i < _elements.size() ?
                         nd = STNode::nodeptr(_elements.at(i)) :
                         nd = STNode::nodeptr(new Literal("0x00", QString::number(i)));
-                    nd->setName(QString::number(i)+"::"+nd->raw());
+                    nd->setName(QString::number(i)+"://"+nd->raw());
                     node->add_declaration(nd);
                 }
             }
@@ -196,7 +196,7 @@ private://methods
                 for(int i=0; i<_elements.size(); ++i)
                 {
                     auto nd = STNode::nodeptr(_elements.at(i));
-                    nd->setName(QString::number(i)+"::"+nd->raw());
+                    nd->setName(QString::number(i)+"://"+nd->raw());
                     node->add_declaration(nd);
                 }
             }
@@ -228,7 +228,7 @@ private://methods
             auto const _args = brackets_capture.match(temp)
                     .captured().trimmed();
             auto const _name = temp.remove(brackets_capture);
-            node->setName(QString::number(rand())+"::"+_name);
+            node->setName(QString::number(rand())+"://"+_name);
 
             auto const decls = analyze(_args);
             QStringList _params;
