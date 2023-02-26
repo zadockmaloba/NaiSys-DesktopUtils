@@ -117,7 +117,7 @@ bool DatabaseHandler::createAndOrInsertRowToTable(const QString &tableName, cons
     auto const colStringList = _dat.keys();
     auto const valStringList = _dat.toVariantMap().values();
 
-//    std::function <void()> _f([&]() mutable {
+//    std::function <void()> _f([&]() mutable->QVariant {
 
 //        return;
 //        });

@@ -38,28 +38,33 @@ struct I16 : STNode
                      });
     }
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setValue(operand()->value().toInt());
+        return {};
     };
-    const ast_operator add = [this]()mutable{
+    const ast_operator add = [this]()mutable->QVariant{
         auto const lhs = this->value().toInt();
         auto const rhs = this->operand()->value().toInt();
         this->setReturnval(lhs+rhs);
+        return {};
     };
-    const ast_operator sub = [this]()mutable{
+    const ast_operator sub = [this]()mutable->QVariant{
         auto const lhs = this->value().toInt();
         auto const rhs = this->operand()->value().toInt();
         this->setReturnval(lhs-rhs);
+        return {};
     };
-    const ast_operator mul = [this]()mutable{
+    const ast_operator mul = [this]()mutable->QVariant{
         auto const lhs = this->value().toInt();
         auto const rhs = this->operand()->value().toInt();
         this->setReturnval(lhs*rhs);
+        return {};
     };
-    const ast_operator div = [this]()mutable{
+    const ast_operator div = [this]()mutable->QVariant{
         auto const lhs = this->value().toInt();
         auto const rhs = this->operand()->value().toInt();
         this->setReturnval(lhs/rhs);
+        return {};
     };
 };
 
@@ -79,28 +84,33 @@ struct Double : STNode
                      });
     }
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setValue(operand()->value().toDouble());
+        return {};
     };
-    const ast_operator add = [this]()mutable{
+    const ast_operator add = [this]()mutable->QVariant{
         auto const lhs = this->value().toDouble();
         auto const rhs = this->operand()->value().toDouble();
         this->setReturnval(lhs+rhs);
+        return {};
     };
-    const ast_operator sub = [this]()mutable{
+    const ast_operator sub = [this]()mutable->QVariant{
         auto const lhs = this->value().toDouble();
         auto const rhs = this->operand()->value().toDouble();
         this->setReturnval(lhs-rhs);
+        return {};
     };
-    const ast_operator mul = [this]()mutable{
+    const ast_operator mul = [this]()mutable->QVariant{
         auto const lhs = this->value().toDouble();
         auto const rhs = this->operand()->value().toDouble();
         this->setReturnval(lhs*rhs);
+        return {};
     };
-    const ast_operator div = [this]()mutable{
+    const ast_operator div = [this]()mutable->QVariant{
         auto const lhs = this->value().toDouble();
         auto const rhs = this->operand()->value().toDouble();
         this->setReturnval(lhs/rhs);
+        return {};
     };
 };
 
@@ -120,28 +130,33 @@ struct Float : STNode
                      });
     }
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setValue(operand()->value().toFloat());
+        return {};
     };
-    const ast_operator add = [this]()mutable{
+    const ast_operator add = [this]()mutable->QVariant{
         auto const lhs = this->value().toFloat();
         auto const rhs = this->operand()->value().toFloat();
         this->setReturnval(lhs+rhs);
+        return {};
     };
-    const ast_operator sub = [this]()mutable{
+    const ast_operator sub = [this]()mutable->QVariant{
         auto const lhs = this->value().toFloat();
         auto const rhs = this->operand()->value().toFloat();
         this->setReturnval(lhs-rhs);
+        return {};
     };
-    const ast_operator mul = [this]()mutable{
+    const ast_operator mul = [this]()mutable->QVariant{
         auto const lhs = this->value().toFloat();
         auto const rhs = this->operand()->value().toFloat();
         this->setReturnval(lhs*rhs);
+        return {};
     };
-    const ast_operator div = [this]()mutable{
+    const ast_operator div = [this]()mutable->QVariant{
         auto const lhs = this->value().toFloat();
         auto const rhs = this->operand()->value().toFloat();
         this->setReturnval(lhs/rhs);
+        return {};
     };
 };
 
@@ -158,11 +173,13 @@ struct ByteArray : STNode
                        });
     }
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setValue(operand()->value().toByteArray());
+        return {};
     };
-    const ast_operator concat = [this]()mutable{
+    const ast_operator concat = [this]()mutable->QVariant{
         this->setValue(value().toByteArray()+operand()->value().toByteArray());
+        return {};
     };
 };
 
@@ -179,11 +196,13 @@ struct String : STNode
                        });
     }
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setReturnval(operand()->value().toString());
+        return {};
     };
-    const ast_operator concat = [this]()mutable{
+    const ast_operator concat = [this]()mutable->QVariant{
         this->setReturnval(value().toString()+operand()->value().toString());
+        return {};
     };
 };
 
@@ -235,11 +254,13 @@ private:
     QString m_inferredTypeName;
 
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setReturnval(operand()->value().toString());
+        return {};
     };
-    const ast_operator concat = [this]()mutable{
+    const ast_operator concat = [this]()mutable->QVariant{
         this->setReturnval(value().toString()+operand()->value().toString());
+        return {};
     };
 };
 
@@ -268,14 +289,17 @@ private://members
     QJsonObject m_data;
 
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setValue(operand()->value().toString());
+        return {};
     };
-    const ast_operator access = [this]()mutable{
+    const ast_operator access = [this]()mutable->QVariant{
         this->setReturnval(checkFor(operand()->name()));
+        return {};
     };
-    const ast_operator insert = [this]()mutable{
+    const ast_operator insert = [this]()mutable->QVariant{
         m_data.insert(operand()->name(), operand()->value().toString());
+        return {};
     };
 };
 
@@ -292,11 +316,13 @@ struct Class : STNode
                        });
     }
 private:
-    const ast_operator assign = [this]()mutable{
+    const ast_operator assign = [this]()mutable->QVariant{
         this->setValue(operand()->value().toString());
+        return {};
     };
-    const ast_operator access = [this]()mutable{
+    const ast_operator access = [this]()mutable->QVariant{
         this->setReturnval(operand()->name());
+        return {};
     };
 };
 

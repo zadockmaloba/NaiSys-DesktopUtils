@@ -42,7 +42,7 @@ private://registers
 inline QStringList CoreFunctions::args_reg = {};
 inline QStringList CoreFunctions::params_reg = {};
 
-inline const ast_operator CoreFunctions::exec_cmd = []()mutable
+inline const ast_operator CoreFunctions::exec_cmd = []()mutable->QVariant
 {
     Function func;
     func.setArguments({"exec", "args"});
@@ -51,10 +51,10 @@ inline const ast_operator CoreFunctions::exec_cmd = []()mutable
     auto user_args = func.parameters();
     user_args.remove(0);
 
-    QProcess::execute(func.parameters().at(0), user_args);
+    return QProcess::execute(func.parameters().at(0), user_args);
 };
 
-inline const ast_operator CoreFunctions::println = []()mutable
+inline const ast_operator CoreFunctions::println = []()mutable->QVariant
 {
     Function func;
     func.setArguments({"fmt", "args"});
@@ -69,21 +69,22 @@ inline const ast_operator CoreFunctions::println = []()mutable
         fmt.replace("%{"+QString::number(i)+"}", user_args.at(i));
     }
 
-    StreamIO::println(QSTRING_TO_CSTR(fmt));
+    return StreamIO::println(QSTRING_TO_CSTR(fmt));
 
 };
 
-inline const ast_operator CoreFunctions::readfile = []()mutable
+inline const ast_operator CoreFunctions::readfile = []()mutable->QVariant
 {
     Function func;
     func.setArguments({"file", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
+    return {};
 };
 
-inline const ast_operator CoreFunctions::writefile = []()mutable
+inline const ast_operator CoreFunctions::writefile = []()mutable->QVariant
 {
-
+    return {};
 };
 
 inline const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =

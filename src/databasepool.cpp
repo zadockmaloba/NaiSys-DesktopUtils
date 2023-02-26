@@ -23,7 +23,7 @@ const dblist_field DatabasePool::find(const QString &key)
     QString ret_str;
     db_shared_ptr ret_ptr;
     std::for_each(m_databaseMap.begin(), m_databaseMap.end(),
-                  [&](dblist_field &v)mutable{
+                  [&](dblist_field &v)mutable->QVariant{
         if(v.first == key){
             ret_str = v.first;
             ret_ptr = v.second;
@@ -43,7 +43,7 @@ bool DatabasePool::remove(const QString &key)
 {
     bool stat = false;
     std::for_each(m_databaseMap.begin(), m_databaseMap.end(),
-                  [&](dblist_field &v)mutable{
+                  [&](dblist_field &v)mutable->QVariant{
         if(v.first == key) m_databaseMap.remove(v);
     });
     return stat;

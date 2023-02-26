@@ -31,7 +31,7 @@ enum class NodeType {
     CALL_EXPRESSION
 };
 
-typedef std::function<void ()> ast_operator;
+typedef std::function<QVariant ()> ast_operator;
 
 
 class STNode
@@ -68,8 +68,8 @@ public: //GETTERS AND SETTERS
     NodeType type() const;
     void setType(NodeType newType);
 
-    std::map<const QString, const std::function<void ()> > methodMap() const;
-    void setMethodMap(const std::map<const QString, const std::function<void ()> > &newMethodMap);
+    std::map<const QString, const std::function<QVariant ()> > methodMap() const;
+    void setMethodMap(const std::map<const QString, const std::function<QVariant ()> > &newMethodMap);
 
     nodeptr operand() const;
     void setOperand(const nodeptr &newOperand);
