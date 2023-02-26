@@ -9,9 +9,11 @@ namespace ServerLang {
 
 const QVariant Core::exec(const QString &symbol, const QStringList &args) throw()
 {
-    auto const func = CoreFunctions::functionMap().at(symbol);
-    CoreFunctions::registerParameters(args);
-    func();
+    if(auto _mp = CoreFunctions::functionMap(); _mp.find(symbol) != _mp.end()) {
+        auto func = _mp[symbol];
+        CoreFunctions::registerParameters(args);
+        func();
+    }
     return 0;
 }
 
