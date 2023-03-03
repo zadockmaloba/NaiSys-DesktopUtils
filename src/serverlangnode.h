@@ -24,6 +24,7 @@ enum class NodeType {
     HOOK,
     FUNCTION,
     SCOPE,
+    PY_SCOPE,
     IF_STATEMENT,
     MATCH_STATEMENT,
     BINARY_EXPRESSION,

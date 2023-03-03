@@ -30,6 +30,10 @@ public:
     {
         QString m_lexicalScope = data;
         std::vector<STNode::nodeptr> m_tokenList;
+
+        auto const py_scope = find_regex_match(py_scope_capture, m_lexicalScope);
+        m_lexicalScope.remove(py_scope_capture);
+
         auto const hks_dcl = find_regex_match(hook_decl, m_lexicalScope);
         m_lexicalScope.remove(hook_decl);
         auto const cls_dcl = find_regex_match(class_decl, m_lexicalScope);
@@ -55,6 +59,7 @@ public:
         auto const numeric_literals = find_regex_match(numeric_literal_capture, m_lexicalScope);
         m_lexicalScope.remove(numeric_literal_capture);
 
+        __MATCH_ITERATOR(py_scope, PyScope);
         __MATCH_ITERATOR(hks_dcl, Hook);
         __MATCH_ITERATOR(cls_dcl, Class);
         __MATCH_ITERATOR(cls_dcl_i, Class);
@@ -86,6 +91,11 @@ private://methods
     }
     static void node_recursive_analysis(const STNode::nodeptr &node){
         switch (node->type()) {
+        case NodeType::PY_SCOPE: {
+            node->setValue(node->raw());
+            node->setName(QString::number(rand())+"://Python::Scope");
+            break;
+        }
         case NodeType::LITERAL: {
             node->setValue(node->raw());
             node->setName(QString::number(rand())+"://Literal");
@@ -248,6 +258,7 @@ private://methods
     }
 
 private://static members
+    static const QRegularExpression py_scope_capture;
     static const QRegularExpression hook_decl;
     static const QRegularExpression function_decl;
     static const QRegularExpression function_call;
@@ -270,6 +281,8 @@ private://static members
 
 };
 
+inline const QRegularExpression Lexer::py_scope_capture =
+        QRegularExpression{"\\!py\\{[\\s\\S]*?\\}\\s*(\\([\\s\\S]*?\\))*\\;\\!"};
 inline const QRegularExpression Lexer::hook_decl =
         QRegularExpression{"@\\s*\\/[\\*\\@\\-]*[\\w*\\@\\-\\!\\s\\/\\#]*\\s*[=\\s]*\\{[\\s\\S]*?\\}\\;"};
 inline const QRegularExpression Lexer::function_decl =

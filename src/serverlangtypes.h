@@ -442,6 +442,16 @@ struct CallExpression : STNode
     }
 };
 
+struct PyScope : STNode
+{
+    PyScope(const QByteArray &data = {})
+    {
+        setRaw(data);
+        setType(NodeType::PY_SCOPE);
+        setTypeName("Scope::Python");
+    }
+};
+
 }
 }
 
