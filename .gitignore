@@ -38,6 +38,7 @@ Thumbs.db
 #build directories
 [Bb]uild/*
 [Bb]uild*
+python_build/
 
 #Cmake files
 CMakeLists.txt.user
