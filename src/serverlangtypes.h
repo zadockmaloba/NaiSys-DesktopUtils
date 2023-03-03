@@ -10,7 +10,7 @@ namespace NaiSys {
 namespace ServerLang {
 
 struct Array : STNode {
-    Array(const QByteArray &data = "")
+    Array(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::ARRAY);
@@ -162,7 +162,7 @@ private:
 
 struct ByteArray : STNode
 {
-    ByteArray(const QByteArray &data = "")
+    ByteArray(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::BYTEARRAY);
@@ -185,7 +185,7 @@ private:
 
 struct String : STNode
 {
-    String(const QByteArray &data = "")
+    String(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::STRING);
@@ -208,7 +208,7 @@ private:
 
 struct Literal : STNode
 {
-    Literal(const QByteArray &data = "", const QString &_id = QString::number(rand()) )
+    Literal(const QByteArray &data = {}, const QString &_id = QString::number(rand()) )
     {
         setRaw(data);
         setType(NodeType::LITERAL);
@@ -219,7 +219,7 @@ struct Literal : STNode
 \
 struct Variant : STNode
 {
-    Variant(const QByteArray &data = "")
+    Variant(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::VARIANT);
@@ -266,7 +266,7 @@ private:
 
 struct Struct : STNode
 {
-    Struct(const QByteArray &data = "")
+    Struct(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::STRUCT);
@@ -305,7 +305,7 @@ private:
 
 struct Class : STNode
 {
-    Class(const QByteArray &data = "")
+    Class(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::CLASS);
@@ -328,7 +328,7 @@ private:
 
 struct Hook : STNode
 {
-    Hook(const QByteArray &data = "")
+    Hook(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::HOOK);
@@ -370,7 +370,7 @@ private://private methods
 
 struct Function : STNode
 {
-    Function(const QByteArray &data = "")
+    Function(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::FUNCTION);
@@ -412,7 +412,7 @@ private://private methods
 
 struct BinaryExpression : STNode
 {
-    BinaryExpression(const QByteArray &data = "")
+    BinaryExpression(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::BINARY_EXPRESSION);
@@ -424,7 +424,7 @@ public://public members
 
 struct ReturnExpression : STNode
 {
-    ReturnExpression(const QByteArray &data = "")
+    ReturnExpression(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::RETURN_EXPRESSION);
@@ -434,11 +434,21 @@ struct ReturnExpression : STNode
 
 struct CallExpression : STNode
 {
-    CallExpression(const QByteArray &data = "")
+    CallExpression(const QByteArray &data = {})
     {
         setRaw(data);
         setType(NodeType::CALL_EXPRESSION);
         setTypeName("CallExpression");
+    }
+};
+
+struct Scope : STNode
+{
+    Scope(const QByteArray &data = {})
+    {
+        setRaw(data);
+        setType(NodeType::SCOPE);
+        setTypeName("Scope");
     }
 };
 
