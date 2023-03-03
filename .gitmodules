@@ -1,3 +1,6 @@
 [submodule "QSimpleXlsxWriter"]
 	path = QSimpleXlsxWriter
 	url = https://github.com/zadockmaloba/QSimpleXlsxWriter
+[submodule "thirdparty/cpython"]
+	path = thirdparty/cpython
+	url = https://github.com/python/cpython
