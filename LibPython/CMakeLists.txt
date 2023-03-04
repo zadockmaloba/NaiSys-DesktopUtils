@@ -2,17 +2,15 @@ cmake_minimum_required(VERSION 3.16)
 
 project(NaiSys-Python VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC OFF)
+set(CMAKE_AUTORCC OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
-set(PYTHON_ROOT_DIR ${ROOT_DIR}/thirdparty/cpython)
+set(PYTHON_ROOT_DIR ${ROOT_DIR}/thirdparty/Lib/cpython)
 set(PYTHON_INCLUDE_DIR ${PYTHON_ROOT_DIR}/Include)
 
-find_package(Qt6 6.2 COMPONENTS Core Sql REQUIRED)
-
-qt_add_library( naisyspython STATIC )
+add_library( naisyspython STATIC )
 
 target_include_directories( naisyspython PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -42,18 +40,10 @@ set_target_properties( naisyspython PROPERTIES
 )
 
 target_link_libraries( naisyspython
-    PRIVATE Qt6::Core
-    PRIVATE Qt6::Sql
-    naisysconsole
-    naisyssql
+    ${PYTHON_ROOT_DIR}/libpython3.10.a
 )
 
 install( TARGETS naisyspython
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-add_custom_command(OUTPUT ${ROOT_DIR}/buildx64/
-                   COMMAND make -j2
-                   WORKING_DIRECTORY ${ROOT_DIR}/thirdparty/cpython
 )
