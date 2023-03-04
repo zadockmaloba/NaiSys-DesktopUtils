@@ -69,7 +69,7 @@ inline const ast_operator CoreFunctions::println = []()mutable->QVariant
         fmt.replace("%{"+QString::number(i)+"}", user_args.at(i));
     }
 
-    return StreamIO::println(QSTRING_TO_CSTR(fmt));
+    return (int)StreamIO::println(QSTRING_TO_CSTR(fmt));
 
 };
 
