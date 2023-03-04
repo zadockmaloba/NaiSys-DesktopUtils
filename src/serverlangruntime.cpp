@@ -6,6 +6,7 @@
 
 #include "streamio.h"
 #include "serverlangcore.h"
+#include "libpython.h"
 //#include "naisyshttprequest.h"
 //#include "naisyshttpresponse.h"
 
@@ -55,6 +56,7 @@ const QVariantMap RunTime::CHECK_FOR_DECLARATION(const QString &vname, const QVa
 
 void RunTime::start()
 {
+    LibPython::execute_string("print(\"Hello from Python\")");
     interprate(m_BufferAST);
 }
 
