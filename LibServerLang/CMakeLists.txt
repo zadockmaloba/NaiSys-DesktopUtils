@@ -55,6 +55,7 @@ target_link_libraries( naisysserverlang
     PRIVATE Qt6::Sql
     naisysconsole
     naisyssql
+    naisyspython
 )
 
 install( TARGETS naisysserverlang
