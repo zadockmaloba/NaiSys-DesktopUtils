@@ -41,6 +41,10 @@ void RunTime::interprate(STNode &ast)
             qDebug() << "Declaring function: " << temp->name();
             Core::define(temp->name(), temp->parametersMap());
             break;
+
+        case NodeType::PY_SCOPE:
+            LibPython::execute_string(temp->value().toString().toStdString().c_str());
+            break;
         default:
             break;
         }
@@ -56,7 +60,6 @@ const QVariantMap RunTime::CHECK_FOR_DECLARATION(const QString &vname, const QVa
 
 void RunTime::start()
 {
-    LibPython::execute_string("print(\"Hello from Python\")");
     interprate(m_BufferAST);
 }
 

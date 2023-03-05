@@ -92,7 +92,10 @@ private://methods
     static void node_recursive_analysis(const STNode::nodeptr &node){
         switch (node->type()) {
         case NodeType::PY_SCOPE: {
-            node->setValue(node->raw());
+            auto temp = QString(node->raw());
+            auto const _body = scope_capture
+                    .match(temp).captured().remove(0, 1).chopped(1);
+            node->setValue(_body);
             node->setName(QString::number(rand())+"://Python::Scope");
             break;
         }
