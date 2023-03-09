@@ -26,9 +26,9 @@ RunTime::RunTime(const SyntaxTree &ast)
 
 void RunTime::interprate(STNode &ast)
 {
-    auto decls  = ast.declarationMap();
+    auto decls  = std::move(ast.declarationMap());
     for( auto &v : decls ) {
-        auto temp = v.second;
+        auto temp = v;
         switch (temp->type()) {
         case NodeType::CALL_EXPRESSION:{
             auto nm = temp->name();
