@@ -5,15 +5,15 @@ namespace ServerLang {
 
 const STNode::nodeptr STNode::check_for_declaration(const QString &name)
 {
-    if(declarationMap().at(name)){
-        return declarationMap().at(name);
+    if(declarationMap().value(name)){
+        return declarationMap().value(name);
     }
     return parentScope()->check_for_declaration(name);
 }
 
 void STNode::add_declaration(const nodeptr &decl)
 {
-    m_declarationMap.insert({decl->name(), decl});
+    m_declarationMap.insert(decl->name(), decl);
 }
 
 QString STNode::name() const
@@ -56,12 +56,13 @@ void STNode::setInnerScope(const nodeptr &newInnerScope)
     m_innerScope = newInnerScope;
 }
 
-std::map<const QString, const ast_operator > STNode::operatorMap() const
+operatorscope STNode::operatorMap() const
 {
     return m_operatorMap;
 }
 
-void STNode::setOperatorMap(const std::map<const QString, const ast_operator > &newOperatorMap)
+//Passing by reference causes copy assignment errors in MacOS sdk 13.1
+void STNode::setOperatorMap(const operatorscope &newOperatorMap)
 {
     m_operatorMap = newOperatorMap;
 }
@@ -76,14 +77,17 @@ void STNode::setType(NodeType newType)
     m_type = newType;
 }
 
-std::map<const QString, const ast_operator > STNode::methodMap() const
+operatorscope STNode::methodMap() const
 {
     return m_methodMap;
 }
 
-void STNode::setMethodMap(const std::map<const QString, const ast_operator > &newMethodMap)
+//Passing by reference causes copy assignment errors in MacOS sdk 13.1
+void STNode::setMethodMap(operatorscope newMethodMap)
 {
-    m_methodMap = newMethodMap;
+#ifndef Q_OS_OSX
+    m_methodMap = std::move(newMethodMap);
+#endif
 }
 
 STNode::nodeptr STNode::operand() const
@@ -121,9 +125,12 @@ STNode::declscope STNode::declarationMap() const
     return m_declarationMap;
 }
 
-void STNode::setDeclarationMap(const declscope &newDeclarationMap)
+//Passing by reference causes copy assignment errors in MacOS sdk 13.1
+void STNode::setDeclarationMap(const declscope newDeclarationMap)
 {
-    m_declarationMap = newDeclarationMap;
+#ifndef Q_OS_OSX
+    m_declarationMap = std::move(newDeclarationMap);
+#endif
 }
 
 QString STNode::typeName() const

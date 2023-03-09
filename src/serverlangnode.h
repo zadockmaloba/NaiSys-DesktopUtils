@@ -4,6 +4,8 @@
 #include <QString>
 #include <QVariant>
 #include <QByteArray>
+#include <QMap>
+#include <QSharedPointer>
 #include <map>
 
 namespace NaiSys {
@@ -32,14 +34,15 @@ enum class NodeType {
     CALL_EXPRESSION
 };
 
-typedef std::function<QVariant ()> ast_operator;
+using ast_operator = std::function<QVariant ()>;
+using operatorscope = QMap<const QString, ast_operator>;
 
 
 class STNode
 {
 public://Typedefs
-    typedef std::shared_ptr<STNode> nodeptr;
-    typedef std::map<const QString, const nodeptr> declscope;
+    using nodeptr = std::shared_ptr<STNode>;
+    using declscope = QMap<const QString, nodeptr>;
 
 public:
     STNode() = default;
@@ -63,14 +66,14 @@ public: //GETTERS AND SETTERS
     nodeptr innerScope() const;
     void setInnerScope(const nodeptr &newInnerScope);
 
-    std::map<const QString, const ast_operator> operatorMap() const;
-    void setOperatorMap(const std::map<const QString, const ast_operator > &newOperatorMap);
+    operatorscope operatorMap() const;
+    void setOperatorMap(const operatorscope &newOperatorMap);
 
     NodeType type() const;
     void setType(NodeType newType);
 
-    std::map<const QString, const std::function<QVariant ()> > methodMap() const;
-    void setMethodMap(const std::map<const QString, const std::function<QVariant ()> > &newMethodMap);
+    operatorscope methodMap() const;
+    void setMethodMap(operatorscope newMethodMap);
 
     nodeptr operand() const;
     void setOperand(const nodeptr &newOperand);
@@ -82,7 +85,7 @@ public: //GETTERS AND SETTERS
     void setRaw(const QByteArray &newRaw);
 
     declscope declarationMap() const;
-    void setDeclarationMap(const declscope &newDeclarationMap);
+    void setDeclarationMap(const declscope newDeclarationMap);
 
     QString typeName() const;
     void setTypeName(const QString &newTypeName);
@@ -90,17 +93,19 @@ public: //GETTERS AND SETTERS
     QStringList parametersMap() const;
     void setParametersMap(const QStringList &newParametersMap);
 
-private: //Private members
+protected:
     declscope m_declarationMap;
-    QStringList m_parametersMap;
+    operatorscope m_operatorMap, m_methodMap;
     nodeptr m_operand,
     m_parentScope,
     m_innerScope;
+
+private: //Private members
+    QStringList m_parametersMap;
     QByteArray m_raw;
     QString m_name, m_typeName;
     QVariant m_value = QByteArray(),
     m_returnval = QByteArray();
-    std::map<const QString, const ast_operator> m_operatorMap, m_methodMap;
     NodeType m_type;
 };
 
