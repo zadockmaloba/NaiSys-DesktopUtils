@@ -9,6 +9,18 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(PYTHON_ROOT_DIR ${ROOT_DIR}/thirdparty/Lib/cpython)
 set(PYTHON_INCLUDE_DIR ${PYTHON_ROOT_DIR}/Include)
+set(PYTHON_VERSION "3.10")
+
+if (APPLE)
+    set(PYTHON_LINK_LIB ${PYTHON_ROOT_DIR}/OSX/libpython${PYTHON_VERSION}.a)
+    set(PYTHON_PLATFORM_PATH ${PYTHON_ROOT_DIR}/OSX/)
+elseif (WIN32)
+    set(PYTHON_LINK_LIB ${PYTHON_ROOT_DIR}/Win32/libpython${PYTHON_VERSION}.a)
+    set(PYTHON_PLATFORM_PATH ${PYTHON_ROOT_DIR}/Win32/)
+elseif (UNIX)
+    set(PYTHON_LINK_LIB ${PYTHON_ROOT_DIR}/Linux/libpython${PYTHON_VERSION}.a)
+    set(PYTHON_PLATFORM_PATH ${PYTHON_ROOT_DIR}/Linux/)
+endif()
 
 add_library( naisyspython STATIC )
 
@@ -17,6 +29,7 @@ target_include_directories( naisyspython PUBLIC
     ${SOURCE_DIR}
     ${PYTHON_ROOT_DIR}
     ${PYTHON_INCLUDE_DIR}
+    ${PYTHON_PLATFORM_PATH}
 )
 
 set(PROJECT_HEADERS
@@ -40,7 +53,7 @@ set_target_properties( naisyspython PROPERTIES
 )
 
 target_link_libraries( naisyspython
-    ${PYTHON_ROOT_DIR}/libpython3.10.a
+    ${PYTHON_LINK_LIB}
 )
 
 install( TARGETS naisyspython
