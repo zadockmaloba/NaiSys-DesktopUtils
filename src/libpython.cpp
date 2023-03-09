@@ -13,7 +13,8 @@ LibPython::~LibPython()
 
 }
 
-void LibPython::execute_string([[maybe_unused]]const char *script)
+//For some reason [[maybe_unused]] causes parse errors in MacOS
+void LibPython::execute_string(__attribute__((unused)) const char *script)
 {
     try {
         Py_Initialize();
