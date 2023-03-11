@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(NaiSys-DesktopUtils VERSION 0.0.1 LANGUAGES CXX)
 
+add_subdirectory(LibCore)
 add_subdirectory(LibCompression)
 add_subdirectory(LibConsole)
 add_subdirectory(LibFile)
