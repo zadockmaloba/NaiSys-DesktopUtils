@@ -57,13 +57,21 @@ set_target_properties( naisyspython PROPERTIES
 
 configure_file(
     ${PYTHON_RUNTIME_EXE}
-    ${CMAKE_CURRENT_BINARY_DIR}/python
+    ${CMAKE_BINARY_DIR}/python
 )
 
 add_custom_command(
     TARGET naisyspython POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${PYTHON_PLATFORM_PATH}/pythonlib ${CMAKE_CURRENT_BINARY_DIR}/pythonlib
+    ${PYTHON_ROOT_DIR}/pythonlib ${CMAKE_BINARY_DIR}/pythonlib
+)
+
+add_custom_command(
+    TARGET naisyspython POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E tar xzvf ${CMAKE_BINARY_DIR}/pythonlib/lib/python${PYTHON_VERSION}.zip
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/pythonlib/lib/
+    DEPENDS ${CMAKE_BINARY_DIR}/pythonlib/lib/python${PYTHON_VERSION}.zip
+    COMMENT "Unpacking python zipped modules"
 )
 
 target_link_libraries( naisyspython
