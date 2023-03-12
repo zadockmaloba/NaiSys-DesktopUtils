@@ -8,6 +8,8 @@
 #include <QSharedPointer>
 #include <map>
 
+#include "naisysindexedmap.h"
+
 namespace NaiSys {
 namespace ServerLang {
 
@@ -42,7 +44,7 @@ class STNode
 {
 public://Typedefs
     using nodeptr = std::shared_ptr<STNode>;
-    using declscope = QMap<const QString, nodeptr>;
+    using declscope = NaiSys::Core::IndexedMap<const QString, nodeptr>;
 
 public:
     STNode() = default;

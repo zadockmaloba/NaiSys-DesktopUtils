@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 
 project(NaiSys-Core VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC OFF)
+set(CMAKE_AUTORCC OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -std=c++17 -stdlib=libc++")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -std=c++17")
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
@@ -40,10 +40,6 @@ set_target_properties( naisyscore PROPERTIES
 
 target_link_libraries( naisyscore
     PRIVATE Qt6::Core
-    PRIVATE Qt6::Sql
-    naisysconsole
-    naisyssql
-    naisyspython
 )
 
 install( TARGETS naisyscore

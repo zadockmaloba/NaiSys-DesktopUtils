@@ -57,6 +57,7 @@ target_link_libraries( naisysserverlang
     naisysconsole
     naisyssql
     naisyspython
+    naisyscore
 )
 
 install( TARGETS naisysserverlang

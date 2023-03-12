@@ -5,15 +5,15 @@ namespace ServerLang {
 
 const STNode::nodeptr STNode::check_for_declaration(const QString &name)
 {
-    if(declarationMap().value(name)){
-        return declarationMap().value(name);
+    if(declarationMap().at(name)){
+        return declarationMap().at(name);
     }
     return parentScope()->check_for_declaration(name);
 }
 
 void STNode::add_declaration(const nodeptr &decl)
 {
-    m_declarationMap.insert(decl->name(), decl);
+    m_declarationMap.push_back({decl->name(), decl});
 }
 
 QString STNode::name() const

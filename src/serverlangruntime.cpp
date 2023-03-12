@@ -29,21 +29,21 @@ void RunTime::interprate(STNode &ast)
     auto decls  = std::move(ast.declarationMap());
     for( auto &v : decls ) {
         auto temp = v;
-        switch (temp->type()) {
+        switch (temp->value()->type()) {
         case NodeType::CALL_EXPRESSION:{
-            auto nm = temp->name();
+            auto nm = temp->value()->name();
             qDebug() << "Executing Function symbol: " << nm;
             if(nm.contains("://")) nm = nm.split("://").at(1);
-            Core::exec(nm, temp->parametersMap());
+            Core::exec(nm, temp->value()->parametersMap());
             break;
         }
         case NodeType::FUNCTION:
-            qDebug() << "Declaring function: " << temp->name();
-            Core::define(temp->name(), temp->parametersMap());
+            qDebug() << "Declaring function: " << temp->value()->name();
+            Core::define(temp->value()->name(), temp->value()->parametersMap());
             break;
 
         case NodeType::PY_SCOPE:
-            LibPython::execute_string(temp->value().toString().toStdString().c_str());
+            LibPython::execute_string(temp->value()->value().toString().toStdString().c_str());
             break;
         default:
             break;

@@ -20,8 +20,7 @@ private:
         {
 
         }
-
-
+        ~Pair(){}
         T_ky key() const {
             return m_key;
         }
@@ -41,11 +40,16 @@ private:
     };
 
 public://typedefs
-    using pair_array = std::vector<Pair>;
+    using pair_ptr = std::shared_ptr<Pair>;
+    using pair_array = std::vector<pair_ptr>;
 
 public:
-    IndexedMap(const pair_array &p = {});
-    ~IndexedMap();
+    IndexedMap(const pair_array &p = {})
+        : m_pairs{ p }
+    {
+
+    }
+    ~IndexedMap() {}
 
 public:
     void push_back(const Pair &pair) throw();
@@ -63,16 +67,20 @@ public:
         return m_pairs.size();
     }
     const T_vl at(const T_ky &_key) const {
-        return this[_key].value();
+        for(auto &v : m_pairs) {
+            if(_key == v->key()) return v->value();
+        }
+        return nullptr;
     }
+    auto begin() { return m_pairs.begin(); }
+    auto end() { return m_pairs.end(); }
 
 public://operators
     Pair &operator[](T_ky _key) const throw() {
-        auto ret = std::for_each(m_pairs.begin(), m_pairs.end(),
-        [_key](Pair& pr)->Pair&{
-            if(_key == pr.key()) return pr;
-        });
-        return ret;
+        for(auto &v : m_pairs) {
+            if(_key == v->key()) return v;
+        }
+        return nullptr;
     }
 
 private:

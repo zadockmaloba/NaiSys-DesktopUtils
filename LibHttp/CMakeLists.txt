@@ -53,6 +53,7 @@ target_link_libraries( naisyshttp
     PRIVATE Qt6::Core
     PRIVATE Qt6::Network
     PRIVATE Qt6::Sql
+    naisyscore
     naisysconsole
     naisyssql
     naisyssettings
