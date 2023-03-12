@@ -62,6 +62,9 @@ public:
     size_t size() const {
         return m_pairs.size();
     }
+    const T_vl at(const T_ky &_key) const {
+        return this[_key].value();
+    }
 
 public://operators
     Pair &operator[](T_ky _key) const throw() {
