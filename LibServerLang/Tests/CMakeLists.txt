@@ -45,7 +45,7 @@ target_link_libraries(GeneralTests
     PRIVATE Qt${QT_VERSION_MAJOR}::Core
     PRIVATE Qt${QT_VERSION_MAJOR}::Sql
     PRIVATE Qt${QT_VERSION_MAJOR}::Network
-    naisyscore
+    
     naisyssql
     naisysconsole
     naisysserverlang

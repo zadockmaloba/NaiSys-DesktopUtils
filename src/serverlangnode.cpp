@@ -13,7 +13,8 @@ const STNode::nodeptr STNode::check_for_declaration(const QString &name)
 
 void STNode::add_declaration(const nodeptr &decl)
 {
-    m_declarationMap.push_back({decl->name(), decl});
+    qDebug() << m_declarationMap.size();
+    m_declarationMap.push_back(decl->name(), decl);
 }
 
 QString STNode::name() const

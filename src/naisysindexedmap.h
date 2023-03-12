@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <tuple>
-#include <memory.h>
+#include <memory>
 
 namespace NaiSys {
 namespace Core {
@@ -15,7 +15,7 @@ private:
     class Pair
     {
     public:
-        Pair(const T_ky &key, const T_vl &value)
+        Pair(T_ky const &key, T_vl const &value)
             : m_key{ key }, m_value{ value }
         {
 
@@ -52,10 +52,24 @@ public:
     ~IndexedMap() {}
 
 public:
-    void push_back(const Pair &pair) throw();
-    void push_front(const Pair &pair) throw();
-    void pop_back() throw();
-    void pop_front() throw();
+    void push_back(T_ky const &_key, T_vl const &_value)
+    {
+        auto temp = std::make_shared<Pair>(Pair(_key, _value));
+        m_pairs.push_back(temp);
+    }
+    void push_front(const Pair &pair) throw()
+    {
+        //TODO
+        return;
+    }
+    void pop_back() throw()
+    {
+        m_pairs.pop_back();
+    }
+    void pop_front() throw()
+    {
+        //TODO
+    }
 
     pair_array pairs() const {
         return m_pairs;
