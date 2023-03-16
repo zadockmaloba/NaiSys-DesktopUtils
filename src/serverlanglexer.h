@@ -4,6 +4,7 @@
 #include <QString>
 #include <QRegularExpression>
 #include <vector>
+#include <stdlib.h>
 #include "serverlangnode.h"
 #include "serverlangtypes.h"
 
@@ -11,7 +12,7 @@
 #define __MATCH_ITERATOR(x,y) for(auto &v : x)\
 {\
     auto const __obj = STNode::nodeptr(new y);\
-    __obj->setName(QString::number(rand()));\
+    __obj->setName(QString::number(arc4random()));\
     __obj->setRaw(v.toUtf8());\
     node_recursive_analysis(__obj);\
     m_tokenList.push_back(__obj);\
@@ -58,6 +59,8 @@ public:
         m_lexicalScope.remove(string_literal_capture);
         auto const numeric_literals = find_regex_match(numeric_literal_capture, m_lexicalScope);
         m_lexicalScope.remove(numeric_literal_capture);
+        auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
+        m_lexicalScope.remove(var_identifier_capture);
 
         __MATCH_ITERATOR(py_scope, PyScope);
         __MATCH_ITERATOR(hks_dcl, Hook);
@@ -72,6 +75,7 @@ public:
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(string_literals, Literal);
         __MATCH_ITERATOR(numeric_literals, Literal);
+        //__MATCH_ITERATOR(var_id, )
 
         qDebug() << "[SERVERLANG_LEXER]: Number of Tokens captured: "
                  << m_tokenList.size();
@@ -96,12 +100,12 @@ private://methods
             auto const _body = scope_capture
                     .match(temp).captured().remove(0, 1).chopped(1);
             node->setValue(_body);
-            node->setName(QString::number(rand())+"://Python::Scope");
+            node->setName(QString::number(arc4random())+"://Python::Scope");
             break;
         }
         case NodeType::LITERAL: {
             node->setValue(node->raw());
-            node->setName(QString::number(rand())+"://Literal");
+            node->setName(QString::number(arc4random())+"://Literal");
             break;
         }
         case NodeType::CLASS: {
@@ -241,7 +245,7 @@ private://methods
             auto const _args = brackets_capture.match(temp)
                     .captured().trimmed();
             auto const _name = temp.remove(brackets_capture);
-            node->setName(QString::number(rand())+"://"+_name);
+            node->setName(QString::number(arc4random())+"://"+_name);
 
             auto const decls = analyze(_args);
             QStringList _params;
