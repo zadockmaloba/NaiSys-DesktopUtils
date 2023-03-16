@@ -224,8 +224,10 @@ private://methods
             auto const _body = varvalue_capture
                     .match(temp).captured()
                     .remove("=").trimmed();
-            auto const _name = temp.remove(varvalue_capture).remove(";")
-                    .remove("var").trimmed();
+            auto const _name = temp.remove(varvalue_capture)
+                    .remove(";")
+                    .remove(QRegularExpression{"^var"})
+                    .trimmed();
             auto spec = _name.split(":");
             node->setName(spec.at(0).trimmed());
             node->setValue(_body);
