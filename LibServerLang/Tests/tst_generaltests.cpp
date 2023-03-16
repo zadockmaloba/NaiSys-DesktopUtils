@@ -5,7 +5,7 @@
 
 #define PARSE_TEST_FILE(x)\
     NaiSys::ServerLang::parser prs(x, \
-                           "C:/Git-Repos/NaiSys-HttpServer/NaiSys-DesktopUtils/LibServerLang/Tests/"); \
+                           "./"); \
     prs.READ();
 
 class GeneralTests : public QObject

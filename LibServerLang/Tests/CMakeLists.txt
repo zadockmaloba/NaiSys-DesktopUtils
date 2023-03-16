@@ -40,6 +40,12 @@ add_executable( GeneralTests
 )
 add_test(NAME GeneralTests COMMAND GeneralTests)
 
+add_custom_command(
+    TARGET GeneralTests PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.nsl ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 target_link_libraries(GeneralTests
     PRIVATE Qt${QT_VERSION_MAJOR}::Test
     PRIVATE Qt${QT_VERSION_MAJOR}::Core
