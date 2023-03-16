@@ -442,6 +442,16 @@ struct CallExpression : STNode
     }
 };
 
+struct VariableExpression : STNode
+{
+    VariableExpression(const QByteArray &data = {})
+    {
+        setRaw(data);
+        setType(NodeType::VARIABLE_EXPRESSION);
+        setTypeName("VariableExpression");
+    }
+};
+
 struct Scope : STNode
 {
     Scope(const QByteArray &data = {})

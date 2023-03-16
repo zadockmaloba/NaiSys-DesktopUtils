@@ -75,7 +75,7 @@ public:
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(string_literals, Literal);
         __MATCH_ITERATOR(numeric_literals, Literal);
-        //__MATCH_ITERATOR(var_id, )
+        __MATCH_ITERATOR(var_id, VariableExpression);
 
         qDebug() << "[SERVERLANG_LEXER]: Number of Tokens captured: "
                  << m_tokenList.size();
@@ -240,6 +240,14 @@ private://methods
             qDebug() << "VARIANT_RAW_DATA: "<< _body;
             for(auto &v : decls)
                 node->add_declaration(v);
+            break;
+        }
+        case NodeType::VARIABLE_EXPRESSION: {
+            auto temp = QString(node->raw());
+            auto const _name = temp.remove("$");
+            node->setName(QString::number(arc4random())+"://"+_name);
+            node->setValue(QVariant::fromValue(node->check_for_declaration(_name)));
+            qDebug() << "Referenced variable: " << node->value().value<STNode::nodeptr>()->name();
             break;
         }
         case NodeType::CALL_EXPRESSION: {

@@ -33,7 +33,8 @@ enum class NodeType {
     MATCH_STATEMENT,
     BINARY_EXPRESSION,
     RETURN_EXPRESSION,
-    CALL_EXPRESSION
+    CALL_EXPRESSION,
+    VARIABLE_EXPRESSION
 };
 
 using ast_operator = std::function<QVariant ()>;
