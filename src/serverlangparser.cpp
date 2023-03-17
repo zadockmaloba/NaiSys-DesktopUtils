@@ -6,13 +6,15 @@ namespace NaiSys {
 namespace ServerLang {
 
 parser::parser()
+    : m_globalAST{ new ServerLang::SyntaxTree }
 {
 
 }
 
 parser::parser(const QString &entryFileName, const QString &pwd)
     : m_fileName{ entryFileName },
-      m_workingDir{ pwd }
+      m_workingDir{ pwd },
+      m_globalAST{ new ServerLang::SyntaxTree }
 {
 
 }
@@ -32,14 +34,15 @@ void parser::READ()
     auto const tokens = Lexer::analyze(m_data);
     std::for_each(tokens.cbegin(), tokens.cend(), [this](const STNode::nodeptr &v)
     {
-        m_globalAST.add_declaration(v);
+        v->setParentScope(m_globalAST);
+        m_globalAST->add_declaration(v);
     });
     StreamIO::println(QSTRING_TO_CSTR(
-                          SyntaxTree::print_tree(m_globalAST)
+                          SyntaxTree::print_tree(*m_globalAST)
                           ));
 }
 
-ServerLang::SyntaxTree parser::globalAST() const
+STNode::nodeptr parser::globalAST() const
 {
     return m_globalAST;
 }

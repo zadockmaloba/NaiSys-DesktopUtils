@@ -54,7 +54,7 @@ public://getters and setters
         m_workingDir = newWorkingDir;
     }
 
-    ServerLang::SyntaxTree globalAST() const;
+    STNode::nodeptr globalAST() const;
 
 private://methods
 
@@ -62,7 +62,7 @@ private://methods
 private:
     QString m_fileName,
     m_data, m_workingDir;
-    ServerLang::SyntaxTree m_globalAST;
+    STNode::nodeptr m_globalAST;
 
 private:
     static const QRegularExpression fnmatch;

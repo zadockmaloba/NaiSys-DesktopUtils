@@ -26,7 +26,7 @@ class RunTime
 
 public:
     RunTime();
-    explicit RunTime(const SyntaxTree &ast);
+    explicit RunTime(const STNode &ast);
     inline const QVariantMap CHECK_FOR_DECLARATION(const QString &vname, const QVariantMap &scope);
     void start();
     void injectRTDeclarations(const std::map<const QString, const QVariant> &rtDecls);

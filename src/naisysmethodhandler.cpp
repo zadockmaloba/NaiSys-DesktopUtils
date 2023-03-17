@@ -30,7 +30,7 @@ const NaiSysHttpResponse MethodHandler::get()
     ServerLang::parser prs(serverParams().Entry_Script,
                            serverParams().Site_Dir);
     prs.READ();
-    NaiSys::ServerLang::RunTime rt(prs.globalAST());
+    NaiSys::ServerLang::RunTime rt(*prs.globalAST());
 //    rt.injectRTDeclarations({
 //                                {"RUNTIME_URL_PARAMS", QString(QJsonDocument(m_parameters.url_dict).toJson())},
 //                                {"RUNTIME_HTTP_HEADERS", QString(QJsonDocument(m_desirialized._header).toJson())},

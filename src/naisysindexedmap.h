@@ -56,6 +56,7 @@ public:
     {
         auto temp = std::make_shared<Pair>(Pair(_key, _value));
         m_pairs.push_back(temp);
+        m_size+=1;
     }
     void push_front(const Pair &pair) throw()
     {
@@ -65,6 +66,7 @@ public:
     void pop_back() throw()
     {
         m_pairs.pop_back();
+        m_size-=1;
     }
     void pop_front() throw()
     {
@@ -78,13 +80,15 @@ public:
         m_pairs = newPairs;
     }
     size_t size() const {
-        return m_pairs.size();
+        return m_size;
     }
     const T_vl at(const T_ky &_key) const {
-        for(auto &v : m_pairs) {
-            if(_key == v->key()) return v->value();
+        if(m_pairs.begin() != m_pairs.end()) {
+            for(auto &v : m_pairs) {
+                if(_key == v->key()) return v->value();
+            }
         }
-        return nullptr;
+        return T_vl{};
     }
     auto begin() { return m_pairs.begin(); }
     auto end() { return m_pairs.end(); }
@@ -99,6 +103,7 @@ public://operators
 
 private:
     pair_array m_pairs;
+    size_t m_size = 0;
 };
 
 }

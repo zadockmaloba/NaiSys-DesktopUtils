@@ -117,8 +117,10 @@ private://methods
                     .remove("=").remove(";").trimmed();
             node->setName(_name);
             auto const decls = analyze(_body);
-            for(auto &v : decls)
+            for(auto &v : decls) {
+                v->setParentScope(node);
                 node->add_declaration(v);
+            }
             break;
         }
         case NodeType::HOOK: {
@@ -129,8 +131,10 @@ private://methods
             auto const _name = temp.remove(";").trimmed();
             node->setName(_name);
             auto const decls = analyze(_body);
-            for(auto &v : decls)
+            for(auto &v : decls) {
+                v->setParentScope(node);
                 node->add_declaration(v);
+            }
             break;
         }
         case NodeType::STRUCT: {
@@ -161,6 +165,7 @@ private://methods
             ArgObj->setType(NodeType::SCOPE);
             ArgObj->setTypeName("Scope");
             ArgObj->setName("Args");
+            ArgObj->setParentScope(node);
             node->add_declaration(ArgObj);
 
             for(auto &v: p)
@@ -206,6 +211,7 @@ private://methods
                         nd = STNode::nodeptr(_elements.at(i)) :
                         nd = STNode::nodeptr(new Literal("0x00", QString::number(i)));
                     nd->setName(QString::number(i)+"://"+nd->raw());
+                    nd->setParentScope(node);
                     node->add_declaration(nd);
                 }
             }
@@ -214,6 +220,7 @@ private://methods
                 {
                     auto nd = STNode::nodeptr(_elements.at(i));
                     nd->setName(QString::number(i)+"://"+nd->raw());
+                    nd->setParentScope(node);
                     node->add_declaration(nd);
                 }
             }
@@ -238,16 +245,17 @@ private://methods
             }
             auto const decls = analyze(_body);
             qDebug() << "VARIANT_RAW_DATA: "<< _body;
-            for(auto &v : decls)
+            for(auto &v : decls) {
+                v->setParentScope(node);
                 node->add_declaration(v);
+            }
             break;
         }
         case NodeType::VARIABLE_EXPRESSION: {
             auto temp = QString(node->raw());
             auto const _name = temp.remove("$");
             node->setName(QString::number(arc4random())+"://"+_name);
-            node->setValue(QVariant::fromValue(node->check_for_declaration(_name)));
-            qDebug() << "Referenced variable: " << node->value().value<STNode::nodeptr>()->name();
+            node->setValue(_name);
             break;
         }
         case NodeType::CALL_EXPRESSION: {

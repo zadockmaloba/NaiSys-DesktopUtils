@@ -5,15 +5,19 @@ namespace ServerLang {
 
 const STNode::nodeptr STNode::check_for_declaration(const QString &name)
 {
+    qDebug() << "Checking for: " << name << " in: " << this->name();
     if(declarationMap().at(name)){
         return declarationMap().at(name);
     }
-    return parentScope()->check_for_declaration(name);
+    else if(parentScope().get() != nullptr)
+        return parentScope()->check_for_declaration(name);
+    return {};
 }
 
 void STNode::add_declaration(const nodeptr &decl)
 {
-    qDebug() << m_declarationMap.size();
+    //FIXME: find out why size() causes segfault
+    //qDebug() << m_declarationMap.size();
     m_declarationMap.push_back(decl->name(), decl);
 }
 

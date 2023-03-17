@@ -18,7 +18,7 @@ RunTime::RunTime()
 
 }
 
-RunTime::RunTime(const SyntaxTree &ast)
+RunTime::RunTime(const STNode &ast)
     : m_BufferAST{ast}
 {
     //m_BufferAST.insert("runtime_symbols", QJsonObject{});
@@ -35,6 +35,24 @@ void RunTime::interprate(STNode &ast)
             qDebug() << "Executing Function symbol: " << nm;
             if(nm.contains("://")) nm = nm.split("://").at(1);
             Core::exec(nm, temp->value()->parametersMap());
+            break;
+        }
+
+        case NodeType::VARIANT:{
+            for(auto &_v : temp->value()->declarationMap()) {
+                if(_v->value()->type() == NodeType::VARIABLE_EXPRESSION) {
+                    try {
+                        auto const _var = _v->value();
+                        auto ptr = _var->check_for_declaration(_var->value().toString());
+                        auto const refval = QVariant::fromValue(ptr);
+                        _v->value()->setValue(refval);
+                        qDebug() << "Referenced value: " << refval.value<STNode::nodeptr>()->value();
+                    }
+                    catch(...) {
+                        qWarning() << "Unable to get reference value";
+                    }
+                }
+            }
             break;
         }
         case NodeType::FUNCTION:
