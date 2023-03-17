@@ -128,7 +128,9 @@ private://methods
             auto const _body = scope_capture
                     .match(temp).captured();
             temp.remove(_body);
-            auto const _name = temp.remove(";").trimmed();
+            auto const _name = temp
+                    .remove(0, 1)
+                    .remove(";").trimmed();
             node->setName(_name);
             auto const decls = analyze(_body);
 
