@@ -34,7 +34,7 @@ void RunTime::interprate(STNode &ast)
             auto nm = temp->second()->name();
             qDebug() << "Executing Function symbol: " << nm;
             if(nm.contains("://")) nm = nm.split("://").at(1);
-            Core::exec(nm, temp->second()->parametersMap());
+            temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
             break;
         }
 
