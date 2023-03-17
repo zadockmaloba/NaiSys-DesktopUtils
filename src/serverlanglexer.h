@@ -131,6 +131,19 @@ private://methods
             auto const _name = temp.remove(";").trimmed();
             node->setName(_name);
             auto const decls = analyze(_body);
+
+            auto const _hk_header = STNode::nodeptr(new String);
+            auto const _hk_body = STNode::nodeptr(new Variant);
+
+            _hk_header->setName("Header");
+            _hk_body->setName("Body");
+
+            _hk_header->setParentScope(node);
+            _hk_body->setParentScope(node);
+
+            node->add_declaration(_hk_header);
+            node->add_declaration(_hk_body);
+
             for(auto &v : decls) {
                 v->setParentScope(node);
                 node->add_declaration(v);
