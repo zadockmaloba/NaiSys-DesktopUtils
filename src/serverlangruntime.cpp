@@ -44,9 +44,9 @@ void RunTime::interprate(STNode &ast)
                     try {
                         auto const _var = _v->value();
                         auto ptr = _var->check_for_declaration(_var->value().toString());
-                        auto const refval = QVariant::fromValue(ptr);
+                        auto const refval = QVariant::fromValue(ptr->value());
                         _v->value()->setValue(refval);
-                        qDebug() << "Referenced value: " << refval.value<STNode::nodeptr>()->value();
+                        qDebug() << "Referenced value: " << _v->value()->value();
                     }
                     catch(...) {
                         qWarning() << "Unable to get reference value";
