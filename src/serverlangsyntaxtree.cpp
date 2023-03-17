@@ -16,7 +16,7 @@ const QString SyntaxTree::print_tree(const STNode &mp, uint margin_offst)
     ret.append("| "+mp.name().append(" [").append(mp.typeName())+"] \n");
     for(auto const &v : mp.declarationMap())
     {
-        ret.append(offset_str+print_tree(*v->value(), margin_offst+3));
+        ret.append(offset_str+print_tree(*v->second(), margin_offst+3));
     }
     return ret;
 }

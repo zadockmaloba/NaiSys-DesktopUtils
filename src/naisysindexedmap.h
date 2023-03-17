@@ -16,27 +16,27 @@ private:
     {
     public:
         Pair(T_ky const &key, T_vl const &value)
-            : m_key{ key }, m_value{ value }
+            : m_first{ key }, m_second{ value }
         {
 
         }
         ~Pair(){}
-        T_ky key() const {
-            return m_key;
+        T_ky first() const {
+            return m_first;
         }
-        void setKey(const T_ky &newKey) {
-            m_key = newKey;
+        void setFirst(const T_ky &newKey) {
+            m_first = newKey;
         }
-        T_vl value() const {
-            return m_value;
+        T_vl second() const {
+            return m_second;
         }
-        void setValue(const T_vl &newValue) {
-            m_value = newValue;
+        void setSecond(const T_vl &newValue) {
+            m_second = newValue;
         }
 
     private:
-        T_ky m_key;
-        T_vl m_value;
+        T_ky m_first;
+        T_vl m_second;
     };
 
 public://typedefs
@@ -85,7 +85,7 @@ public:
     const T_vl at(const T_ky &_key) const {
         if(m_pairs.begin() != m_pairs.end()) {
             for(auto &v : m_pairs) {
-                if(_key == v->key()) return v->value();
+                if(_key == v->first()) return v->second();
             }
         }
         return T_vl{};
@@ -96,7 +96,7 @@ public:
 public://operators
     Pair &operator[](T_ky _key) const throw() {
         for(auto &v : m_pairs) {
-            if(_key == v->key()) return v;
+            if(_key == v->first()) return v;
         }
         return nullptr;
     }
