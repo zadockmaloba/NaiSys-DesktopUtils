@@ -52,6 +52,17 @@ void RunTime::interprate(STNode &ast)
                         qWarning() << "Unable to get reference value";
                     }
                 }
+                else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
+                    try {
+                        qDebug() << "Value before call: " << _v->second()->value();
+                        interprate(*temp->second());
+                        qDebug() << "Value after call: " << _v->second()->value();
+                    }
+                    catch(...) {
+                        qWarning() << "WARNING: Cannot execute nested function";
+                    }
+                }
+                temp->second()->setValue(_v->second()->value());
             }
             break;
         }
