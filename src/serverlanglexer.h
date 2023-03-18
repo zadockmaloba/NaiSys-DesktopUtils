@@ -53,6 +53,8 @@ public:
         m_lexicalScope.remove(variable_decl);
         auto const ret_expr = find_regex_match(returnexpression_capture, m_lexicalScope);
         m_lexicalScope.remove(returnexpression_capture);
+        auto const field_acc_i = find_regex_match(field_accessor_internal, m_lexicalScope);
+        m_lexicalScope.remove(field_accessor_internal);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
         m_lexicalScope.remove(function_call);
         auto const string_literals = find_regex_match(string_literal_capture, m_lexicalScope);
@@ -72,6 +74,7 @@ public:
         __MATCH_ITERATOR(arr_dcl, Array);
         __MATCH_ITERATOR(var_dcl, Variant);
         __MATCH_ITERATOR(ret_expr, ReturnExpression);
+        __MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(string_literals, Literal);
         __MATCH_ITERATOR(numeric_literals, Literal);
@@ -318,7 +321,8 @@ private://static members
     static const QRegularExpression var_identifier_capture;
     static const QRegularExpression string_literal_capture;
     static const QRegularExpression numeric_literal_capture;
-
+    static const QRegularExpression field_accessor_internal;
+    static const QRegularExpression field_accessor_external;
 };
 
 inline const QRegularExpression Lexer::py_scope_capture =
@@ -359,6 +363,10 @@ inline const QRegularExpression Lexer::string_literal_capture =
         QRegularExpression{"\"[\\s\\S]*?\""};
 inline const QRegularExpression Lexer::numeric_literal_capture =
         QRegularExpression{"\\d+(\\.\\d)*"};
+inline const QRegularExpression Lexer::field_accessor_internal =
+        QRegularExpression{"\\.\\w+(\\s*=\\s*[\\s\\S]*\\;)*"};
+inline const QRegularExpression Lexer::field_accessor_external =
+        QRegularExpression{};
 
 }
 }
