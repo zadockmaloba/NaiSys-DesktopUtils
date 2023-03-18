@@ -44,7 +44,7 @@ size_t StreamIO::println(const char *wrd, ...)
 #endif
 
     va_end(args);
-    return sizeof(wrd);
+    return v.size();
 }
 
 std::ostringstream *StreamIO::getSBufferStream()
