@@ -11,7 +11,7 @@ Item {
     id: root
     property string text: ""
     property string text_size: "p"
-    Thx_Text {
+    NaiSysText {
         id: root_text
         anchors.centerIn: parent
         text: qsTr(root.text)

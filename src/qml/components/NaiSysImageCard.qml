@@ -7,7 +7,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-Thx_Button {
+NaiSysButton {
     id: root
     property int card_border_radius: 0
     property int card_bg_opacity: 1
@@ -41,7 +41,7 @@ Thx_Button {
                 id: bg_layout_lblDiv
                 width: parent.width
                 height: parent.height * 0.3
-                Thx_Label{
+                NaiSysLabel{
                     anchors.fill: parent
                     text: root.card_caption
                 }

@@ -34,7 +34,7 @@ Item {
             Repeater {
                 id: swpView_repeater
                 model: root.slide_image_list
-                delegate: Thx_TronCard {
+                delegate: NaiSysTronCard {
                     id: trnCard
                     card_image_source: root.slide_directory+modelData
                     card_caption: modelData
@@ -42,7 +42,7 @@ Item {
             }
             //card_image_source:
         }
-        Thx_Button {
+        NaiSysButton {
             id: navBtn1
             anchors.left: parent.left
             width: private_props.nav_buttons_size
@@ -52,7 +52,7 @@ Item {
             text: "<"
             text_size: "h3"
         }
-        Thx_Button {
+        NaiSysButton {
             id: navBtn2
             anchors.right: parent.right
             width: private_props.nav_buttons_size

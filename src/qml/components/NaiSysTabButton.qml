@@ -18,7 +18,7 @@ AbstractButton {
     anchors.leftMargin: 2
     background: Rectangle {
         color: root.button_color
-        Thx_Label {
+        NaiSysLabel {
             anchors.fill: parent
             text: qsTr(root.text)
         }

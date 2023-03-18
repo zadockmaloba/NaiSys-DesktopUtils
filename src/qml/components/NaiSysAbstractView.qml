@@ -20,7 +20,7 @@ Item {
     }
     property string menu_bar_color: "light grey"
 
-    Thx_MenuBar{
+    NaiSysMenuBar{
         id: root_menuBar
         anchors.top: parent.top
         anchors.left: parent.left

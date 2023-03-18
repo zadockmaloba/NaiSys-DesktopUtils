@@ -18,7 +18,7 @@ Rectangle {
         Repeater {
             id: root_layout_btnRepeater
             model: root.menu_bar_items
-            delegate: Thx_MenuButton {
+            delegate: NaiSysMenuButton {
                 height: root_layout.height
                 width: 80 // Avoid explicit bindings
                 text: model["name"]

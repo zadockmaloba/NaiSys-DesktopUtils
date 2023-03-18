@@ -39,7 +39,7 @@ Rectangle {
             id: root_header
             width: parent.width
             height: parent.height * 0.2
-            Thx_Label {
+            NaiSysLabel {
                 id: root_header_label
                 anchors.fill: parent
                 text: root.form_title_text
@@ -77,7 +77,7 @@ Rectangle {
                                         id: labelField
                                         width: parent.width * 0.4
                                         height: parent.height
-                                        Thx_Label {
+                                        NaiSysLabel {
                                             anchors.fill: parent
                                             text: model["name"]
                                         }
@@ -97,7 +97,7 @@ Rectangle {
                                                 default: return 0;
                                                 }
                                             }
-                                            Thx_InputField {
+                                            NaiSysInputField {
                                                 id: dataField_input
                                                 echoMode: model["secure"] ? TextInput.Password : TextInput.Normal
                                                 onTextChanged: {
@@ -106,7 +106,7 @@ Rectangle {
                                                     form_data_model.set(fieldDelegate.index, {"value": dataField_input.text})
                                                 }
                                             }
-                                            Thx_ComboBox {
+                                            NaiSysComboBox {
                                                 id: dataField_combo
                                                 //FIXME: Get ComboBox working in input form
                                                 //Issue related to Arrays in ListModel as indicated by FIXME above
@@ -127,14 +127,14 @@ Rectangle {
                 RowLayout {
                     id: root_footer_layout
                     anchors.fill: parent
-                    Thx_Button {
+                    NaiSysButton {
                         id: root_footer_clearBtn
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         text: "Clear"
                         //TODO:Implement
                     }
-                    Thx_Button {
+                    NaiSysButton {
                         id: root_footer_acceptBtn
                         Layout.fillHeight: true
                         Layout.fillWidth: true

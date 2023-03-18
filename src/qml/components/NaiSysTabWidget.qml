@@ -32,7 +32,7 @@ Item {
     }
 
     ListModel {id: bufferModel}
-    Thx_MenuWidget {
+    NaiSysMenuWidget {
         id: contextMenu
         x: addTabButton.x
         y: addTabButton.y + addTabButton.height

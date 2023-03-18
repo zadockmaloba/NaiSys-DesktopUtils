@@ -21,7 +21,7 @@ AbstractButton {
         color: "grey"
         radius: root.radius
         border.color: root.border_color
-        Thx_Label {
+        NaiSysLabel {
             anchors.fill: parent
             text: qsTr(root.text)
             text_size: root.text_size

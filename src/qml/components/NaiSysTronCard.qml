@@ -7,7 +7,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-Thx_Button {
+NaiSysButton {
     id: root
     QtObject {
         id: private_props
@@ -45,7 +45,7 @@ Thx_Button {
                 height: parent.height
                 opacity: 0.7
                 visible: private_props.card_caption_visible
-                Thx_Label{
+                NaiSysLabel{
                     anchors.fill: parent
                     text: root.card_caption
                 }
