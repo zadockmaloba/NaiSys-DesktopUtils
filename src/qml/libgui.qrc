@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>components/NaiSysAbstractPopup.qml</file>
+        <file>components/NaiSysDialogBox.qml</file>
+        <file>components/NaiSysListView.qml</file>
+        <file>components/NaiSysLoadingPopup.qml</file>
+        <file>components/NaiSysMenuBar.qml</file>
+        <file>components/NaiSysNavigationPane.qml</file>
+        <file>components/NaiSysProfileHeader.qml</file>
+        <file>components/NaiSysTable.qml</file>
+        <file>components/NaiSysTabWidget.qml</file>
+        <file>components/NaiSysTronWidget.qml</file>
+        <file>components/qmldir</file>
+        <file>layouts/NaiSysDashLayout.qml</file>
+        <file>layouts/NaiSysFormLayout.qml</file>
+        <file>layouts/NaiSysGridStackLayout.qml</file>
+        <file>layouts/NaiSysNavigationLayout.qml</file>
+        <file>layouts/NaiSysStackLayout.qml</file>
+        <file>layouts/qmldir</file>
+    </qresource>
+</RCC>

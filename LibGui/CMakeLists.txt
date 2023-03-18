@@ -1,0 +1,50 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(NaiSys-Gui VERSION 0.0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -std=c++17 -stdlib=libc++")
+set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
+set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
+set(GUI_ROOT_DIR ${SOURCE_DIR}/qml/)
+set(GUI_COMPONENTS_DIR ${GUI_ROOT_DIR}/components)
+set(GUI_LAYOUTS_DIR ${GUI_ROOT_DIR}/layouts)
+set(GUI_PLUGINS_DIR ${GUI_ROOT_DIR}/plugins)
+
+find_package(Qt6 6.2 COMPONENTS Core Gui REQUIRED)
+
+qt_add_library( naisysgui STATIC )
+
+target_include_directories( naisysgui PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${SOURCE_DIR}
+    ${GUI_PLUGINS_DIR}
+)
+
+set(PROJECT_SOURCES
+    ${GUI_ROOT_DIR}/libgui.qrc
+)
+
+target_sources( naisysgui
+    PRIVATE ${PROJECT_SOURCES}
+)
+
+set_target_properties( naisysgui PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER dev.naisys.net
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
+
+target_link_libraries( naisysgui
+    PRIVATE Qt6::Core
+    PRIVATE Qt6::Gui
+)
+
+install( TARGETS naisysgui
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)

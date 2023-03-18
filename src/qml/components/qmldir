@@ -1,0 +1,12 @@
+module naisysui.components
+NaiSysAbstractPopup 1.0 NaiSysAbstractPopup.qml
+NaiSysLoadingPopup 1.0 NaiSysLoadingPopup.qml
+NaiSysTabWidget 1.0 NaiSysTabWidget.qml
+NaiSysDialogBox 1.0 NaiSysDialogBox.qml
+NaiSysNavigationPane 1.0 NaiSysNavigationPane.qml
+NaiSysTronWidget 1.0 NaiSysTronWidget.qml
+NaiSysProfileHeader 1.0 NaiSysProfileHeader.qml
+NaiSysListView 1.0 NaiSysListView.qml
+NaiSysTable 1.0 NaiSysTable.qml
+NaiSysMenuBar 1.0 NaiSysMenuBar.qml
+# plugin naisysqmlmenubar

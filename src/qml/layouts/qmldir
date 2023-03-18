@@ -1,0 +1,6 @@
+module naisysui.layouts
+NaiSysDashLayout 1.0 NaiSysDashLayout.qml
+NaiSysFormLayout 1.0 NaiSysFormLayout.qml
+NaiSysNavigationLayout 1.0 NaiSysNavigationLayout.qml
+NaiSysStackLayout 1.0 NaiSysStackLayout.qml
+NaiSysGridStackLayout 1.0 NaiSysGridStackLayout.qml
