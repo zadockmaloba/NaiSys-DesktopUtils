@@ -358,7 +358,7 @@ inline const QRegularExpression Lexer::var_identifier_capture =
 inline const QRegularExpression Lexer::string_literal_capture =
         QRegularExpression{"\"[\\s\\S]*?\""};
 inline const QRegularExpression Lexer::numeric_literal_capture =
-        QRegularExpression{"\\d+\\.*\\d*"};
+        QRegularExpression{"\\d+(\\.\\d)*"};
 
 }
 }
