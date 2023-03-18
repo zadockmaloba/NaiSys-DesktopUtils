@@ -1,9 +1,26 @@
+// ************************************************
+// 2022, Zadock Maloba <zadock.maloba@stream4.tech>
+// ************************************************
+
 import QtQuick 2.15
+import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 Item {
     id: root
+
+    property int tab_bar_height: 35
+    property int tab_button_width: 120
+    property bool tab_init_all: false
+    property Component tab_default_view
+    property string tab_default_view_name: "Home"
+    property string tab_bar_color: "light grey"
+    property string tab_button_color: "light grey"
+    property ListModel tab_items: ListModel {
+        ListElement {name:"Home"; closable: false; source: ""}
+    }
+
     function newTab(m_name, m_source){
         bufferModel.append({name: m_name, source: m_source});
     }
@@ -14,21 +31,14 @@ Item {
         bufferModel.remove(m_index);
     }
 
-    property int headerHeight: 30
-    property bool initAll: false
-    property ListModel stackModel: ListModel{
-        ListElement{name: "Home"; source: ""}
-        ListElement{name: "Settings"; source: ""}
-    }
-    property Component homeView
-    ListModel{id: bufferModel}
-    Menu{
+    ListModel {id: bufferModel}
+    Thx_MenuWidget {
         id: contextMenu
         x: addTabButton.x
         y: addTabButton.y + addTabButton.height
         Repeater{
-            model: stackModel
-            delegate: MenuItem{
+            model: root.tab_items
+            delegate: MenuItem {
                 text: model["name"]
                 onClicked: {
                     root.newTab(text, model["source"]);
@@ -38,39 +48,41 @@ Item {
     }
 
     Component.onCompleted: {
-        if(!homeView){
+        if(!root.tab_default_view){
             if(root.initAll){
-                for(var i=0; i<stackModel.count;++i){
-                    bufferModel.append(stackModel.get(i));
+                for(var i=0; i<root.tab_items.count;++i){
+                    bufferModel.append(root.tab_items.get(i));
                 }
             }
-            else bufferModel.append(stackModel.get(0));
+            else bufferModel.append(root.tab_items.get(0));
         }
         else{
-            bufferModel.append({name: "Home", source: "", sourceComponent: homeView});
+            bufferModel.append({name: root.tab_default_view_name,
+                                source: "",
+                                sourceComponent: root.tab_default_view});
         }
-   }
+    }
 
-    Column{
+    Column {
         id: root_layout
         anchors.fill: parent
-        Rectangle{
+        Rectangle {
             id: root_header
-            height:headerHeight
+            height: root.tab_bar_height
             width: parent.width
             color: "light gray"
-            ScrollView{
+            ScrollView {
                 anchors.fill: parent
                 anchors.leftMargin: 2
                 anchors.rightMargin: 2
                 anchors.bottomMargin: 2
                 anchors.topMargin: 2
-                Row{
+                Row {
                     id: root_header_layout
                     anchors.fill: parent
-                    Repeater{
+                    Repeater {
                         model: bufferModel
-                        delegate: ToolButton{
+                        delegate: ToolButton {
                             height: parent.height
                             width: 120
                             text: model["name"]
@@ -78,14 +90,18 @@ Item {
                             onClicked: {
                                 root_body_stack.currentIndex = index;
                             }
-                            background: Rectangle{
+                            background: Rectangle {
                                 radius: 2
                                 opacity: 0.7
                                 border.color: "white"
                                 color: index === root_body_stack.currentIndex ? "grey" : "light grey"
                                 gradient: Gradient{
                                     GradientStop{position: 0; color: "light grey"}
-                                    GradientStop{position: 1; color: index === root_body_stack.currentIndex ? "grey" : "light grey"}
+                                    GradientStop{
+                                        position: 1;
+                                        color: index === root_body_stack.currentIndex ?
+                                                   "grey" : "light grey"
+                                    }
                                 }
                             }
                         }
@@ -94,7 +110,7 @@ Item {
                         id: addTabButton
                         height: parent.height
                         width: 40
-                        enabled: !initAll
+                        enabled: !root.tab_init_all
                         text: "+"
                         onClicked: {
                             contextMenu.open();
@@ -105,7 +121,7 @@ Item {
         }
         Item{
             id: root_body
-            height: parent.height - headerHeight
+            height: parent.height - root.tab_bar_height
             width: parent.width
             StackLayout{
                 id: root_body_stack

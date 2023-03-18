@@ -17,5 +17,21 @@
         <file>layouts/NaiSysNavigationLayout.qml</file>
         <file>layouts/NaiSysStackLayout.qml</file>
         <file>layouts/qmldir</file>
+        <file>components/NaiSysAbstractView.qml</file>
+        <file>components/NaiSysButton.qml</file>
+        <file>components/NaiSysComboBox.qml</file>
+        <file>components/NaiSysImageCard.qml</file>
+        <file>components/NaiSysInputField.qml</file>
+        <file>components/NaiSysInputForm.qml</file>
+        <file>components/NaiSysLabel.qml</file>
+        <file>components/NaiSysListWidget.qml</file>
+        <file>components/NaiSysMenuButton.qml</file>
+        <file>components/NaiSysMenuWidget.qml</file>
+        <file>components/NaiSysSlideShow.qml</file>
+        <file>components/NaiSysTabButton.qml</file>
+        <file>components/NaiSysTableWidget.qml</file>
+        <file>components/NaiSysText.qml</file>
+        <file>components/NaiSysTextArea.qml</file>
+        <file>components/NaiSysTronCard.qml</file>
     </qresource>
 </RCC>
