@@ -1,5 +1,5 @@
 // ************************************************
-// 2022, Zadock Maloba <zadock.maloba@stream4.tech>
+// 2022, Zadock Maloba <zadockmaloba@outlook.com>
 // ************************************************
 
 import QtQuick 2.15
