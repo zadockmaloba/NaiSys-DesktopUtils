@@ -328,23 +328,23 @@ private://static members
 inline const QRegularExpression Lexer::py_scope_capture =
         QRegularExpression{"\\!py\\{[\\s\\S]*?\\}\\s*(\\([\\s\\S]*?\\))*\\;\\!"};
 inline const QRegularExpression Lexer::hook_decl =
-        QRegularExpression{"@\\s*\\/[\\*\\@\\-]*[\\w*\\@\\-\\!\\s\\/\\#]*\\s*[=\\s]*\\{[\\s\\S]*?\\}\\;"};
+        QRegularExpression{"@\\s*\\/[\\*\\@\\-]*[\\w*\\@\\-\\!\\s\\/\\#]*\\s*[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::function_decl =
-        QRegularExpression{"def\\s+\\w+\\s*\\([\\s\\S]*?\\)*\\s*\\{[\\s\\S]*?\\}"};
+        QRegularExpression{"def\\s+\\w+\\s*\\([\\s\\S]*?\\)*\\s*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::function_call =
         QRegularExpression{"(\\w+\\:\\:)*\\w+\\s*\\([\\s\\S]*?\\)"};
 inline const QRegularExpression Lexer::class_decl =
-        QRegularExpression{"class\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}\\;"};
+        QRegularExpression{"class\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::class_decl_inner =
-        QRegularExpression{"class\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};
+        QRegularExpression{"class\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};//Depricated
 inline const QRegularExpression Lexer::struct_decl =
-        QRegularExpression{"struct\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}\\;"};
+        QRegularExpression{"struct\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::struct_decl_inner =
-        QRegularExpression{"struct\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};
+        QRegularExpression{"struct\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};//Depricated
 inline const QRegularExpression Lexer::variable_decl =
         QRegularExpression{"var\\s+\\w+\\s*(\\:\\s*\\w+\\s*)*(\\=[\\s\\S]*?\\;)*"};
 inline const QRegularExpression Lexer::scope_capture =
-        QRegularExpression{"{[\\s\\S]*\\}"};
+        QRegularExpression{"\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}"};
 inline const QRegularExpression Lexer::varvalue_capture =
         QRegularExpression{"(?==)\\=[\\s\\S]*(?=;)"};
 inline const QRegularExpression Lexer::binexpression_capture =
@@ -352,7 +352,7 @@ inline const QRegularExpression Lexer::binexpression_capture =
 inline const QRegularExpression Lexer::returnexpression_capture =
         QRegularExpression{"return\\:\\=[\\s\\S]*\\;"};
 inline const QRegularExpression Lexer::array_decl =
-        QRegularExpression{"var\\s\\w+\\[[\\s\\S]*?\\]\\s*(\\:\\s*\\w+\\s*)*\\=\\s*\\{[\\s\\S]*?\\}\\;"};
+        QRegularExpression{"var\\s\\w+\\[[\\s\\S]*?\\]\\s*(\\:\\s*\\w+\\s*)*\\=\\s*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::squarebrackets_capture =
         QRegularExpression{"\\[\\d*\\]"};
 inline const QRegularExpression Lexer::brackets_capture =
