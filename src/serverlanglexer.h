@@ -57,12 +57,12 @@ public:
         m_lexicalScope.remove(field_accessor_internal);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
         m_lexicalScope.remove(function_call);
+        auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
+        m_lexicalScope.remove(var_identifier_capture);
         auto const string_literals = find_regex_match(string_literal_capture, m_lexicalScope);
         m_lexicalScope.remove(string_literal_capture);
         auto const numeric_literals = find_regex_match(numeric_literal_capture, m_lexicalScope);
         m_lexicalScope.remove(numeric_literal_capture);
-        auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
-        m_lexicalScope.remove(var_identifier_capture);
 
         __MATCH_ITERATOR(py_scope, PyScope);
         __MATCH_ITERATOR(hks_dcl, Hook);
@@ -76,9 +76,9 @@ public:
         __MATCH_ITERATOR(ret_expr, ReturnExpression);
         __MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
+        __MATCH_ITERATOR(var_id, VariableExpression);
         __MATCH_ITERATOR(string_literals, Literal);
         __MATCH_ITERATOR(numeric_literals, Literal);
-        __MATCH_ITERATOR(var_id, VariableExpression);
 
         qDebug() << "[SERVERLANG_LEXER]: Number of Tokens captured: "
                  << m_tokenList.size();
