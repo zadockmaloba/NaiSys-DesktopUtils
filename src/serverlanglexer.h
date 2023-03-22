@@ -271,7 +271,10 @@ private://methods
         }
         case NodeType::VARIABLE_EXPRESSION: {
             auto temp = QString(node->raw());
-            auto const _name = temp.remove("$");
+            auto const _name = QRegularExpression("^\\$\\w+")
+                    .match(temp)
+                    .captured()
+                    .remove("$");
             node->setName(QString::number(arc4random())+"://"+_name);
             node->setValue(_name);
             break;
