@@ -275,8 +275,18 @@ private://methods
                     .match(temp)
                     .captured()
                     .remove("$");
+            auto const _body = temp.contains("=") ?
+                        temp.split("=").at(1) : "";
+
             node->setName(QString::number(arc4random())+"://"+_name);
             node->setValue(_name);
+
+            auto const decls = analyze(_body);
+            qDebug() << "VARIANT_RAW_DATA: "<< _body;
+            for(auto &v : decls) {
+                v->setParentScope(node);
+                node->add_declaration(v);
+            }
             break;
         }
         case NodeType::CALL_EXPRESSION: {
