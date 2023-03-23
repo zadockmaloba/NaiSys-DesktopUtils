@@ -110,8 +110,15 @@ private://methods
             break;
         }
         case NodeType::LITERAL: {
-            node->setValue(node->raw());
+            auto temp = QString(node->raw());
             node->setName(QString::number(arc4random())+"://Literal");
+            if(temp.startsWith("\"") && temp.endsWith("\"")) {
+                temp.remove(0,1);
+                temp.chop(1);
+                node->setValue(temp);
+            } else {
+                node->setValue(node->raw().toDouble());
+            }
             break;
         }
         case NodeType::CLASS: {
