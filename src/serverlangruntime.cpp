@@ -7,8 +7,6 @@
 #include "streamio.h"
 #include "serverlangcore.h"
 #include "libpython.h"
-//#include "naisyshttprequest.h"
-//#include "naisyshttpresponse.h"
 
 namespace NaiSys {
 namespace ServerLang {
@@ -62,7 +60,6 @@ void RunTime::interprate(STNode &ast)
                 _plist << _v->second()->value().toString();
             }
             //TODO: Make parameters map a variant list
-            qDebug() << _plist;
             temp->second()->setParametersMap(_plist);
             temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
             break;
