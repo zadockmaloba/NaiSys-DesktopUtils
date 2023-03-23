@@ -5,6 +5,7 @@
 #include "streamio.h"
 
 #include <QProcess>
+#include <QFile>
 
 namespace NaiSys {
 namespace ServerLang {
@@ -90,7 +91,15 @@ inline const ast_operator CoreFunctions::readfile = []()mutable->QVariant
     func.setArguments({"file", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
-    return {};
+    if(!(params_reg.size() == 1)) {
+        throw "[Core::FileRead]: Invalid number of args; expected 1.";
+        return {};
+    }
+    QFile m_file(params_reg.at(0).toString());
+    m_file.open(QIODevice::ReadOnly);
+    auto const ret = m_file.read(m_file.bytesAvailable());
+    m_file.close();
+    return ret;
 };
 
 inline const ast_operator CoreFunctions::writefile = []()mutable->QVariant
