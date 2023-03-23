@@ -53,6 +53,8 @@ public:
         m_lexicalScope.remove(variable_decl);
         auto const ret_expr = find_regex_match(returnexpression_capture, m_lexicalScope);
         m_lexicalScope.remove(returnexpression_capture);
+        //auto const bin_expr = find_regex_match(binexpression_capture, m_lexicalScope);
+        //m_lexicalScope.remove(binexpression_capture);
         auto const field_acc_i = find_regex_match(field_accessor_internal, m_lexicalScope);
         m_lexicalScope.remove(field_accessor_internal);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
@@ -74,6 +76,7 @@ public:
         __MATCH_ITERATOR(arr_dcl, Array);
         __MATCH_ITERATOR(var_dcl, Variant);
         __MATCH_ITERATOR(ret_expr, ReturnExpression);
+        //__MATCH_ITERATOR(bin_expr, BinaryExpression);
         __MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(var_id, VariableExpression);
@@ -361,7 +364,7 @@ inline const QRegularExpression Lexer::scope_capture =
 inline const QRegularExpression Lexer::varvalue_capture =
         QRegularExpression{"(?==)\\=[\\s\\S]*(?=;)"};
 inline const QRegularExpression Lexer::binexpression_capture =
-        QRegularExpression{"[\\s\\S]*?[\\+\\-\\*\\/][\\s\\S]*?\\;"};
+        QRegularExpression{"[\\s\\S]*?[\\+\\-\\*][\\s\\S]*?\\;"};
 inline const QRegularExpression Lexer::returnexpression_capture =
         QRegularExpression{"return\\:\\=[\\s\\S]*\\;"};
 inline const QRegularExpression Lexer::array_decl =
