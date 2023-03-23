@@ -34,6 +34,36 @@ void RunTime::interprate(STNode &ast)
             auto nm = temp->second()->name();
             qDebug() << "Executing Function symbol: " << nm;
             if(nm.contains("://")) nm = nm.split("://").at(1);
+
+            QStringList _plist;
+            for(auto &_v : temp->second()->declarationMap()) {
+                if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
+                    try {
+                        auto const _var = _v->second();
+                        auto ptr = _var->check_for_declaration(_var->value().toString());
+                        auto const refval = QVariant::fromValue(ptr->value());
+                        _v->second()->setValue(refval);
+                        qDebug() << "Referenced value: " << _v->second()->value();
+                    }
+                    catch(...) {
+                        qWarning() << "Unable to get reference value";
+                    }
+                }
+                else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
+                    try {
+                        qDebug() << "Value before call: " << _v->second()->value();
+                        interprate(*temp->second());
+                        qDebug() << "Value after call: " << _v->second()->value();
+                    }
+                    catch(...) {
+                        qWarning() << "WARNING: Cannot execute nested function";
+                    }
+                }
+                _plist << _v->second()->value().toString();
+            }
+            //TODO: Make parameters map a variant list
+            qDebug() << _plist;
+            temp->second()->setParametersMap(_plist);
             temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
             break;
         }
@@ -96,10 +126,11 @@ void RunTime::interprate(STNode &ast)
             break;
         }
 
-        case NodeType::FUNCTION:
+        case NodeType::FUNCTION: {
             qDebug() << "Declaring function: " << temp->second()->name();
             Core::define(temp->second()->name(), temp->second()->parametersMap());
             break;
+        }
 
         case NodeType::PY_SCOPE:
             LibPython::execute_string(temp->second()->value().toString().toStdString().c_str());
