@@ -28,10 +28,11 @@ const NaiSysHttpResponse MethodHandler::get()
     auto const l = m_parameters.url_destination;
     StreamIO::println("[[GET]]: %arg", QSTRING_TO_CSTR(l));
 
-    ServerLang::parser prs(serverParams().Entry_Script,
+    ServerLang::Parser prs(serverParams().Entry_Script,
                            serverParams().Site_Dir);
     prs.READ();
-    NaiSys::ServerLang::RunTime rt(*prs.globalAST());
+
+    NaiSys::ServerLang::RunTime rt(prs.globalAST());
 //    rt.injectRTDeclarations({
 //                                {"RUNTIME_URL_PARAMS", QString(QJsonDocument(m_parameters.url_dict).toJson())},
 //                                {"RUNTIME_HTTP_HEADERS", QString(QJsonDocument(m_desirialized._header).toJson())},
@@ -39,28 +40,45 @@ const NaiSysHttpResponse MethodHandler::get()
 //                            });
     rt.start();
 
-//    StreamIO::println("[[GET]]: %arg", QSTRING_TO_CSTR(l));
-//    QVariantMap resp;
-//    if(rt.hookMap().contains(l)){
-//        resp = rt.hookMap().value(l)();
-//        //qDebug() << "HOOK_RESPONSE: " << resp << " : " << resp.value("content_type").toMap().value("value").toString();
-//        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", resp.value("body").toMap().value("value").toByteArray());//TODO: Find a better method
-//        //postResp.appendRawHeader("Connection", "keep-alive");
-//        postResp.appendDefinedHeader(DefinedHeaders::ContentType, resp.value("content_type").toMap().value("value").toByteArray().replace('\"',""));
-//        postResp.appendDefinedHeader(DefinedHeaders::ContentLength, QString::number(postResp.body().size()).toUtf8());
+    if(rt.BufferAST()->declarationMap().has(l)) {
+        qDebug() << "[ROUTER]: Path found";
+        auto sc = rt.BufferAST()->declarationMap().at(l);
+        rt.interprate(sc);
+        auto const _hdr = sc->declarationMap().at("Header");
+        auto const _bdy = sc->declarationMap().at("Body");
 
-//        return postResp;
-//    }
-//    else if(rt.hookMap().contains("/*")){
-//        StreamIO::println("[ROUTER]: Fetching default route");
-//        resp = rt.hookMap().value("/*")();
-//        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", resp.value("body").toMap().value("value").toByteArray());//TODO: Find a better method
-//        //postResp.appendRawHeader("Connection", "keep-alive");
-//        postResp.appendDefinedHeader(DefinedHeaders::ContentType, resp.value("content_type").toMap().value("value").toByteArray().replace('\"',""));
-//        postResp.appendDefinedHeader(DefinedHeaders::ContentLength, QString::number(postResp.body().size()).toUtf8());
+        qDebug() << "Content-Type: " << _hdr->value();
+        qDebug() << "Body: " << _bdy->value();
 
-//        return postResp;
-//    }
+        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value().toByteArray());
+        //postResp.appendRawHeader("Connection", "keep-alive");
+        postResp.appendDefinedHeader(DefinedHeaders::ContentType,
+                                     _hdr->value().toByteArray());
+        postResp.appendDefinedHeader(DefinedHeaders::ContentLength,
+                                     QByteArray::number(postResp.body().size()));
+
+        return postResp;
+    }
+    else if(rt.BufferAST()->declarationMap().has("/*")) {
+        qDebug() << "[ROUTER]: Default path found";
+        auto sc = rt.BufferAST()->declarationMap().at("/*");
+        rt.interprate(sc);
+        auto const _hdr = sc->declarationMap().at("Header");
+        auto const _bdy = sc->declarationMap().at("Body");
+
+        qDebug() << "Content-Type: " << _hdr->value();
+        qDebug() << "Body: " << _bdy->value();
+
+        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value().toByteArray());
+        //postResp.appendRawHeader("Connection", "keep-alive");
+        postResp.appendDefinedHeader(DefinedHeaders::ContentType,
+                                     _hdr->value().toByteArray());
+        postResp.appendDefinedHeader(DefinedHeaders::ContentLength,
+                                     QByteArray::number(postResp.body().size()));
+
+        return postResp;
+    }
+
     return NaiSysHttpResponse("HTTP/1.1 400 Bad\r\n", "");
 }
 
