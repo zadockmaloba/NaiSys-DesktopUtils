@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <tuple>
+#include <iostream>
 #include <memory>
 
 namespace NaiSys {
@@ -88,8 +89,21 @@ public:
                 if(_key == v->first()) return v->second();
             }
         }
-        return T_vl{};
+        throw "Array has no value specified by _key";
+        return {};
     }
+    bool has(const T_ky &key) const {
+        try {
+            auto const tmp = this->at(key);
+        }
+        catch (const char* e) {
+            std::cout << e << std::endl;
+            return false;
+        }
+        return true;
+
+    }
+
     auto begin() { return m_pairs.begin(); }
     auto end() { return m_pairs.end(); }
 
