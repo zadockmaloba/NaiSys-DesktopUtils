@@ -302,6 +302,7 @@ private://methods
             auto const decls = analyze(_args);
             QStringList _params;
             for(auto &v : decls) {
+                v->setParentScope(node);
                 node->add_declaration(v);
                 _params << v->value().toString();
                 qDebug() << "PARAMETER_VAL: " << v->value().toString();
