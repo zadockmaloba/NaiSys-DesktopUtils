@@ -307,11 +307,11 @@ private://methods
             node->setName(QString::number(arc4random())+"://"+_name);
 
             auto const decls = analyze(_args);
-            QStringList _params;
+            QVariantList _params;
             for(auto &v : decls) {
                 v->setParentScope(node);
                 node->add_declaration(v);
-                _params << v->value().toString();
+                _params << v->value();
                 qDebug() << "PARAMETER_VAL: " << v->value().toString();
             }
             node->setParametersMap(_params);

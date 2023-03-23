@@ -383,26 +383,26 @@ public://public members
     ast_operator exec;
     ast_operator declare;
 
-    const QStringList &parameters() const
+    const QVariantList &parameters() const
     {
         return m_parameters;
     }
-    void setParameters(const QStringList &newParameters)
+    void setParameters(const QVariantList &newParameters)
     {
         m_parameters = newParameters;
         MAP_PARAMS_TO_ARGS();
     }
-    const QStringList &arguments() const
+    const QVariantList &arguments() const
     {
         return m_arguments;
     }
-    void setArguments(const QStringList &newArguments)
+    void setArguments(const QVariantList &newArguments)
     {
         m_arguments = newArguments;
     }
 
 private://private members
-    QStringList m_parameters, m_arguments;
+    QVariantList m_parameters, m_arguments;
 private://private methods
     void MAP_PARAMS_TO_ARGS()
     {

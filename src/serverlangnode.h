@@ -93,8 +93,8 @@ public: //GETTERS AND SETTERS
     QString typeName() const;
     void setTypeName(const QString &newTypeName);
 
-    QStringList parametersMap() const;
-    void setParametersMap(const QStringList &newParametersMap);
+    QVariantList parametersMap() const;
+    void setParametersMap(const QVariantList &newParametersMap);
 
 protected:
     declscope m_declarationMap;
@@ -104,7 +104,7 @@ protected:
     m_innerScope;
 
 private: //Private members
-    QStringList m_parametersMap;
+    QVariantList m_parametersMap;
     QByteArray m_raw;
     QString m_name, m_typeName;
     QVariant m_value = QByteArray(),

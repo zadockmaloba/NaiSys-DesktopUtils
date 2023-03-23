@@ -33,7 +33,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
             qDebug() << "Executing Function symbol: " << nm;
             if(nm.contains("://")) nm = nm.split("://").at(1);
 
-            QStringList _plist;
+            QVariantList _plist;
             for(auto &_v : temp->second()->declarationMap()) {
                 if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                     try {
@@ -57,7 +57,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         qWarning() << "WARNING: Cannot execute nested function";
                     }
                 }
-                _plist << _v->second()->value().toString();
+                _plist << _v->second()->value();
             }
             //TODO: Make parameters map a variant list
             temp->second()->setParametersMap(_plist);

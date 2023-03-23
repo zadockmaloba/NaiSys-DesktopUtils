@@ -7,7 +7,7 @@
 namespace NaiSys {
 namespace ServerLang {
 
-const QVariant Core::exec(const QString &symbol, const QStringList &args) throw()
+const QVariant Core::exec(const QString &symbol, const QVariantList &args) throw()
 {
     if(auto _mp = CoreFunctions::functionMap(); _mp.find(symbol) != _mp.end()) {
         auto func = _mp[symbol];
@@ -17,7 +17,7 @@ const QVariant Core::exec(const QString &symbol, const QStringList &args) throw(
     return {};
 }
 
-const void Core::define(const QString &symbol, const QStringList &params) throw()
+const void Core::define(const QString &symbol, const QVariantList &params) throw()
 {
 
 }

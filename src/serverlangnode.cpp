@@ -150,12 +150,12 @@ void STNode::setTypeName(const QString &newTypeName)
     m_typeName = newTypeName;
 }
 
-QStringList STNode::parametersMap() const
+QVariantList STNode::parametersMap() const
 {
     return m_parametersMap;
 }
 
-void STNode::setParametersMap(const QStringList &newParametersMap)
+void STNode::setParametersMap(const QVariantList &newParametersMap)
 {
     m_parametersMap = newParametersMap;
 }
