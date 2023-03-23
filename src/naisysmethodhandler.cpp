@@ -26,6 +26,7 @@ const NaiSysHttpResponse MethodHandler::get()
     this->parseUrlParameters();
 
     auto const l = m_parameters.url_destination;
+    StreamIO::println("[[GET]]: %arg", QSTRING_TO_CSTR(l));
 
     ServerLang::parser prs(serverParams().Entry_Script,
                            serverParams().Site_Dir);

@@ -16,15 +16,15 @@ RunTime::RunTime()
 
 }
 
-RunTime::RunTime(const STNode &ast)
+RunTime::RunTime(const STNode::nodeptr &ast)
     : m_BufferAST{ast}
 {
     //m_BufferAST.insert("runtime_symbols", QJsonObject{});
 }
 
-void RunTime::interprate(STNode &ast)
+void RunTime::interprate(const STNode::nodeptr &ast)
 {
-    auto decls  = std::move(ast.declarationMap());
+    auto decls  = ast->declarationMap();
     for( auto &v : decls ) {
         auto temp = v;
         switch (temp->second()->type()) {
@@ -50,7 +50,7 @@ void RunTime::interprate(STNode &ast)
                 else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
                     try {
                         qDebug() << "Value before call: " << _v->second()->value();
-                        interprate(*temp->second());
+                        interprate(temp->second());
                         qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
@@ -82,7 +82,7 @@ void RunTime::interprate(STNode &ast)
                 else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
                     try {
                         qDebug() << "Value before call: " << _v->second()->value();
-                        interprate(*temp->second());
+                        interprate(temp->second());
                         qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
@@ -111,14 +111,16 @@ void RunTime::interprate(STNode &ast)
                 else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
                     try {
                         qDebug() << "Value before call: " << _v->second()->value();
-                        interprate(*temp->second());
+                        interprate(temp->second());
                         qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "WARNING: Cannot execute nested function";
                     }
                 }
-                temp->second()->setValue(_v->second()->value());
+                auto refptr = temp->second()->check_for_declaration(temp->second()->value().toString());
+                refptr->setValue(_v->second()->value());
+                qDebug() << "EXPRESSION VALUE: " << refptr->value();
             }
             break;
         }
@@ -206,10 +208,10 @@ const QMap<QString, std::function<const QVariantMap ()> > &RunTime::hookMap() co
 void RunTime::setHookMap(const QMap<QString, std::function<const QVariantMap ()> > &newHookMap)
 {m_hookMap = newHookMap;}
 
-const STNode &RunTime::BufferAST() const
+const STNode::nodeptr &RunTime::BufferAST() const
 {return m_BufferAST;}
 
-void RunTime::setBufferAST(const STNode &newBufferAST)
+void RunTime::setBufferAST(const STNode::nodeptr &newBufferAST)
 {m_BufferAST = newBufferAST;}
 
 } // namespace ServerLang

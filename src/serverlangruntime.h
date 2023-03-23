@@ -26,19 +26,20 @@ class RunTime
 
 public:
     RunTime();
-    explicit RunTime(const STNode &ast);
+    explicit RunTime(const STNode::nodeptr &ast);
     inline const QVariantMap CHECK_FOR_DECLARATION(const QString &vname, const QVariantMap &scope);
     void start();
     void injectRTDeclarations(const std::map<const QString, const QVariant> &rtDecls);
 
-    const STNode &BufferAST() const;
-    void setBufferAST(const STNode &newBufferAST);
+    const STNode::nodeptr &BufferAST() const;
+    void setBufferAST(const STNode::nodeptr &newBufferAST);
 
     const QMap<QString, std::function<const QVariantMap ()> > &hookMap() const;
     void setHookMap(const QMap<QString, std::function<const QVariantMap ()> > &newHookMap);
 
+    void interprate(const STNode::nodeptr &ast);
+
 private:
-    void interprate(STNode &ast);
     void functionCallsHandler(QVariantMap &fn, QVariantMap &scope);
     void functionDefsHandler(const QVariantMap &fn);
     void variableDefsHandler(QVariantMap &var);
@@ -66,7 +67,7 @@ private:
      QMap<QString, std::function<const QVariantMap ()>> m_hookMap;
      //std::map<QString, std::shared_ptr<DatabaseHandler>> m_databaseMap;
      DatabasePool m_databaseMap;
-     STNode m_BufferAST, m_tmpParentScope;
+     STNode::nodeptr m_BufferAST, m_tmpParentScope;
      QVariantMap::Iterator m_BufferCursor;
      std::shared_ptr<DatabaseHandler> m_dbHandler;
 
