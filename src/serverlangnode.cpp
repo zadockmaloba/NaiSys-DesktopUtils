@@ -6,7 +6,7 @@ namespace ServerLang {
 const STNode::nodeptr STNode::check_for_declaration(const QString &name)
 {
     qDebug() << "Checking for: " << name << " in: " << this->name();
-    if(declarationMap().at(name)){
+    if(declarationMap().has(name)){
         return declarationMap().at(name);
     }
     else if(parentScope().get() != nullptr)
