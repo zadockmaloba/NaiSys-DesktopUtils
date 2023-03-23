@@ -17,12 +17,12 @@
 namespace NaiSys {
 namespace ServerLang {
 
-class parser
+class Parser
 {
 
 public:
-    parser();
-    parser(const QString& entryFileName, const QString& pwd = "");
+    Parser();
+    Parser(const QString& entryFileName, const QString& pwd = "");
 
     void READ();
 

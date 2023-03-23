@@ -5,13 +5,13 @@
 namespace NaiSys {
 namespace ServerLang {
 
-parser::parser()
+Parser::Parser()
     : m_globalAST{ new ServerLang::SyntaxTree }
 {
 
 }
 
-parser::parser(const QString &entryFileName, const QString &pwd)
+Parser::Parser(const QString &entryFileName, const QString &pwd)
     : m_fileName{ entryFileName },
       m_workingDir{ pwd },
       m_globalAST{ new ServerLang::SyntaxTree }
@@ -19,13 +19,13 @@ parser::parser(const QString &entryFileName, const QString &pwd)
 
 }
 
-const QRegularExpression parser::fnmatch = QRegularExpression("\\w+\\([^)]*\\)");
-const QRegularExpression parser::parammatch = QRegularExpression("(?=\")\"[^\"]*\"|[\\w+\\.\\-\\>]*[^\\,\\s\"\\)]");
-const QRegularExpression parser::varmatch = QRegularExpression("var \\w+ \\w+");
-const QRegularExpression parser::importmatch = QRegularExpression("#import\\!\\<[^>]*\\>");
+const QRegularExpression Parser::fnmatch = QRegularExpression("\\w+\\([^)]*\\)");
+const QRegularExpression Parser::parammatch = QRegularExpression("(?=\")\"[^\"]*\"|[\\w+\\.\\-\\>]*[^\\,\\s\"\\)]");
+const QRegularExpression Parser::varmatch = QRegularExpression("var \\w+ \\w+");
+const QRegularExpression Parser::importmatch = QRegularExpression("#import\\!\\<[^>]*\\>");
 //TODO: Create exprssion for code comments.
 
-void parser::READ()
+void Parser::READ()
 {
     QFile f(m_workingDir+m_fileName);
     f.open(QIODevice::ReadOnly);
@@ -42,7 +42,7 @@ void parser::READ()
                           ));
 }
 
-STNode::nodeptr parser::globalAST() const
+STNode::nodeptr Parser::globalAST() const
 {
     return m_globalAST;
 }

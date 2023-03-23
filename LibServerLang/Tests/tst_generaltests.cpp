@@ -4,7 +4,7 @@
 // add necessary includes here
 
 #define PARSE_TEST_FILE(x)\
-    NaiSys::ServerLang::parser prs(x, \
+    NaiSys::ServerLang::Parser prs(x, \
                            "./"); \
     prs.READ();
 
