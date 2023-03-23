@@ -7,7 +7,8 @@
     var test_float : Float = 0.234;
     var test_double : Double = 1.23;
 
-    return:= test_double;
+    $Header = "text/html";
+    $Body = "<h1>Hello World</h1>"
 };
 
 @ /admin {
@@ -16,5 +17,6 @@
     var test_float : Float = 0.234;
     var test_double : Double = 1.23;
 
-    return:= test_float;
+    $Header = "text/html";
+    $Body = "<h1>Hello World</h1>"
 };
