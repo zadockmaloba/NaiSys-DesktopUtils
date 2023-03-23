@@ -55,8 +55,8 @@ public:
         m_lexicalScope.remove(returnexpression_capture);
         //auto const bin_expr = find_regex_match(binexpression_capture, m_lexicalScope);
         //m_lexicalScope.remove(binexpression_capture);
-        auto const field_acc_i = find_regex_match(field_accessor_internal, m_lexicalScope);
-        m_lexicalScope.remove(field_accessor_internal);
+        //auto const field_acc_i = find_regex_match(field_accessor_internal, m_lexicalScope);
+        //m_lexicalScope.remove(field_accessor_internal);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
         m_lexicalScope.remove(function_call);
         auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
@@ -77,7 +77,7 @@ public:
         __MATCH_ITERATOR(var_dcl, Variant);
         __MATCH_ITERATOR(ret_expr, ReturnExpression);
         //__MATCH_ITERATOR(bin_expr, BinaryExpression);
-        __MATCH_ITERATOR(field_acc_i, Variant);//TODO
+        //__MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(var_id, VariableExpression);
         __MATCH_ITERATOR(string_literals, Literal);
