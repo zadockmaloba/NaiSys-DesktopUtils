@@ -33,10 +33,6 @@ private slots:
     void onChannelBytesWritten(int channel, qint64 bytes);
     void onChannelReadyRead(int channel);
     void onReadChannelFinished();
-    void onReadyRead();
-    //AbstractSocket signals
-    void onConnected();
-    void onDisconnected();
     void onErrorOccurred(QAbstractSocket::SocketError socketError);
     void onHostFound();
     void onProxyAuthenticationRequired(const QNetworkProxy &proxy, QAuthenticator *authenticator);
