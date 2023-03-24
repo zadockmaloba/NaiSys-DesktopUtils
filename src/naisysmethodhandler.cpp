@@ -47,8 +47,8 @@ const NaiSysHttpResponse MethodHandler::get()
         auto const _hdr = sc->declarationMap().at("Header");
         auto const _bdy = sc->declarationMap().at("Body");
 
-        qDebug() << "Content-Type: " << _hdr->value();
-        qDebug() << "Body: " << _bdy->value();
+        //qDebug() << "Content-Type: " << _hdr->value();
+        //qDebug() << "Body: " << _bdy->value();
 
         NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value().toByteArray());
         //postResp.appendRawHeader("Connection", "keep-alive");
@@ -66,8 +66,8 @@ const NaiSysHttpResponse MethodHandler::get()
         auto const _hdr = sc->declarationMap().at("Header");
         auto const _bdy = sc->declarationMap().at("Body");
 
-        qDebug() << "Content-Type: " << _hdr->value();
-        qDebug() << "Body: " << _bdy->value();
+        //qDebug() << "Content-Type: " << _hdr->value();
+        //qDebug() << "Body: " << _bdy->value();
 
         NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value().toByteArray());
         //postResp.appendRawHeader("Connection", "keep-alive");

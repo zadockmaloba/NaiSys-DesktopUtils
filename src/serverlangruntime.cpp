@@ -41,7 +41,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         auto ptr = _var->check_for_declaration(_var->value().toString());
                         auto const refval = QVariant::fromValue(ptr->value());
                         _v->second()->setValue(refval);
-                        qDebug() << "Referenced value: " << _v->second()->value();
+                        //qDebug() << "Referenced value: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "Unable to get reference value";
@@ -49,9 +49,9 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 }
                 else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
                     try {
-                        qDebug() << "Value before call: " << _v->second()->value();
+                        //qDebug() << "Value before call: " << _v->second()->value();
                         interprate(temp->second());
-                        qDebug() << "Value after call: " << _v->second()->value();
+                        //qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "WARNING: Cannot execute nested function";
@@ -73,7 +73,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         auto ptr = _var->check_for_declaration(_var->value().toString());
                         auto const refval = QVariant::fromValue(ptr->value());
                         _v->second()->setValue(refval);
-                        qDebug() << "Referenced value: " << _v->second()->value();
+                        //qDebug() << "Referenced value: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "Unable to get reference value";
@@ -81,9 +81,9 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 }
                 else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
                     try {
-                        qDebug() << "Value before call: " << _v->second()->value();
+                        //qDebug() << "Value before call: " << _v->second()->value();
                         interprate(temp->second());
-                        qDebug() << "Value after call: " << _v->second()->value();
+                        //qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "WARNING: Cannot execute nested function";
@@ -102,7 +102,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         auto ptr = _var->check_for_declaration(_var->value().toString());
                         auto const refval = QVariant::fromValue(ptr->value());
                         _v->second()->setValue(refval);
-                        qDebug() << "Referenced value: " << _v->second()->value();
+                        //qDebug() << "Referenced value: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "Unable to get reference value";
@@ -110,9 +110,9 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 }
                 else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
                     try {
-                        qDebug() << "Value before call: " << _v->second()->value();
+                        //qDebug() << "Value before call: " << _v->second()->value();
                         interprate(temp->second());
-                        qDebug() << "Value after call: " << _v->second()->value();
+                        //qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "WARNING: Cannot execute nested function";
@@ -120,7 +120,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 }
                 auto refptr = temp->second()->check_for_declaration(temp->second()->value().toString());
                 refptr->setValue(_v->second()->value());
-                qDebug() << "EXPRESSION VALUE: " << refptr->value();
+                //qDebug() << "EXPRESSION VALUE: " << refptr->value();
             }
             break;
         }
