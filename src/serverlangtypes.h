@@ -38,32 +38,32 @@ struct I16 : STNode
                      });
     }
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setValue(operand()->value().toInt());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setValue(operand()->value());
         return {};
     };
-    const ast_operator add = [this]()mutable->QVariant{
-        auto const lhs = this->value().toInt();
-        auto const rhs = this->operand()->value().toInt();
-        this->setReturnval(lhs+rhs);
+    const ast_operator add = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toInt();
+        auto const rhs = this->operand()->value()->toInt();
+        this->setReturnval(value_ptr{new QVariant(lhs+rhs)});
         return {};
     };
-    const ast_operator sub = [this]()mutable->QVariant{
-        auto const lhs = this->value().toInt();
-        auto const rhs = this->operand()->value().toInt();
-        this->setReturnval(lhs-rhs);
+    const ast_operator sub = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toInt();
+        auto const rhs = this->operand()->value()->toInt();
+        this->setReturnval(value_ptr{new QVariant(lhs-rhs)});
         return {};
     };
-    const ast_operator mul = [this]()mutable->QVariant{
-        auto const lhs = this->value().toInt();
-        auto const rhs = this->operand()->value().toInt();
-        this->setReturnval(lhs*rhs);
+    const ast_operator mul = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toInt();
+        auto const rhs = this->operand()->value()->toInt();
+        this->setReturnval(value_ptr{new QVariant(lhs*rhs)});
         return {};
     };
-    const ast_operator div = [this]()mutable->QVariant{
-        auto const lhs = this->value().toInt();
-        auto const rhs = this->operand()->value().toInt();
-        this->setReturnval(lhs/rhs);
+    const ast_operator div = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toInt();
+        auto const rhs = this->operand()->value()->toInt();
+        this->setReturnval(value_ptr{new QVariant(lhs/rhs)});
         return {};
     };
 };
@@ -84,32 +84,32 @@ struct Double : STNode
                      });
     }
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setValue(operand()->value().toDouble());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setValue(operand()->value());
         return {};
     };
-    const ast_operator add = [this]()mutable->QVariant{
-        auto const lhs = this->value().toDouble();
-        auto const rhs = this->operand()->value().toDouble();
-        this->setReturnval(lhs+rhs);
+    const ast_operator add = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toDouble();
+        auto const rhs = this->operand()->value()->toDouble();
+        this->setReturnval(value_ptr{new QVariant(lhs+rhs)});
         return {};
     };
-    const ast_operator sub = [this]()mutable->QVariant{
-        auto const lhs = this->value().toDouble();
-        auto const rhs = this->operand()->value().toDouble();
-        this->setReturnval(lhs-rhs);
+    const ast_operator sub = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toDouble();
+        auto const rhs = this->operand()->value()->toDouble();
+        this->setReturnval(value_ptr{new QVariant(lhs-rhs)});
         return {};
     };
-    const ast_operator mul = [this]()mutable->QVariant{
-        auto const lhs = this->value().toDouble();
-        auto const rhs = this->operand()->value().toDouble();
-        this->setReturnval(lhs*rhs);
+    const ast_operator mul = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toDouble();
+        auto const rhs = this->operand()->value()->toDouble();
+        this->setReturnval(value_ptr{new QVariant(lhs*rhs)});
         return {};
     };
-    const ast_operator div = [this]()mutable->QVariant{
-        auto const lhs = this->value().toDouble();
-        auto const rhs = this->operand()->value().toDouble();
-        this->setReturnval(lhs/rhs);
+    const ast_operator div = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toDouble();
+        auto const rhs = this->operand()->value()->toDouble();
+        this->setReturnval(value_ptr{new QVariant(lhs/rhs)});
         return {};
     };
 };
@@ -130,32 +130,32 @@ struct Float : STNode
                      });
     }
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setValue(operand()->value().toFloat());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setValue(operand()->value());
         return {};
     };
-    const ast_operator add = [this]()mutable->QVariant{
-        auto const lhs = this->value().toFloat();
-        auto const rhs = this->operand()->value().toFloat();
-        this->setReturnval(lhs+rhs);
+    const ast_operator add = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toFloat();
+        auto const rhs = this->operand()->value()->toFloat();
+        this->setReturnval(value_ptr{new QVariant(lhs+rhs)});
         return {};
     };
-    const ast_operator sub = [this]()mutable->QVariant{
-        auto const lhs = this->value().toFloat();
-        auto const rhs = this->operand()->value().toFloat();
-        this->setReturnval(lhs-rhs);
+    const ast_operator sub = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toFloat();
+        auto const rhs = this->operand()->value()->toFloat();
+        this->setReturnval(value_ptr{new QVariant(lhs-rhs)});
         return {};
     };
-    const ast_operator mul = [this]()mutable->QVariant{
-        auto const lhs = this->value().toFloat();
-        auto const rhs = this->operand()->value().toFloat();
-        this->setReturnval(lhs*rhs);
+    const ast_operator mul = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toFloat();
+        auto const rhs = this->operand()->value()->toFloat();
+        this->setReturnval(value_ptr{new QVariant(lhs*rhs)});
         return {};
     };
-    const ast_operator div = [this]()mutable->QVariant{
-        auto const lhs = this->value().toFloat();
-        auto const rhs = this->operand()->value().toFloat();
-        this->setReturnval(lhs/rhs);
+    const ast_operator div = [this]()mutable->value_ptr{
+        auto const lhs = this->value()->toFloat();
+        auto const rhs = this->operand()->value()->toFloat();
+        this->setReturnval(value_ptr{new QVariant(lhs/rhs)});
         return {};
     };
 };
@@ -173,12 +173,13 @@ struct ByteArray : STNode
                        });
     }
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setValue(operand()->value().toByteArray());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setValue(operand()->value());
         return {};
     };
-    const ast_operator concat = [this]()mutable->QVariant{
-        this->setValue(value().toByteArray()+operand()->value().toByteArray());
+    const ast_operator concat = [this]()mutable->value_ptr{
+        this->setValue(value_ptr{new QVariant(value()->toByteArray()
+                                 +operand()->value()->toByteArray())});
         return {};
     };
 };
@@ -196,12 +197,13 @@ struct String : STNode
                        });
     }
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setReturnval(operand()->value().toString());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setReturnval(operand()->value());
         return {};
     };
-    const ast_operator concat = [this]()mutable->QVariant{
-        this->setReturnval(value().toString()+operand()->value().toString());
+    const ast_operator concat = [this]()mutable->value_ptr{
+        this->setReturnval(value_ptr{ new QVariant(value()->toString()
+                                      +operand()->value()->toString())});
         return {};
     };
 };
@@ -254,12 +256,13 @@ private:
     QString m_inferredTypeName;
 
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setReturnval(operand()->value().toString());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setReturnval(operand()->value());
         return {};
     };
-    const ast_operator concat = [this]()mutable->QVariant{
-        this->setReturnval(value().toString()+operand()->value().toString());
+    const ast_operator concat = [this]()mutable->value_ptr{
+        this->setReturnval(value_ptr{ new QVariant(value()->toString()
+                                      +operand()->value()->toString())});
         return {};
     };
 };
@@ -289,16 +292,16 @@ private://members
     QJsonObject m_data;
 
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setValue(operand()->value().toString());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setValue(operand()->value());
         return {};
     };
-    const ast_operator access = [this]()mutable->QVariant{
-        this->setReturnval(checkFor(operand()->name()));
+    const ast_operator access = [this]()mutable->value_ptr{
+        this->setReturnval(value_ptr{ new QVariant(checkFor(operand()->name()))});
         return {};
     };
-    const ast_operator insert = [this]()mutable->QVariant{
-        m_data.insert(operand()->name(), operand()->value().toString());
+    const ast_operator insert = [this]()mutable->value_ptr{
+        m_data.insert(operand()->name(), operand()->value()->toString());
         return {};
     };
 };
@@ -316,12 +319,12 @@ struct Class : STNode
                        });
     }
 private:
-    const ast_operator assign = [this]()mutable->QVariant{
-        this->setValue(operand()->value().toString());
+    const ast_operator assign = [this]()mutable->value_ptr{
+        this->setValue(operand()->value());
         return {};
     };
-    const ast_operator access = [this]()mutable->QVariant{
-        this->setReturnval(operand()->name());
+    const ast_operator access = [this]()mutable->value_ptr{
+        this->setReturnval(value_ptr{ new QVariant(operand()->name())});
         return {};
     };
 };

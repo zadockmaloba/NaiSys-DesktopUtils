@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QVariant>
 
 namespace NaiSys {
 namespace ServerLang {
@@ -42,7 +43,8 @@ private:
     Core() = default;
 
 public:
-    static const QVariant exec(const QString &symbol, const QVariantList &args = {}) throw();
+    static const std::shared_ptr<QVariant>
+    exec(const QString &symbol, const QVariantList &args = {}) throw();
     static const void define(const QString &symbol, const QVariantList &params = {}) throw();
 };
 

@@ -43,12 +43,12 @@ void STNode::setParentScope(const nodeptr &newParentScope)
     m_parentScope = newParentScope;
 }
 
-QVariant STNode::value() const
+value_ptr STNode::value() const
 {
     return m_value;
 }
 
-void STNode::setValue(const QVariant &newValue)
+void STNode::setValue(const value_ptr &newValue)
 {
     m_value = newValue;
 }
@@ -107,12 +107,12 @@ void STNode::setOperand(const nodeptr &newOperand)
     m_operand = newOperand;
 }
 
-QVariant STNode::returnval() const
+value_ptr STNode::returnval() const
 {
     return m_returnval;
 }
 
-void STNode::setReturnval(const QVariant &newReturnval)
+void STNode::setReturnval(const value_ptr &newReturnval)
 {
     m_returnval = newReturnval;
 }

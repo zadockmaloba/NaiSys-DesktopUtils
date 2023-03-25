@@ -38,8 +38,8 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                     try {
                         auto const _var = _v->second();
-                        auto ptr = _var->check_for_declaration(_var->value().toString());
-                        auto const refval = QVariant::fromValue(ptr->value());
+                        auto ptr = _var->check_for_declaration(_var->value()->toString());
+                        auto refval = ptr->value();
                         _v->second()->setValue(refval);
                         //qDebug() << "Referenced value: " << _v->second()->value();
                     }
@@ -57,7 +57,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         qWarning() << "WARNING: Cannot execute nested function";
                     }
                 }
-                _plist << _v->second()->value();
+                _plist << *_v->second()->value();
             }
             //TODO: Make parameters map a variant list
             temp->second()->setParametersMap(_plist);
@@ -70,8 +70,8 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                     try {
                         auto const _var = _v->second();
-                        auto ptr = _var->check_for_declaration(_var->value().toString());
-                        auto const refval = QVariant::fromValue(ptr->value());
+                        auto ptr = _var->check_for_declaration(_var->value()->toString());
+                        auto const refval = ptr->value();
                         _v->second()->setValue(refval);
                         //qDebug() << "Referenced value: " << _v->second()->value();
                     }
@@ -99,8 +99,8 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                 if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                     try {
                         auto const _var = _v->second();
-                        auto ptr = _var->check_for_declaration(_var->value().toString());
-                        auto const refval = QVariant::fromValue(ptr->value());
+                        auto ptr = _var->check_for_declaration(_var->value()->toString());
+                        auto const refval = ptr->value();
                         _v->second()->setValue(refval);
                         //qDebug() << "Referenced value: " << _v->second()->value();
                     }
@@ -118,7 +118,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         qWarning() << "WARNING: Cannot execute nested function";
                     }
                 }
-                auto refptr = temp->second()->check_for_declaration(temp->second()->value().toString());
+                auto refptr = temp->second()->check_for_declaration(temp->second()->value()->toString());
                 refptr->setValue(_v->second()->value());
                 //qDebug() << "EXPRESSION VALUE: " << refptr->value();
             }
@@ -132,7 +132,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
         }
 
         case NodeType::PY_SCOPE:
-            LibPython::execute_string(temp->second()->value().toString().toStdString().c_str());
+            LibPython::execute_string(temp->second()->value()->toString().toStdString().c_str());
             break;
         default:
             break;

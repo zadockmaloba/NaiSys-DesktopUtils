@@ -37,7 +37,8 @@ enum class NodeType {
     VARIABLE_EXPRESSION
 };
 
-using ast_operator = std::function<QVariant ()>;
+using value_ptr = std::shared_ptr<QVariant>;
+using ast_operator = std::function<value_ptr ()>;
 using operatorscope = QMap<const QString, ast_operator>;
 
 
@@ -63,8 +64,8 @@ public: //GETTERS AND SETTERS
     nodeptr parentScope() const;
     void setParentScope(const nodeptr &newParentScope);
 
-    QVariant value() const;
-    void setValue(const QVariant &newValue);
+    value_ptr value() const;
+    void setValue(const value_ptr &newValue);
 
     nodeptr innerScope() const;
     void setInnerScope(const nodeptr &newInnerScope);
@@ -81,8 +82,8 @@ public: //GETTERS AND SETTERS
     nodeptr operand() const;
     void setOperand(const nodeptr &newOperand);
 
-    QVariant returnval() const;
-    void setReturnval(const QVariant &newReturnval);
+    value_ptr returnval() const;
+    void setReturnval(const value_ptr &newReturnval);
 
     QByteArray raw() const;
     void setRaw(const QByteArray &newRaw);
@@ -107,8 +108,8 @@ private: //Private members
     QVariantList m_parametersMap;
     QByteArray m_raw;
     QString m_name, m_typeName;
-    QVariant m_value = QByteArray(),
-    m_returnval = QByteArray();
+    value_ptr m_value = value_ptr{new QVariant},
+    m_returnval = value_ptr{new QVariant};
     NodeType m_type;
 };
 

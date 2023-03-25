@@ -105,7 +105,7 @@ private://methods
             auto temp = QString(node->raw());
             auto const _body = scope_capture
                     .match(temp).captured().remove(0, 1).chopped(1);
-            node->setValue(_body);
+            node->setValue(std::make_shared<QVariant>(_body));
             node->setName(QString::number(arc4random())+"://Python::Scope");
             break;
         }
@@ -115,9 +115,9 @@ private://methods
             if(temp.startsWith("\"") && temp.endsWith("\"")) {
                 temp.remove(0,1);
                 temp.chop(1);
-                node->setValue(temp);
+                node->setValue(std::make_shared<QVariant>(temp));
             } else {
-                node->setValue(node->raw().toDouble());
+                node->setValue(std::make_shared<QVariant>(node->raw()));
             }
             break;
         }
@@ -173,7 +173,10 @@ private://methods
             auto const _name = temp.remove("struct ")
                     .remove("=").remove(";").trimmed();
             node->setName(_name);
-            node->setValue(QJsonDocument::fromJson(_body.toUtf8()).object());
+            node->setValue(
+                        std::make_shared<QVariant>(
+                        QJsonDocument::fromJson(_body.toUtf8()).object())
+                        );
             break;
         }
         case NodeType::FUNCTION: {
@@ -220,7 +223,7 @@ private://methods
                     .remove("=").remove(";").trimmed();
             auto spec = _name.split(":");
             node->setName(spec.at(0).trimmed());
-            node->setValue(_body);
+            node->setValue(std::make_shared<QVariant>(_body));
 
             spec.size() >= 2 ? node->setTypeName("Array::"+spec.at(1).trimmed()) :
                                node->setTypeName("Array::Variant");
@@ -265,7 +268,7 @@ private://methods
                     .trimmed();
             auto spec = _name.split(":");
             node->setName(spec.at(0).trimmed());
-            node->setValue(_body);
+            node->setValue(std::make_shared<QVariant>(_body));
             if(spec.size() >= 2)
             {
                 node->setTypeName(spec.at(1).trimmed());
@@ -289,7 +292,7 @@ private://methods
                         temp.split("=").at(1) : "";
 
             node->setName(QString::number(arc4random())+"://"+_name);
-            node->setValue(_name);
+            node->setValue(std::make_shared<QVariant>(_name));
 
             auto const decls = analyze(_body);
             qDebug() << "VARIANT_RAW_DATA: "<< _body;
@@ -311,8 +314,8 @@ private://methods
             for(auto &v : decls) {
                 v->setParentScope(node);
                 node->add_declaration(v);
-                _params << v->value();
-                qDebug() << "PARAMETER_VAL: " << v->value().toString();
+                _params << *v->value();
+                qDebug() << "PARAMETER_VAL: " << v->value()->toString();
             }
             node->setParametersMap(_params);
             qDebug() << "Arguments: " << node->parametersMap();

@@ -43,7 +43,7 @@ private://registers
 inline QVariantList CoreFunctions::args_reg = {};
 inline QVariantList CoreFunctions::params_reg = {};
 
-inline const ast_operator CoreFunctions::exec_cmd = []()mutable->QVariant
+inline const ast_operator CoreFunctions::exec_cmd = []()mutable->value_ptr
 {
     Function func;
     func.setArguments({"exec", "args"});
@@ -57,10 +57,12 @@ inline const ast_operator CoreFunctions::exec_cmd = []()mutable->QVariant
         tmpList << v.toString();
     });
 
-    return QProcess::execute(func.parameters().at(0).toString(), tmpList);
+    return std::make_shared<QVariant>(
+                QProcess::execute(func.parameters().at(0).toString(), tmpList)
+                );
 };
 
-inline const ast_operator CoreFunctions::println = []()mutable->QVariant
+inline const ast_operator CoreFunctions::println = []()mutable->value_ptr
 {
     Function func;
     func.setArguments({"fmt", "args"});
@@ -81,11 +83,13 @@ inline const ast_operator CoreFunctions::println = []()mutable->QVariant
         fmt.replace("%{"+QString::number(i)+"}", tmpList.at(i));
     }
 
-    return (int)StreamIO::println(QSTRING_TO_CSTR(fmt));
+    return std::make_shared<QVariant>(
+                (int)StreamIO::println(QSTRING_TO_CSTR(fmt))
+                );
 
 };
 
-inline const ast_operator CoreFunctions::readfile = []()mutable->QVariant
+inline const ast_operator CoreFunctions::readfile = []()mutable->value_ptr
 {
     Function func;
     func.setArguments({"file", "args"});
@@ -99,10 +103,10 @@ inline const ast_operator CoreFunctions::readfile = []()mutable->QVariant
     m_file.open(QIODevice::ReadOnly);
     auto const ret = m_file.read(m_file.bytesAvailable());
     m_file.close();
-    return ret;
+    return std::make_shared<QVariant>(ret);
 };
 
-inline const ast_operator CoreFunctions::writefile = []()mutable->QVariant
+inline const ast_operator CoreFunctions::writefile = []()mutable->value_ptr
 {
     return {};
 };

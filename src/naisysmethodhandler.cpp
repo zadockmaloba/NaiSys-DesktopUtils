@@ -50,10 +50,10 @@ const NaiSysHttpResponse MethodHandler::get()
         //qDebug() << "Content-Type: " << _hdr->value();
         //qDebug() << "Body: " << _bdy->value();
 
-        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value().toByteArray());
+        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value()->toByteArray());
         //postResp.appendRawHeader("Connection", "keep-alive");
         postResp.appendDefinedHeader(DefinedHeaders::ContentType,
-                                     _hdr->value().toByteArray());
+                                     _hdr->value()->toByteArray());
         postResp.appendDefinedHeader(DefinedHeaders::ContentLength,
                                      QByteArray::number(postResp.body().size()));
 
@@ -69,10 +69,10 @@ const NaiSysHttpResponse MethodHandler::get()
         //qDebug() << "Content-Type: " << _hdr->value();
         //qDebug() << "Body: " << _bdy->value();
 
-        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value().toByteArray());
+        NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value()->toByteArray());
         //postResp.appendRawHeader("Connection", "keep-alive");
         postResp.appendDefinedHeader(DefinedHeaders::ContentType,
-                                     _hdr->value().toByteArray());
+                                     _hdr->value()->toByteArray());
         postResp.appendDefinedHeader(DefinedHeaders::ContentLength,
                                      QByteArray::number(postResp.body().size()));
 
