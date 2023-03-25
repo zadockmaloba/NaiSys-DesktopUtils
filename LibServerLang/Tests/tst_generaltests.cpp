@@ -45,6 +45,14 @@ private slots:
     {
         PARSE_TEST_FILE("test7.nsl")
     }
+    void python_scope()
+    {
+        PARSE_TEST_FILE("test8.nsl")
+    }
+    void variable_ref()
+    {
+        PARSE_TEST_FILE("test9.nsl")
+    }
 
 };
 

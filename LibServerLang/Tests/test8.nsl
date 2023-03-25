@@ -1,17 +1,13 @@
 //NAISYS SERVER LANGUAGE
 //**********************
-//MATCH STATEMENT TEST
+//PYTHON SCOPE TEST
 
-var string example = "b"
+//Python scope
+!py{
 
-call Core::Println : "========================="
-match (example)
-{
-    case "a" => call Core::Println : "FIRST LETTER"
-    case "b" => call Core::Println : "SECOND LETTER"
-    case "c" => call Core::Println : "THIRD LETTER"
-    case default => call Core::Println : "Could not match value"
-}
+def test_function():
+	print("Running a python scope")
 
-call Core::Println : "=========================!!!"
-call Core::Println : "========================="
+test_function()
+
+}();!
