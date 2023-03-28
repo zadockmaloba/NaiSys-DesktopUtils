@@ -242,6 +242,20 @@ void DatabaseHandler::updateDbTables()
     m_dbHandle.close();
 }
 
+DatabaseHandler::ConnectionStrct
+DatabaseHandler::jsonToConnectionStruct(const QJsonObject &obj) const
+{
+    ConnectionStrct tmp;
+    tmp.db_type = obj.value("db_type").toString();
+    tmp.db_name = obj.value("db_name").toString();
+    tmp.db_host = obj.value("db_host").toString();
+    tmp.db_port = obj.value("db_port").toInt();
+    tmp.db_user = obj.value("db_user").toString();
+    tmp.db_password = obj.value("db_password").toString();
+
+    return tmp;
+}
+
 const QStringList &DatabaseHandler::dbTables() const
 {return m_dbTables;}
 

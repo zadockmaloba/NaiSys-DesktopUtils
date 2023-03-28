@@ -85,6 +85,7 @@ private://methods
     bool openDatabaseSocket();
     bool closeDatabaseSocket();
     inline void updateDbTables();
+    ConnectionStrct jsonToConnectionStruct(const QJsonObject &obj) const;
 
 private://members
     bool m_readFromConfig = true;
