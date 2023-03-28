@@ -4,3 +4,6 @@
 [submodule "thirdparty/src/cpython"]
 	path = thirdparty/src/cpython
 	url = https://github.com/zadockmaloba/cpython
+[submodule "thirdparty/src/postgres"]
+	path = thirdparty/src/postgres
+	url = https://github.com/zadockmaloba/postgres
