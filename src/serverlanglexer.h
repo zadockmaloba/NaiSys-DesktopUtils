@@ -359,7 +359,7 @@ inline const QRegularExpression Lexer::hook_decl =
 inline const QRegularExpression Lexer::function_decl =
         QRegularExpression{"def\\s+\\w+\\s*\\([\\s\\S]*?\\)*\\s*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::function_call =
-        QRegularExpression{"(\\w+\\:\\:)*\\w+\\s*\\([\\s\\S]*?\\)"};
+        QRegularExpression{"(\\w+\\:\\:)*\\w+\\s*\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\)"};
 inline const QRegularExpression Lexer::class_decl =
         QRegularExpression{"class\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;"};
 inline const QRegularExpression Lexer::class_decl_inner =
