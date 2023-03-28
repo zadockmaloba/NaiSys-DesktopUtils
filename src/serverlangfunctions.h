@@ -3,6 +3,7 @@
 
 #include "serverlangtypes.h"
 #include "streamio.h"
+#include "databasehandler.h"
 
 #include <QProcess>
 #include <QFile>
@@ -33,6 +34,9 @@ private://private members
     static const ast_operator writefile;
     static const ast_operator stringreplace;
     static const ast_operator stringconcat;
+    static const ast_operator dbopen;
+    static const ast_operator dbexec;
+    static const ast_operator dbclose;
 
 private://registers
     static QVariantList args_reg, params_reg;
@@ -108,7 +112,96 @@ inline const ast_operator CoreFunctions::readfile = []()mutable->value_ptr
 
 inline const ast_operator CoreFunctions::writefile = []()mutable->value_ptr
 {
-    return {};
+    Function func;
+    func.setArguments({"file", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    if(!(params_reg.size() == 2)) {
+        throw "[Core::FileWrite]: Invalid number of args; expected 2.";
+        return {};
+    }
+    QFile m_file(params_reg.at(0).toString());
+    m_file.open(QIODevice::WriteOnly);
+    auto const ret = m_file.write(params_reg.at(1).toByteArray());
+    m_file.close();
+    return std::make_shared<QVariant>(ret);
+};
+
+inline const ast_operator CoreFunctions::dbopen = []()mutable->value_ptr
+{
+    Function func;
+    func.setArguments({"file", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    if(!(params_reg.size() == 1)) {
+        throw "[Core::Db::Open]: Invalid number of args; expected 1.";
+        return {};
+    }
+    auto const ret = QVariant::fromValue(
+                new DatabaseHandler(params_reg.at(0).toJsonObject())
+                );
+    return std::make_shared<QVariant>(ret);
+};
+
+inline const ast_operator CoreFunctions::dbexec = []()mutable->value_ptr
+{
+    Function func;
+    func.setArguments({"file", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    if(!(params_reg.size() >= 2)) {
+        throw "[Core::Db::Open]: Invalid number of args; expected 2.";
+        return {};
+    }
+
+    auto dbHandle = func.parameters().at(0).value<DatabaseHandler *>();
+    if(dbHandle == nullptr) {
+        qWarning() << "[SERVERLANG]: Calling uninitialized reference [DB]";
+        return {};
+    }
+
+    auto fmt = func.parameters().at(1).toString();
+
+    auto user_args = func.parameters();
+    user_args.remove(0, 2);
+
+    QStringList tmpList;
+    std::for_each(user_args.begin(), user_args.end(),
+                  [tmpList](const QVariant &v)mutable{
+        tmpList << v.toString();
+    });
+
+    for(int i=0; i<user_args.size(); ++i) {
+        fmt.replace("%{"+QString::number(i)+"}", tmpList.at(i));
+    }
+
+    auto ret = dbHandle->json_runSqlQuerry(fmt);
+
+    return std::make_shared<QVariant>(ret);
+};
+
+inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
+{
+    Function func;
+    func.setArguments({"file", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    if(!(params_reg.size() == 1)) {
+        throw "[Core::Db::Open]: Invalid number of args; expected 1.";
+        return {};
+    }
+
+    auto dbHandle = func.parameters().at(0).value<DatabaseHandler *>();
+    if(dbHandle == nullptr) {
+        qWarning() << "[SERVERLANG]: Calling uninitialized reference [DB]";
+        return {};
+    }
+
+    qDebug() << "[SERVERLANG]: Freeing DB object: " << dbHandle;
+
+    delete dbHandle;
+
+    return std::make_shared<QVariant>(true);
 };
 
 inline const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
@@ -116,7 +209,10 @@ inline const std::map<const QString, const ast_operator> CoreFunctions::m_functi
     {"Core::Exec"     , exec_cmd},
     {"Core::Println"  , println},
     {"Core::FileRead" , readfile},
-    {"Core::FileWrite", writefile}
+    {"Core::FileWrite", writefile},
+    {"Core::Db::Open" , dbopen},
+    {"Core::Db::Exec"  , dbexec},
+    {"Core::Db::Close", dbclose}
 };
 
 }
