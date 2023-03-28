@@ -77,6 +77,31 @@ DatabaseHandler::DatabaseHandler(const ConnectionStrct &conn, QObject *parent)
     this->updateDbTables();
 }
 
+DatabaseHandler::DatabaseHandler(const QJsonObject &conn, QObject *parent)
+    : QObject{parent},
+      m_dbConnectionName{QString::number(rand())}
+{
+    auto const _conn = jsonToConnectionStruct(conn);
+    m_dbName = _conn.db_name;
+    m_dbType = _conn.db_type;
+
+    this->m_dbHandle = QSqlDatabase::addDatabase(m_dbType, m_dbConnectionName);
+    if(m_dbType == "QPSQL" || m_dbType == "QMYSQL"){
+        this->m_dbHandle.setHostName(_conn.db_host);
+        qDebug() << "[DBHOST] :: " << m_dbHandle.hostName();
+        this->m_dbHandle.setPort(_conn.db_port);
+        qDebug() << "[DBPORT] :: " << m_dbHandle.port();
+        this->m_dbHandle.setUserName(_conn.db_user);
+        qDebug() << "[DBUSER] :: " << m_dbHandle.userName();
+        this->m_dbHandle.setPassword(_conn.db_password);
+        qDebug() << "[DBPASSWORD] :: " << m_dbHandle.password();
+    }
+
+    this->m_dbHandle.setDatabaseName(m_dbName);
+    StreamIO::println("[DATABASE_INIT] DB Name : %arg", QSTRING_TO_CSTR(m_dbName));
+    this->updateDbTables();
+}
+
 void DatabaseHandler::initialiseDb()
 {
     this->m_dbHandle = QSqlDatabase::addDatabase("QSQLITE", m_dbConnectionName);

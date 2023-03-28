@@ -61,6 +61,7 @@ public:
     DatabaseHandler(const QSqlDatabase &dbH, QObject *parent = nullptr);
     DatabaseHandler(const QString &connectionName, const QString &databaseName, const QString &dbType = "QSQLITE", QObject *parent = nullptr);
     DatabaseHandler(const ConnectionStrct &conn, QObject *parent = nullptr);
+    DatabaseHandler(const QJsonObject &conn, QObject *parent = nullptr);
     void initialiseDb();
     void reConnectDb();
     Q_INVOKABLE bool createAndOrInsertRowToTable(const QString &tableName, const QJsonObject &data);
