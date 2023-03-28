@@ -265,7 +265,7 @@ const QString &DatabaseHandler::dbType() const
 void DatabaseHandler::setDbType(const QString &newDbType)
 {m_dbType = newDbType;}
 
-inline QSqlQueryModel *DatabaseHandler::runSqlQuerry(const QString &querry)
+QSqlQueryModel *DatabaseHandler::runSqlQuerry(const QString &querry)
 {
     this->openDatabaseSocket();
     auto m_model = new QSqlQueryModel; //TODO: Fix leak
