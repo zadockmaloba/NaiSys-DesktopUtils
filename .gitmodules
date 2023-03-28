@@ -7,3 +7,6 @@
 [submodule "thirdparty/src/postgres"]
 	path = thirdparty/src/postgres
 	url = https://github.com/zadockmaloba/postgres
+[submodule "thirdparty/src/sqlite"]
+	path = thirdparty/src/sqlite
+	url = https://github.com/zadockmaloba/sqlite
