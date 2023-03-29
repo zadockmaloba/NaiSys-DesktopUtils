@@ -29,7 +29,7 @@ public:
     explicit RunTime(const STNode::nodeptr &ast);
     inline const QVariantMap CHECK_FOR_DECLARATION(const QString &vname, const QVariantMap &scope);
     void start();
-    void injectRTDeclarations(const std::map<const QString, const QVariant> &rtDecls);
+    void injectRTDeclarations(const std::vector<STNode::nodeptr> &rtDecls);
 
     const STNode::nodeptr &BufferAST() const;
     void setBufferAST(const STNode::nodeptr &newBufferAST);

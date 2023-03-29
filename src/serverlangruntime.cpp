@@ -152,9 +152,12 @@ void RunTime::start()
     interprate(m_BufferAST);
 }
 
-void RunTime::injectRTDeclarations(const std::map<const QString, const QVariant> &rtDecls)
+void RunTime::injectRTDeclarations(const std::vector<STNode::nodeptr> &rtDecls)
 {
-
+    for(auto &v: rtDecls) {
+        v->setParentScope(m_BufferAST);
+        m_BufferAST->add_declaration(v);
+    }
 }
 
 void RunTime::functionCallsHandler(QVariantMap &fn, QVariantMap &scope)
