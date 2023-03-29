@@ -100,7 +100,7 @@ inline const ast_operator CoreFunctions::readfile = []()mutable->value_ptr
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
-        throw "[Core::FileRead]: Invalid number of args; expected 1.";
+        //throw "[Core::FileRead]: Invalid number of args; expected 1.";
         return {};
     }
     QFile m_file(params_reg.at(0).toString());
@@ -117,7 +117,7 @@ inline const ast_operator CoreFunctions::writefile = []()mutable->value_ptr
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 2)) {
-        throw "[Core::FileWrite]: Invalid number of args; expected 2.";
+        //throw "[Core::FileWrite]: Invalid number of args; expected 2.";
         return {};
     }
     QFile m_file(params_reg.at(0).toString());
@@ -134,7 +134,7 @@ inline const ast_operator CoreFunctions::dbopen = []()mutable->value_ptr
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
-        throw "[Core::Db::Open]: Invalid number of args; expected 1.";
+        //throw "[Core::Db::Open]: Invalid number of args; expected 1.";
         return {};
     }
     auto const ret = QVariant::fromValue(
@@ -150,7 +150,7 @@ inline const ast_operator CoreFunctions::dbexec = []()mutable->value_ptr
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() >= 2)) {
-        throw "[Core::Db::Open]: Invalid number of args; expected 2.";
+        //throw "[Core::Db::Open]: Invalid number of args; expected 2.";
         return {};
     }
 
@@ -187,7 +187,7 @@ inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
-        throw "[Core::Db::Open]: Invalid number of args; expected 1.";
+        //throw "[Core::Db::Open]: Invalid number of args; expected 1.";
         return {};
     }
 

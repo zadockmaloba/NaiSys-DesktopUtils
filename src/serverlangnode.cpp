@@ -12,7 +12,7 @@ const STNode::nodeptr STNode::check_for_declaration(const QString &name)
     else if(parentScope().get() != nullptr)
         return parentScope()->check_for_declaration(name);
 
-    throw "WARNING: Unable to find referenced variable";
+    //throw "WARNING: Unable to find referenced variable";
     return {};
 }
 

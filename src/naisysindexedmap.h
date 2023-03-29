@@ -89,18 +89,13 @@ public:
                 if(_key == v->first()) return v->second();
             }
         }
-        throw "Array has no value specified by _key";
         return {};
     }
     bool has(const T_ky &key) const {
-        try {
-            auto const tmp = this->at(key);
-        }
-        catch (const char* e) {
-            std::cout << e << std::endl;
-            return false;
-        }
-        return true;
+
+        auto const tmp = this->at(key);
+
+        return tmp != nullptr;
 
     }
 
