@@ -383,7 +383,7 @@ inline const QRegularExpression Lexer::array_decl =
 inline const QRegularExpression Lexer::squarebrackets_capture =
         QRegularExpression{"\\[\\d*\\]"};
 inline const QRegularExpression Lexer::brackets_capture =
-        QRegularExpression{"\\([\\s\\S]*?\\)"};
+        QRegularExpression{"\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\)"};
 inline const QRegularExpression Lexer::var_identifier_capture =
         QRegularExpression{"\\$\\w+(\\s*[\\=\\-\\>\\.\\:]\\s*[\\s\\S]*?\\;)*"};
 inline const QRegularExpression Lexer::string_literal_capture =
