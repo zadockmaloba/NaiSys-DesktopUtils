@@ -16,7 +16,7 @@ class CoreFunctions
 public:
     CoreFunctions() = default;
 
-    static std::map<const QString, const ast_operator> functionMap()
+    static std::map<const QString, const ast_operator> &functionMap()
     {
         return m_functionMap;
     }
@@ -40,7 +40,7 @@ private://private members
 
 private://registers
     static QVariantList args_reg, params_reg;
-    static const std::map<const QString, const ast_operator> m_functionMap;
+    static std::map<const QString, const ast_operator> m_functionMap;
 
 };
 
@@ -204,7 +204,7 @@ inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
     return std::make_shared<QVariant>(true);
 };
 
-inline const std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
+inline std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
 {
     {"Core::Exec"     , exec_cmd},
     {"Core::Println"  , println},
