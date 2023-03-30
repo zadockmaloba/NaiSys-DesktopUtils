@@ -3,14 +3,14 @@
 
 def first_func() : Float {
     return:= 0.234;
-}
+};
 
 def second_func()
 {
     return:= void;
-}
+};
 
 def third_func() : I16
 {
     return:= 24;
-}
+};
