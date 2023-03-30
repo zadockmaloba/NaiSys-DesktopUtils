@@ -2,10 +2,10 @@
 //**********************
 //FUNCTION CALL TEST
 
-def third_func() : I16
-{
+def third_func() : I16 {
+    Core::Println("Hello from third func.");
     return:= 24;
-}
+};
 
 
 var test_string: String = third_func();
