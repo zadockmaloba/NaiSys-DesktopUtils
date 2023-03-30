@@ -4,9 +4,11 @@
 #include <QString>
 #include <QMap>
 #include <QVariant>
+#include "serverlangnode.h"
 
 namespace NaiSys {
 namespace ServerLang {
+
 
 class Core
 {
@@ -45,7 +47,7 @@ private:
 public:
     static const std::shared_ptr<QVariant>
     exec(const QString &symbol, const QVariantList &args = {}) throw();
-    static const void define(const QString &symbol, const QVariantList &params = {}) throw();
+    static const void define(const STNode::nodeptr &func = {}) throw();
 };
 
 } // namespace ServerLang

@@ -127,7 +127,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
 
         case NodeType::FUNCTION: {
             qDebug() << "Declaring function: " << temp->second()->name();
-            Core::define(temp->second()->name(), temp->second()->parametersMap());
+            Core::define(temp->second());
             break;
         }
 

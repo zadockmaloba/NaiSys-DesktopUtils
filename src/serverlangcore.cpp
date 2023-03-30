@@ -18,9 +18,13 @@ Core::exec(const QString &symbol, const QVariantList &args) throw()
     return {};
 }
 
-const void Core::define(const QString &symbol, const QVariantList &params) throw()
+const void Core::define(const STNode::nodeptr &func) throw()
 {
-
+    ast_operator opr = [func]()mutable->value_ptr {
+        auto const ret = QVariant::fromValue(func);
+        return std::make_shared<QVariant>(ret);
+    };
+    CoreFunctions::functionMap().insert({func->name(), opr});
 }
 
 } // namespace ServerLang
