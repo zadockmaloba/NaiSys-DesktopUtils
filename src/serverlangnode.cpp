@@ -50,7 +50,7 @@ value_ptr STNode::value() const
 
 void STNode::setValue(const value_ptr &newValue)
 {
-    m_value = newValue;
+    m_value = std::move(newValue);
 }
 
 STNode::nodeptr STNode::innerScope() const

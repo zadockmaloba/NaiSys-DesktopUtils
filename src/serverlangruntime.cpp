@@ -61,67 +61,28 @@ void RunTime::interprate(const STNode::nodeptr &ast)
             }
             //TODO: Make parameters map a variant list
             temp->second()->setParametersMap(_plist);
-            temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
-            break;
-        }
-
-        case NodeType::VARIANT:{
-            for(auto &_v : temp->second()->declarationMap()) {
-                if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
-                    try {
-                        auto const _var = _v->second();
-                        auto ptr = _var->check_for_declaration(_var->value()->toString());
-                        auto const refval = ptr->value();
-                        _v->second()->setValue(refval);
-                        //qDebug() << "Referenced value: " << _v->second()->value();
-                    }
-                    catch(...) {
-                        qWarning() << "Unable to get reference value";
-                    }
-                }
-                else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
-                    try {
-                        //qDebug() << "Value before call: " << _v->second()->value();
-                        interprate(temp->second());
-                        //qDebug() << "Value after call: " << _v->second()->value();
-                    }
-                    catch(...) {
-                        qWarning() << "WARNING: Cannot execute nested function";
-                    }
-                }
-                temp->second()->setValue(_v->second()->value());
+            if(temp->second()->name().contains("://Core::")) {
+                temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
+            } else {
+                auto const scp = Core::exec(nm, {})->value<STNode::nodeptr>();
+                interprate(scp);
+                temp->second()->setValue( scp->value() );
             }
             break;
         }
 
-        case NodeType::VARIABLE_EXPRESSION:{
-            for(auto &_v : temp->second()->declarationMap()) {
-                if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
-                    try {
-                        auto const _var = _v->second();
-                        auto ptr = _var->check_for_declaration(_var->value()->toString());
-                        auto const refval = ptr->value();
-                        _v->second()->setValue(refval);
-                        //qDebug() << "Referenced value: " << _v->second()->value();
-                    }
-                    catch(...) {
-                        qWarning() << "Unable to get reference value";
-                    }
-                }
-                else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
-                    try {
-                        //qDebug() << "Value before call: " << _v->second()->value();
-                        interprate(temp->second());
-                        //qDebug() << "Value after call: " << _v->second()->value();
-                    }
-                    catch(...) {
-                        qWarning() << "WARNING: Cannot execute nested function";
-                    }
-                }
-                auto refptr = temp->second()->check_for_declaration(temp->second()->value()->toString());
-                refptr->setValue(_v->second()->value());
-                //qDebug() << "EXPRESSION VALUE: " << refptr->value();
-            }
+        case NodeType::VARIANT: {
+            auto const _val = get_rhs_value(temp->second());
+            temp->second()->setValue(_val);
+            break;
+        }
+
+        case NodeType::VARIABLE_EXPRESSION: {
+            auto const _val = get_rhs_value(temp->second());
+            auto refptr = temp->second()
+                    ->check_for_declaration(temp->second()->value()->toString());
+            refptr->setValue(_val);
+            //qDebug() << "EXPRESSION VALUE: " << refptr->value();
             break;
         }
 
@@ -134,6 +95,15 @@ void RunTime::interprate(const STNode::nodeptr &ast)
         case NodeType::PY_SCOPE:
             LibPython::execute_string(temp->second()->value()->toString().toStdString().c_str());
             break;
+
+        case NodeType::RETURN_EXPRESSION: {
+            auto const _val = get_rhs_value(temp->second());
+
+            qDebug() << "[RETURN_EXP_PARENT]: " << temp->second()->parentScope()->name();
+            temp->second()->parentScope()->setValue(_val);
+            break;
+        }
+
         default:
             break;
         }

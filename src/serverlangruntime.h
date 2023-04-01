@@ -61,6 +61,35 @@ private: //helpers
             break;
         }
     }
+    inline const value_ptr get_rhs_value(const STNode::nodeptr &rhs) {
+        value_ptr ret = {};
+        for(auto &_v : rhs->declarationMap()) {
+            if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
+                try {
+                    auto const _var = _v->second();
+                    auto ptr = _var->check_for_declaration(_var->value()->toString());
+                    auto const refval = ptr->value();
+                    _v->second()->setValue(refval);
+                    //qDebug() << "Referenced value: " << _v->second()->value();
+                }
+                catch(...) {
+                    qWarning() << "Unable to get reference value";
+                }
+            }
+            else if(_v->second()->type() == NodeType::CALL_EXPRESSION) {
+                try {
+                    //qDebug() << "Value before call: " << _v->second()->value();
+                    interprate(rhs);
+                    //qDebug() << "Value after call: " << _v->second()->value();
+                }
+                catch(...) {
+                    qWarning() << "WARNING: Cannot execute nested function";
+                }
+            }
+            ret = _v->second()->value();
+        }
+        return ret;
+    }
 
 private:
      QMap<QString, std::function<void()>> m_functionMap;

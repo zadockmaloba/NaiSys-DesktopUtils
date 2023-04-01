@@ -199,12 +199,16 @@ private://methods
             ArgObj->setParentScope(node);
             node->add_declaration(ArgObj);
 
-            for(auto &v: p)
+            for(auto &v: p) {
+                v->setParentScope(ArgObj);
                 ArgObj->add_declaration(v);
+            }
 
             auto const decls = analyze(_body);
-            for(auto &v : decls)
+            for(auto &v : decls) {
+                v->setParentScope(node);
                 node->add_declaration(v);
+            }
             break;
         }
         case NodeType::ARRAY: {
@@ -272,7 +276,9 @@ private://methods
             if(spec.size() >= 2)
             {
                 node->setTypeName(spec.at(1).trimmed());
-                node->setType(STNode::get_typecode_from_typename(node->typeName()));
+                //FIXME: Currenlty set type as variant
+                //Using specific types makes it cumbersome at runtime
+                //node->setType(STNode::get_typecode_from_typename(node->typeName()));
             }
             auto const decls = analyze(_body);
             qDebug() << "VARIANT_RAW_DATA: "<< _body;
@@ -320,6 +326,18 @@ private://methods
             node->setParametersMap(_params);
             qDebug() << "Arguments: " << node->parametersMap();
 
+            break;
+        }
+        case NodeType::RETURN_EXPRESSION: {
+            auto temp = QString(node->raw());
+            auto const _body = temp.contains(":=") ?
+                        temp.split(":=")
+                        .at(1).trimmed() : "";
+            auto const decls = analyze(_body);
+            for(auto &v : decls) {
+                v->setParentScope(node);
+                node->add_declaration(v);
+            }
             break;
         }
         default:
