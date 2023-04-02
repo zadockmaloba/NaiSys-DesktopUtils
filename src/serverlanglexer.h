@@ -59,6 +59,8 @@ public:
         //m_lexicalScope.remove(field_accessor_internal);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
         m_lexicalScope.remove(function_call);
+        auto const strct_acc = find_regex_match(struct_accessor, m_lexicalScope);
+        m_lexicalScope.remove(struct_accessor);
         auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
         m_lexicalScope.remove(var_identifier_capture);
         auto const string_literals = find_regex_match(string_literal_capture, m_lexicalScope);
@@ -79,6 +81,7 @@ public:
         //__MATCH_ITERATOR(bin_expr, BinaryExpression);
         //__MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
+        __MATCH_ITERATOR(strct_acc, StructAccessor);
         __MATCH_ITERATOR(var_id, VariableExpression);
         __MATCH_ITERATOR(string_literals, Literal);
         __MATCH_ITERATOR(numeric_literals, Literal);
@@ -340,6 +343,23 @@ private://methods
             }
             break;
         }
+        case NodeType::STRUCT_ACCESSOR: {
+            auto temp = QString(node->raw())
+                    .chopped(1)
+                    .remove(0,1);
+            auto const _splt = temp.split('[');
+            node->setName(QString::number(arc4random())+"://"
+                          +_splt.at(0)
+                          +"::"
+                          +_splt.at(1));
+            node->setValue(std::make_shared<QVariant>(_splt.at(0)));
+            auto const decls = analyze(_splt.at(1));
+            for(auto &v : decls) {
+                v->setParentScope(node);
+                node->add_declaration(v);
+            }
+            break;
+        }
         default:
             break;
         }
@@ -368,6 +388,7 @@ private://static members
     static const QRegularExpression numeric_literal_capture;
     static const QRegularExpression field_accessor_internal;
     static const QRegularExpression field_accessor_external;
+    static const QRegularExpression struct_accessor;
 };
 
 inline const QRegularExpression Lexer::py_scope_capture =
@@ -412,6 +433,8 @@ inline const QRegularExpression Lexer::field_accessor_internal =
         QRegularExpression{"\\.\\w+(\\s*=\\s*[\\s\\S]*\\;)*"};
 inline const QRegularExpression Lexer::field_accessor_external =
         QRegularExpression{};
+inline const QRegularExpression Lexer::struct_accessor =
+        QRegularExpression{"\\$\\w+\\[[\\s\\S]*\\]"};
 
 }
 }

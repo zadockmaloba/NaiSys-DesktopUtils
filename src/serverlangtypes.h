@@ -475,6 +475,16 @@ struct PyScope : STNode
     }
 };
 
+struct StructAccessor : STNode
+{
+    StructAccessor(const QByteArray &data = {})
+    {
+        setRaw(data);
+        setType(NodeType::STRUCT_ACCESSOR);
+        setTypeName("StructAccessor");
+    }
+};
+
 }
 }
 

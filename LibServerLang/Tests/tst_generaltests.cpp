@@ -53,6 +53,10 @@ private slots:
     {
         PARSE_TEST_FILE("test9.nsl")
     }
+    void struct_access()
+    {
+        PARSE_TEST_FILE("test10.nsl")
+    }
 
 };
 

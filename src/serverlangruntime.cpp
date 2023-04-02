@@ -104,6 +104,11 @@ void RunTime::interprate(const STNode::nodeptr &ast)
             break;
         }
 
+        case NodeType::STRUCT_ACCESSOR: {
+            auto const _val = get_rhs_value(temp->second());
+            break;
+        }
+
         default:
             break;
         }

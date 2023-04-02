@@ -86,6 +86,22 @@ private: //helpers
                     qWarning() << "WARNING: Cannot execute nested function";
                 }
             }
+            else if(_v->second()->type() == NodeType::STRUCT_ACCESSOR) {
+                try {
+                    auto const _strct = _v->second();
+                    auto const _key = _strct->declarationMap()[0]
+                            .second()->value()
+                            ->toString();
+                    auto ptr = _strct->check_for_declaration(_strct->value()->toString());
+                    auto const _dict = ptr->value()->toJsonObject();
+                    auto const _key_val = _dict.find(_key).value();
+
+                    _v->second()->setValue(std::make_shared<QVariant>(_key_val));
+                }
+                catch(...) {
+                    qWarning() << "WARNING: Cannot find struct field";
+                }
+            }
             ret = _v->second()->value();
         }
         return ret;
