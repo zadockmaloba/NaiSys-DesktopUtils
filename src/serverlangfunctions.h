@@ -7,6 +7,10 @@
 
 #include <QProcess>
 #include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 
 namespace NaiSys {
 namespace ServerLang {
@@ -37,6 +41,8 @@ private://private members
     static const ast_operator dbopen;
     static const ast_operator dbexec;
     static const ast_operator dbclose;
+    static const ast_operator mkjson;
+    static const ast_operator jsnstringify;
 
 private://registers
     static QVariantList args_reg, params_reg;
@@ -204,6 +210,39 @@ inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
     return std::make_shared<QVariant>(true);
 };
 
+inline const ast_operator CoreFunctions::mkjson = []()mutable->value_ptr
+{
+    Function func;
+    func.setArguments({"file", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    if(!(params_reg.size() == 1)) {
+        return {};
+    }
+
+    auto obj = QJsonDocument::fromJson(
+                func.parameters().at(0).toByteArray()
+                ).object();
+
+    return std::make_shared<QVariant>(obj);
+};
+
+inline const ast_operator CoreFunctions::jsnstringify = []()mutable->value_ptr
+{
+    Function func;
+    func.setArguments({"file", "args"});
+    //NOTE: Always set params after args
+    func.setParameters(params_reg);
+    if(!(params_reg.size() == 1)) {
+        return {};
+    }
+
+    auto obj = func.parameters().at(0).toJsonObject();
+    auto string = QJsonDocument(obj).toJson();
+
+    return std::make_shared<QVariant>(string);
+};
+
 inline std::map<const QString, const ast_operator> CoreFunctions::m_functionMap =
 {
     {"Core::Exec"     , exec_cmd},
@@ -211,8 +250,10 @@ inline std::map<const QString, const ast_operator> CoreFunctions::m_functionMap 
     {"Core::FileRead" , readfile},
     {"Core::FileWrite", writefile},
     {"Core::Db::Open" , dbopen},
-    {"Core::Db::Exec"  , dbexec},
-    {"Core::Db::Close", dbclose}
+    {"Core::Db::Exec" , dbexec},
+    {"Core::Db::Close", dbclose},
+    {"Core::Json::Make", mkjson},
+    {"Core::Json::Stringify", jsnstringify}
 };
 
 }
