@@ -1,11 +1,16 @@
 //NAISYS SERVER LANGUAGE
 //**********************
-//CORE::STRINGREPLACE TEST
+//STRUCT FIELD ACCESS TEST
 
-var string test = "Test string with a placeholder: %{}"
-var string test2 = call Core::StringReplace(test, "%{}", "TESTING")
+struct conn = {
+        "db_type":"QPSQL",
+        "db_name":"postgres",
+        "db_user":"postgres",
+        "db_password":"postgres",
+        "db_host":"localhost",
+        "db_port":5432
+    };
 
-call Core::Println("================")
-call Core::Println(test)
-call Core::Println(test2)
-call Core::Println("================")
+    var host = $conn["db_host"];
+
+    Core::Println($host);
