@@ -1,6 +1,7 @@
 #include "naisysmethodhandler.h"
 #include "serverlangparser.h"
 #include "serverlangruntime.h"
+#include "serverlangtypes.h"
 
 #include "servercalls.h"
 #include "streamio.h"

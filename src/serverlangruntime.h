@@ -12,11 +12,9 @@
 #include <functional>
 #include <map>
 
-#include "serverlangsyntaxtree.h"
 #include "databasehandler.h"
 #include "databasepool.h"
 #include "serverlangnode.h"
-#include "serverlangfunctions.h"
 
 namespace NaiSys {
 namespace ServerLang {

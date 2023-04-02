@@ -4,7 +4,6 @@
 #include <QJsonArray>
 #include <QFile>
 
-#include "streamio.h"
 #include "serverlangcore.h"
 #include "libpython.h"
 
