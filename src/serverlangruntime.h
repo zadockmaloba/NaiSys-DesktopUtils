@@ -94,7 +94,9 @@ private: //helpers
                             ->toString();
                     auto ptr = _strct->check_for_declaration(_strct->value()->toString());
                     auto const _dict = ptr->value()->toJsonObject();
-                    auto const _key_val = _dict.find(_key).value();
+                    auto const _key_val = _dict.contains(_key) ?
+                                _dict.find(_key).value() :
+                                QJsonValue{"__NULL__"};
 
                     _v->second()->setValue(std::make_shared<QVariant>(_key_val));
                 }
