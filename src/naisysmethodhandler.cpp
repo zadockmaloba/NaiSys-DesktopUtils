@@ -39,7 +39,7 @@ const NaiSysHttpResponse MethodHandler::get()
     http_body.setValue(std::make_shared<QVariant>(m_desirialized._body));
 
     ServerLang::Struct http_params;
-    http_params.setName("RUNTIME_URL_PARAMS");
+    http_params.setName("RUNTIME_HTTP_PARAMS");
     http_params.setValue(std::make_shared<QVariant>(m_parameters.url_dict));
 
     ServerLang::Struct http_headers;
