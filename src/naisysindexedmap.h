@@ -103,11 +103,8 @@ public:
     auto end() { return m_pairs.end(); }
 
 public://operators
-    Pair &operator[](T_ky _key) const throw() {
-        for(auto &v : m_pairs) {
-            if(_key == v->first()) return v;
-        }
-        return nullptr;
+    const Pair operator[](const int indx) const throw() {
+        return *m_pairs[indx];
     }
 
 private:
