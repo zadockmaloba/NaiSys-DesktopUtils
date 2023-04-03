@@ -33,7 +33,7 @@ elseif (WIN32)
     )
 elseif (UNIX)
     set(POSTGRES_LINK_LIB ${POSTGRES_ROOT_DIR}/Linux/libpq.a)
-    set(POSTGRES_DYNAMIC_LINK_LIB ${POSTGRES_ROOT_DIR}/Linux/libpq.so)
+    set(POSTGRES_DYNAMIC_LINK_LIB ${POSTGRES_ROOT_DIR}/Linux/libpq.so.5.16)
     set(POSTGRES_PLATFORM_PATH ${POSTGRES_ROOT_DIR}/Linux/)
     configure_file(
         ${POSTGRES_DYNAMIC_LINK_LIB}
