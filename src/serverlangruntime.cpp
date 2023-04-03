@@ -61,11 +61,21 @@ void RunTime::interprate(const STNode::nodeptr &ast)
             //TODO: Make parameters map a variant list
             temp->second()->setParametersMap(_plist);
             if(temp->second()->name().contains("://Core::")) {
-                temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
+                try {
+                    temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
+                }
+                catch(...) {
+                    qWarning() << "[WARNING]: Calling undefined function: " << temp->second()->name();
+                }
             } else {
-                auto const scp = Core::exec(nm, {})->value<STNode::nodeptr>();
-                interprate(scp);
-                temp->second()->setValue( scp->value() );
+                try {
+                    auto const scp = Core::exec(nm, {})->value<STNode::nodeptr>();
+                    interprate(scp);
+                    temp->second()->setValue( scp->value() );
+                }
+                catch(...){
+                    qWarning() << "[WARNING]: Calling undefined function: " << temp->second()->name();
+                }
             }
             break;
         }
