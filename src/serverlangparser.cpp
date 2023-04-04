@@ -31,6 +31,9 @@ void Parser::READ()
     f.open(QIODevice::ReadOnly);
     m_data = f.readAll();
     f.close();
+
+    get_imports();
+
     auto const tokens = Lexer::analyze(m_data);
     std::for_each(tokens.cbegin(), tokens.cend(), [this](const STNode::nodeptr &v)
     {
@@ -45,6 +48,20 @@ void Parser::READ()
 STNode::nodeptr Parser::globalAST() const
 {
     return m_globalAST;
+}
+
+//Note: This method cannot import recursively
+void Parser::get_imports()
+{
+    auto itr = Lexer::import_capture.globalMatch(m_data);
+    while( itr.hasNext() ) {
+        auto const mtch = itr.next().captured("file");
+        QFile _file(m_workingDir+mtch);
+        _file.open(QIODevice::ReadOnly);
+        auto const _dat = _file.readAll();
+        _file.close();
+        m_data.prepend(_dat);
+    }
 }
 
 } // namespace ServerLang

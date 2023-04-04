@@ -57,7 +57,7 @@ public://getters and setters
     STNode::nodeptr globalAST() const;
 
 private://methods
-
+    void get_imports();
 
 private:
     QString m_fileName,

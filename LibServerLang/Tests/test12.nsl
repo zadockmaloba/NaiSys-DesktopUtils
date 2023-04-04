@@ -1,22 +1,6 @@
 //NAISYS SERVER LANGUAGE
 //**********************
-//DATABASE OPS
+//IMPORT STATEMENTS
 
-var struct conn = {
-    "db_type" : "QPSQL",
-    "db_name" : "naisys_rs",
-    "db_host" : "localhost",
-    "db_port" : 5432,
-    "db_user" : "postgres",
-    "db_password" : "postgres"
-}
-var string DB_HANDLE = call Core::DatabaseOpen(conn)
-call Core::Println(DB_HANDLE)
-
-var string res = call Core::DatabaseExec(DB_HANDLE, "select * from customer_bills")
-var int zbytes = call Core::FileWrite("/home/zadock/nslang.test", rstr, FILE_CHAR)
-
-call Core::Println("Bytes Written: ", zbytes)
-
-call Core::Println(res)
-call Core::DatabaseClose(DB_HANDLE)
+!import <test11.nsl>
+!import <test10.nsl>

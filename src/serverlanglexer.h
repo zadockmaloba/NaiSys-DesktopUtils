@@ -365,6 +365,9 @@ private://methods
         }
     }
 
+public://static members
+    static const QRegularExpression import_capture;
+
 private://static members
     static const QRegularExpression py_scope_capture;
     static const QRegularExpression hook_decl;
@@ -389,6 +392,11 @@ private://static members
     static const QRegularExpression field_accessor_internal;
     static const QRegularExpression field_accessor_external;
     static const QRegularExpression struct_accessor;
+};
+
+inline const QRegularExpression Lexer::import_capture = QRegularExpression {
+        "(?:(^\\s*))(?<main>!import\\s*\\<(?<file>[\\s\\S]*?)\\>)",
+        QRegularExpression::PatternOption::MultilineOption
 };
 
 inline const QRegularExpression Lexer::py_scope_capture = QRegularExpression {
