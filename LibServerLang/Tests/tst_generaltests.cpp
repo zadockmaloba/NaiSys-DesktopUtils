@@ -57,6 +57,14 @@ private slots:
     {
         PARSE_TEST_FILE("test10.nsl")
     }
+    void database_methods()
+    {
+        PARSE_TEST_FILE("test11.nsl")
+    }
+    void import_statements()
+    {
+        PARSE_TEST_FILE("test12.nsl")
+    }
 
 };
 
