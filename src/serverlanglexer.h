@@ -35,6 +35,8 @@ public:
         auto const py_scope = find_regex_match(py_scope_capture, m_lexicalScope);
         m_lexicalScope.remove(py_scope_capture);
 
+        m_lexicalScope.remove(multiline_comment_capture);
+
         auto const hks_dcl = find_regex_match(hook_decl, m_lexicalScope);
         m_lexicalScope.remove(hook_decl);
         auto const cls_dcl = find_regex_match(class_decl, m_lexicalScope);
@@ -59,6 +61,8 @@ public:
         //m_lexicalScope.remove(field_accessor_internal);
         auto const func_call = find_regex_match(function_call, m_lexicalScope);
         m_lexicalScope.remove(function_call);
+        auto const named_params = find_regex_match(param_labels_capture, m_lexicalScope);
+        m_lexicalScope.remove(param_labels_capture);
         auto const strct_acc = find_regex_match(struct_accessor, m_lexicalScope);
         m_lexicalScope.remove(struct_accessor);
         auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
@@ -81,6 +85,7 @@ public:
         //__MATCH_ITERATOR(bin_expr, BinaryExpression);
         //__MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
+        __MATCH_ITERATOR(named_params, NamedParameter)
         __MATCH_ITERATOR(strct_acc, StructAccessor);
         __MATCH_ITERATOR(var_id, VariableExpression);
         __MATCH_ITERATOR(string_literals, Literal);
@@ -360,6 +365,22 @@ private://methods
             }
             break;
         }
+        case NodeType::PARAMETER_LABEL: {
+            auto temp = QString(node->raw());
+            qDebug() << "LABELED_PARAM: " << temp;
+            static auto const tmprgx =
+                QRegularExpression("\\!(?<param>\\w+)\\s*\\:\\s*(?<value>[\\s\\S]+)");
+            auto const _mtch = tmprgx.match(temp);
+            auto const _key = _mtch.captured("param");
+            auto const _body = _mtch.captured("value");
+            node->setName(_key);
+            auto const decls = analyze(_body);
+            for(auto &v : decls) {
+                v->setParentScope(node);
+                node->add_declaration(v);
+            }
+            break;
+        }
         default:
             break;
         }
@@ -367,12 +388,15 @@ private://methods
 
 public://static members
     static const QRegularExpression import_capture;
+    static const QRegularExpression multiline_comment_capture;
 
 private://static members
     static const QRegularExpression py_scope_capture;
     static const QRegularExpression hook_decl;
     static const QRegularExpression function_decl;
     static const QRegularExpression function_call;
+    static const QRegularExpression param_labels_capture;
+    static const QRegularExpression variadic_param_capture;
     static const QRegularExpression class_decl;
     static const QRegularExpression class_decl_inner;
     static const QRegularExpression struct_decl;
@@ -395,7 +419,12 @@ private://static members
 };
 
 inline const QRegularExpression Lexer::import_capture = QRegularExpression {
-        "(?:(^\\s*))(?<main>!import\\s*\\<(?<file>[\\s\\S]*?)\\>)",
+        "(?:(^\\s*))(?<main>\\!import\\s*\\<(?<file>[\\s\\S]*?)\\>)",
+        QRegularExpression::PatternOption::MultilineOption
+};
+
+inline const QRegularExpression Lexer::multiline_comment_capture = QRegularExpression {
+        "(?<main>\\/\\*[\\s\\S]*\\*\\/)",
         QRegularExpression::PatternOption::MultilineOption
 };
 
@@ -416,6 +445,16 @@ inline const QRegularExpression Lexer::function_decl = QRegularExpression {
 
 inline const QRegularExpression Lexer::function_call = QRegularExpression {
         "(?:(^\\s*))(?<main>(\\w+\\:\\:)*\\w+\\s*\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\))",
+        QRegularExpression::PatternOption::MultilineOption
+};
+
+inline const QRegularExpression Lexer::param_labels_capture = QRegularExpression {
+        "(?<main>\\!(?<param>\\w+)\\s*\\:\\s*(?<value>[^,]+)(?=,|\\)))",
+        QRegularExpression::PatternOption::MultilineOption
+};
+
+inline const QRegularExpression Lexer::variadic_param_capture = QRegularExpression {
+        "",
         QRegularExpression::PatternOption::MultilineOption
 };
 

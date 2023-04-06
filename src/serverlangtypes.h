@@ -485,6 +485,16 @@ struct StructAccessor : STNode
     }
 };
 
+struct NamedParameter : STNode
+{
+    NamedParameter(const QByteArray &data = {})
+    {
+        setRaw(data);
+        setType(NodeType::PARAMETER_LABEL);
+        setTypeName("NamedParameter");
+    }
+};
+
 }
 }
 

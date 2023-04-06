@@ -35,7 +35,8 @@ enum class NodeType {
     RETURN_EXPRESSION,
     CALL_EXPRESSION,
     VARIABLE_EXPRESSION,
-    STRUCT_ACCESSOR
+    STRUCT_ACCESSOR,
+    PARAMETER_LABEL
 };
 
 using value_ptr = std::shared_ptr<QVariant>;
