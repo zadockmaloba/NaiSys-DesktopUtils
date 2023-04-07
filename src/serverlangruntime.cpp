@@ -56,6 +56,17 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         qWarning() << "WARNING: Cannot execute nested function";
                     }
                 }
+                else if(_v->second()->type() == NodeType::PARAMETER_LABEL) {
+                    try {
+                        //qDebug() << "Value before call: " << _v->second()->value();
+                        interprate(temp->second());
+                        auto const _var = _v->second()->value();
+                        //qDebug() << "Value after call: " << _v->second()->value();
+                    }
+                    catch(...) {
+                        qWarning() << "WARNING: Cannot interprate parameter label";
+                    }
+                }
                 _plist << *_v->second()->value();
             }
             //TODO: Make parameters map a variant list
@@ -115,6 +126,12 @@ void RunTime::interprate(const STNode::nodeptr &ast)
 
         case NodeType::STRUCT_ACCESSOR: {
             auto const _val = get_rhs_value(temp->second());
+            break;
+        }
+
+        case NodeType::PARAMETER_LABEL: {
+            auto const _val = get_rhs_value(temp->second());
+            temp->second()->setValue(_val);
             break;
         }
 
