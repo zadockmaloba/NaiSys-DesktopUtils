@@ -85,7 +85,7 @@ public:
         //__MATCH_ITERATOR(bin_expr, BinaryExpression);
         //__MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
-        __MATCH_ITERATOR(named_params, NamedParameter)
+        __MATCH_ITERATOR(named_params, NamedParameter);
         __MATCH_ITERATOR(strct_acc, StructAccessor);
         __MATCH_ITERATOR(var_id, VariableExpression);
         __MATCH_ITERATOR(string_literals, Literal);
