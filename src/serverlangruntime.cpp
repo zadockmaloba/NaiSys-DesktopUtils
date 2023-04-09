@@ -32,12 +32,12 @@ void RunTime::interprate(const STNode::nodeptr &ast)
             qDebug() << "Executing Function symbol: " << nm;
             if(nm.contains("://")) nm = nm.split("://").at(1);
 
-            QVariantList _plist;
+            QVariantMap _plist;
             for(auto &_v : temp->second()->declarationMap()) {
                 if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                     try {
                         auto const _var = _v->second();
-                        auto ptr = _var->check_for_declaration(_var->value()->toString());
+                        auto ptr = _var->check_for_declaration(_var->referencedId());
                         auto refval = ptr->value();
                         _v->second()->setValue(refval);
                         //qDebug() << "Referenced value: " << _v->second()->value();
@@ -60,14 +60,31 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                     try {
                         //qDebug() << "Value before call: " << _v->second()->value();
                         interprate(temp->second());
-                        auto const _var = _v->second()->value();
                         //qDebug() << "Value after call: " << _v->second()->value();
                     }
                     catch(...) {
                         qWarning() << "WARNING: Cannot interprate parameter label";
                     }
                 }
-                _plist << *_v->second()->value();
+                else if(_v->second()->type() == NodeType::VARIADIC_PARAMETER_LABEL) {
+                    try {
+                        //qDebug() << "Value before call: " << _v->second()->value();
+                        interprate(_v->second());
+                        QVariantMap _l;
+                        int tmp_indx = 0;
+                        for(auto &_t : _v->second()->declarationMap()) {
+                            _l.insert(QString::number(tmp_indx), *_t->second()->value());
+                            tmp_indx += 1;
+                        }
+                        auto const _var = std::make_shared<QVariant>(_l);
+                        _v->second()->setValue(_var);
+                        //qDebug() << "Value after call: " << _v->second()->value();
+                    }
+                    catch(...) {
+                        qWarning() << "WARNING: Cannot interprate parameter label";
+                    }
+                }
+                _plist.insert(_v->second()->name(), *_v->second()->value());
             }
             //TODO: Make parameters map a variant list
             temp->second()->setParametersMap(_plist);
@@ -100,7 +117,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
         case NodeType::VARIABLE_EXPRESSION: {
             auto const _val = get_rhs_value(temp->second());
             auto refptr = temp->second()
-                    ->check_for_declaration(temp->second()->value()->toString());
+                    ->check_for_declaration(temp->second()->referencedId());
             refptr->setValue(_val);
             //qDebug() << "EXPRESSION VALUE: " << refptr->value();
             break;

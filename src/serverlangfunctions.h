@@ -25,7 +25,7 @@ public:
         return m_functionMap;
     }
 
-    static void registerParameters(const QVariantList &params)
+    static void registerParameters(const QVariantMap &params)
     {
         params_reg = params;
     }
@@ -45,13 +45,13 @@ private://private members
     static const ast_operator jsnstringify;
 
 private://registers
-    static QVariantList args_reg, params_reg;
+    static QVariantMap args_reg, params_reg;
     static std::map<const QString, const ast_operator> m_functionMap;
 
 };
 
-inline QVariantList CoreFunctions::args_reg = {};
-inline QVariantList CoreFunctions::params_reg = {};
+inline QVariantMap CoreFunctions::args_reg = {};
+inline QVariantMap CoreFunctions::params_reg = {};
 
 inline const ast_operator CoreFunctions::exec_cmd = []()mutable->value_ptr
 {
@@ -59,8 +59,8 @@ inline const ast_operator CoreFunctions::exec_cmd = []()mutable->value_ptr
     func.setArguments({"exec", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
-    auto user_args = func.parameters();
-    user_args.remove(0);
+    auto user_args = func.parameters()
+            .value("[...]", QVariantMap{}).toMap();
     QStringList tmpList;
     std::for_each(user_args.begin(), user_args.end(),
                   [tmpList](const QVariant &v)mutable{
@@ -68,7 +68,9 @@ inline const ast_operator CoreFunctions::exec_cmd = []()mutable->value_ptr
     });
 
     return std::make_shared<QVariant>(
-                QProcess::execute(func.parameters().at(0).toString(), tmpList)
+                QProcess::execute(func.parameters()
+                                  .value("fmt", QString{""}).toString(),
+                                  tmpList)
                 );
 };
 
@@ -78,18 +80,17 @@ inline const ast_operator CoreFunctions::println = []()mutable->value_ptr
     func.setArguments({"fmt", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
-    auto fmt = func.parameters().at(0).toString();
+    auto fmt = func.parameters().value("fmt", QString{""}).toString();
 
-    auto user_args = func.parameters();
-    user_args.remove(0);
+    auto user_args = func.parameters()
+            .value("[...]", QVariantMap{}).toMap();
+    QStringList tmpList = {};
 
-    QStringList tmpList;
-    std::for_each(user_args.begin(), user_args.end(),
-                  [tmpList](const QVariant &v)mutable{
+    for(auto const &v : user_args) {
         tmpList << v.toString();
-    });
+    }
 
-    for(int i=0; i<user_args.size(); ++i) {
+    for(int i=0; i<tmpList.size(); ++i) {
         fmt.replace("%{"+QString::number(i)+"}", tmpList.at(i));
     }
 
@@ -102,14 +103,14 @@ inline const ast_operator CoreFunctions::println = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::readfile = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"file"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
         //throw "[Core::FileRead]: Invalid number of args; expected 1.";
         return {};
     }
-    QFile m_file(params_reg.at(0).toString());
+    QFile m_file(params_reg.value("file", QString{""}).toString());
     m_file.open(QIODevice::ReadOnly);
     auto const ret = m_file.read(m_file.bytesAvailable());
     m_file.close();
@@ -119,16 +120,18 @@ inline const ast_operator CoreFunctions::readfile = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::writefile = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"file", "data"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 2)) {
         //throw "[Core::FileWrite]: Invalid number of args; expected 2.";
         return {};
     }
-    QFile m_file(params_reg.at(0).toString());
+    QFile m_file(params_reg.value("file", QString{""}).toString());
     m_file.open(QIODevice::WriteOnly);
-    auto const ret = m_file.write(params_reg.at(1).toByteArray());
+    auto const ret = m_file.write(params_reg
+                                  .value("data", QByteArray{""})
+                                  .toByteArray());
     m_file.close();
     return std::make_shared<QVariant>(ret);
 };
@@ -136,7 +139,7 @@ inline const ast_operator CoreFunctions::writefile = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::dbopen = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"settigs"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
@@ -144,7 +147,9 @@ inline const ast_operator CoreFunctions::dbopen = []()mutable->value_ptr
         return {};
     }
     auto const ret = QVariant::fromValue(
-                new DatabaseHandler(params_reg.at(0).toJsonObject())
+                new DatabaseHandler(params_reg
+                                    .value("settings", QJsonObject{})
+                                    .toJsonObject())
                 );
     return std::make_shared<QVariant>(ret);
 };
@@ -152,7 +157,7 @@ inline const ast_operator CoreFunctions::dbopen = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::dbexec = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"handle", "fmt", "args"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() >= 2)) {
@@ -160,22 +165,21 @@ inline const ast_operator CoreFunctions::dbexec = []()mutable->value_ptr
         return {};
     }
 
-    auto dbHandle = func.parameters().at(0).value<DatabaseHandler *>();
+    auto dbHandle = func.parameters().value("handle").value<DatabaseHandler *>();
     if(dbHandle == nullptr) {
         qWarning() << "[SERVERLANG]: Calling uninitialized reference [DB]";
         return {};
     }
 
-    auto fmt = func.parameters().at(1).toString();
+    auto fmt = func.parameters().value("fmt", QString{}).toString();
 
-    auto user_args = func.parameters();
-    user_args.remove(0, 2);
-
+    auto user_args = func.parameters()
+            .value("[...]", QVariantMap{}).toMap();
     QStringList tmpList;
-    std::for_each(user_args.begin(), user_args.end(),
-                  [tmpList](const QVariant &v)mutable{
+
+    for(auto const &v : user_args) {
         tmpList << v.toString();
-    });
+    }
 
     for(int i=0; i<user_args.size(); ++i) {
         fmt.replace("%{"+QString::number(i)+"}", tmpList.at(i));
@@ -189,7 +193,7 @@ inline const ast_operator CoreFunctions::dbexec = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"handle"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
@@ -197,7 +201,7 @@ inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
         return {};
     }
 
-    auto dbHandle = func.parameters().at(0).value<DatabaseHandler *>();
+    auto dbHandle = func.parameters().value("handle").value<DatabaseHandler *>();
     if(dbHandle == nullptr) {
         qWarning() << "[SERVERLANG]: Calling uninitialized reference [DB]";
         return {};
@@ -213,7 +217,7 @@ inline const ast_operator CoreFunctions::dbclose = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::mkjson = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"fmt"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
@@ -221,7 +225,7 @@ inline const ast_operator CoreFunctions::mkjson = []()mutable->value_ptr
     }
 
     auto obj = QJsonDocument::fromJson(
-                func.parameters().at(0).toByteArray()
+                func.parameters().value("fmt", QByteArray{}).toByteArray()
                 ).object();
 
     return std::make_shared<QVariant>(obj);
@@ -230,14 +234,14 @@ inline const ast_operator CoreFunctions::mkjson = []()mutable->value_ptr
 inline const ast_operator CoreFunctions::jsnstringify = []()mutable->value_ptr
 {
     Function func;
-    func.setArguments({"file", "args"});
+    func.setArguments({"object"});
     //NOTE: Always set params after args
     func.setParameters(params_reg);
     if(!(params_reg.size() == 1)) {
         return {};
     }
 
-    auto obj = func.parameters().at(0).toJsonObject();
+    auto obj = func.parameters().value("object", QJsonObject{}).toJsonObject();
     auto string = QJsonDocument(obj).toJson();
 
     return std::make_shared<QVariant>(string);

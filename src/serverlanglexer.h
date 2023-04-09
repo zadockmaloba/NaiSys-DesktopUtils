@@ -63,6 +63,8 @@ public:
         m_lexicalScope.remove(function_call);
         auto const named_params = find_regex_match(param_labels_capture, m_lexicalScope);
         m_lexicalScope.remove(param_labels_capture);
+        auto const variadic_params = find_regex_match(variadic_param_capture, m_lexicalScope);
+        m_lexicalScope.remove(variadic_param_capture);
         auto const strct_acc = find_regex_match(struct_accessor, m_lexicalScope);
         m_lexicalScope.remove(struct_accessor);
         auto const var_id = find_regex_match(var_identifier_capture, m_lexicalScope);
@@ -86,6 +88,7 @@ public:
         //__MATCH_ITERATOR(field_acc_i, Variant);//TODO
         __MATCH_ITERATOR(func_call, CallExpression);
         __MATCH_ITERATOR(named_params, NamedParameter);
+        __MATCH_ITERATOR(variadic_params,VariadicParameter);
         __MATCH_ITERATOR(strct_acc, StructAccessor);
         __MATCH_ITERATOR(var_id, VariableExpression);
         __MATCH_ITERATOR(string_literals, Literal);
@@ -306,7 +309,7 @@ private://methods
                         temp.split("=").at(1) : "";
 
             node->setName(QString::number(arc4random())+"://"+_name);
-            node->setValue(std::make_shared<QVariant>(_name));
+            node->setReferencedId(_name);
 
             auto const decls = analyze(_body);
             qDebug() << "VARIANT_RAW_DATA: "<< _body;
@@ -324,16 +327,11 @@ private://methods
             node->setName(QString::number(arc4random())+"://"+_name);
 
             auto const decls = analyze(_args);
-            QVariantList _params;
+
             for(auto &v : decls) {
                 v->setParentScope(node);
                 node->add_declaration(v);
-                _params << *v->value();
-                qDebug() << "PARAMETER_VAL: " << v->value()->toString();
             }
-            node->setParametersMap(_params);
-            qDebug() << "Arguments: " << node->parametersMap();
-
             break;
         }
         case NodeType::RETURN_EXPRESSION: {
@@ -357,7 +355,7 @@ private://methods
                           +_splt.at(0)
                           +"::"
                           +_splt.at(1));
-            node->setValue(std::make_shared<QVariant>(_splt.at(0)));
+            node->setReferencedId(_splt.at(0));
             auto const decls = analyze(_splt.at(1));
             for(auto &v : decls) {
                 v->setParentScope(node);
@@ -374,6 +372,17 @@ private://methods
             auto const _key = _mtch.captured("param");
             auto const _body = _mtch.captured("value");
             node->setName(_key);
+            auto const decls = analyze(_body);
+            for(auto &v : decls) {
+                v->setParentScope(node);
+                node->add_declaration(v);
+            }
+            break;
+        }
+        case NodeType::VARIADIC_PARAMETER_LABEL: {
+            auto temp =  QString(node->raw());
+            node->setName("[...]");
+            auto const _body = temp.split("[...]").at(1);
             auto const decls = analyze(_body);
             for(auto &v : decls) {
                 v->setParentScope(node);
@@ -449,12 +458,12 @@ inline const QRegularExpression Lexer::function_call = QRegularExpression {
 };
 
 inline const QRegularExpression Lexer::param_labels_capture = QRegularExpression {
-        "(?<main>\\!(?<param>\\w+)\\s*\\:\\s*(?<value>[^,]+)(?=,|\\)))",
+        "(?<main>\\!(?<param>\\w+)\\s*\\:\\s*(?<value>[^,]+?)(?=,|\\)))",
         QRegularExpression::PatternOption::MultilineOption
 };
 
 inline const QRegularExpression Lexer::variadic_param_capture = QRegularExpression {
-        "",
+        "(?<main>\\!\\s*\\[...\\]\\:\\s*(?<value>((\\[[^\\[\\]]*\\])|[^\\[\\]])+?))",
         QRegularExpression::PatternOption::MultilineOption
 };
 

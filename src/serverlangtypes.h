@@ -386,11 +386,11 @@ public://public members
     ast_operator exec;
     ast_operator declare;
 
-    const QVariantList &parameters() const
+    const QVariantMap &parameters() const
     {
         return m_parameters;
     }
-    void setParameters(const QVariantList &newParameters)
+    void setParameters(const QVariantMap &newParameters)
     {
         m_parameters = newParameters;
         MAP_PARAMS_TO_ARGS();
@@ -405,7 +405,8 @@ public://public members
     }
 
 private://private members
-    QVariantList m_parameters, m_arguments;
+    QVariantMap m_parameters;
+    QVariantList m_arguments;
 private://private methods
     void MAP_PARAMS_TO_ARGS()
     {
@@ -492,6 +493,16 @@ struct NamedParameter : STNode
         setRaw(data);
         setType(NodeType::PARAMETER_LABEL);
         setTypeName("NamedParameter");
+    }
+};
+
+struct VariadicParameter : STNode
+{
+    VariadicParameter(const QByteArray &data = {})
+    {
+        setRaw(data);
+        setType(NodeType::VARIADIC_PARAMETER_LABEL);
+        setTypeName("VariadicParameter");
     }
 };
 

@@ -65,7 +65,7 @@ private: //helpers
             if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                 try {
                     auto const _var = _v->second();
-                    auto ptr = _var->check_for_declaration(_var->value()->toString());
+                    auto ptr = _var->check_for_declaration(_var->referencedId());
                     auto const refval = ptr->value();
                     _v->second()->setValue(refval);
                     //qDebug() << "Referenced value: " << _v->second()->value();
@@ -90,7 +90,7 @@ private: //helpers
                     auto const _key = _strct->declarationMap()[0]
                             .second()->value()
                             ->toString();
-                    auto ptr = _strct->check_for_declaration(_strct->value()->toString());
+                    auto ptr = _strct->check_for_declaration(_strct->referencedId());
                     auto const _dict = ptr->value()->toJsonObject();
                     auto const _key_val = _dict.contains(_key) ?
                                 _dict.find(_key).value() :

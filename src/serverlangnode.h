@@ -36,7 +36,8 @@ enum class NodeType {
     CALL_EXPRESSION,
     VARIABLE_EXPRESSION,
     STRUCT_ACCESSOR,
-    PARAMETER_LABEL
+    PARAMETER_LABEL,
+    VARIADIC_PARAMETER_LABEL
 };
 
 using value_ptr = std::shared_ptr<QVariant>;
@@ -96,8 +97,11 @@ public: //GETTERS AND SETTERS
     QString typeName() const;
     void setTypeName(const QString &newTypeName);
 
-    QVariantList parametersMap() const;
-    void setParametersMap(const QVariantList &newParametersMap);
+    QVariantMap parametersMap() const;
+    void setParametersMap(const QVariantMap &newParametersMap);
+
+    QString referencedId() const;
+    void setReferencedId(const QString &newReferencedId);
 
 protected:
     declscope m_declarationMap;
@@ -107,9 +111,9 @@ protected:
     m_innerScope;
 
 private: //Private members
-    QVariantList m_parametersMap;
+    QVariantMap m_parametersMap;
     QByteArray m_raw;
-    QString m_name, m_typeName;
+    QString m_name, m_typeName, m_referencedId;
     value_ptr m_value = value_ptr{new QVariant},
     m_returnval = value_ptr{new QVariant};
     NodeType m_type;

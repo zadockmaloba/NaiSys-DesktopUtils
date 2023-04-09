@@ -8,7 +8,7 @@ namespace NaiSys {
 namespace ServerLang {
 
 const std::shared_ptr<QVariant>
-Core::exec(const QString &symbol, const QVariantList &args) throw()
+Core::exec(const QString &symbol, const QVariantMap &args) throw()
 {
     if(auto _mp = CoreFunctions::functionMap(); _mp.find(symbol) != _mp.end()) {
         auto func = _mp[symbol];

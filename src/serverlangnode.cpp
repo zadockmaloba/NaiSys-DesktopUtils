@@ -150,14 +150,24 @@ void STNode::setTypeName(const QString &newTypeName)
     m_typeName = newTypeName;
 }
 
-QVariantList STNode::parametersMap() const
+QVariantMap STNode::parametersMap() const
 {
     return m_parametersMap;
 }
 
-void STNode::setParametersMap(const QVariantList &newParametersMap)
+void STNode::setParametersMap(const QVariantMap &newParametersMap)
 {
     m_parametersMap = newParametersMap;
+}
+
+QString STNode::referencedId() const
+{
+    return m_referencedId;
+}
+
+void STNode::setReferencedId(const QString &newReferencedId)
+{
+    m_referencedId = newReferencedId;
 }
 
 NodeType STNode::get_typecode_from_typename(const QString &tname)

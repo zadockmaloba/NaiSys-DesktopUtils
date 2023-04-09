@@ -46,7 +46,7 @@ private:
 
 public:
     static const std::shared_ptr<QVariant>
-    exec(const QString &symbol, const QVariantList &args = {}) throw();
+    exec(const QString &symbol, const QVariantMap &args = {}) throw();
     static const void define(const STNode::nodeptr &func = {}) throw();
 };
 
