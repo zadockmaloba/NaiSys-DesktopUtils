@@ -35,7 +35,7 @@ public:
         auto const py_scope = find_regex_match(py_scope_capture, m_lexicalScope);
         m_lexicalScope.remove(py_scope_capture);
 
-        m_lexicalScope.remove(multiline_comment_capture);
+        //m_lexicalScope.remove(multiline_comment_capture);
 
         auto const hks_dcl = find_regex_match(hook_decl, m_lexicalScope);
         m_lexicalScope.remove(hook_decl);
@@ -432,6 +432,7 @@ inline const QRegularExpression Lexer::import_capture = QRegularExpression {
         QRegularExpression::PatternOption::MultilineOption
 };
 
+//TODO: Improve expression of multiline comments
 inline const QRegularExpression Lexer::multiline_comment_capture = QRegularExpression {
         "(?<main>\\/\\*[\\s\\S]*\\*\\/)",
         QRegularExpression::PatternOption::MultilineOption
