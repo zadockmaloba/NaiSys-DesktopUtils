@@ -60,7 +60,7 @@ void Parser::get_imports()
         _file.open(QIODevice::ReadOnly);
         auto const _dat = _file.readAll();
         _file.close();
-        m_data.prepend(_dat);
+        m_data.replace(mtch, _dat);
     }
 }
 
