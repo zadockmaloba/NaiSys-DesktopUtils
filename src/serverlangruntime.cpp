@@ -116,9 +116,15 @@ void RunTime::interprate(const STNode::nodeptr &ast)
 
         case NodeType::VARIABLE_EXPRESSION: {
             auto const _val = get_rhs_value(temp->second());
-            auto refptr = temp->second()
-                    ->check_for_declaration(temp->second()->referencedId());
-            refptr->setValue(_val);
+            if( !(_val == nullptr) ) {
+                auto refptr = temp->second()
+                            ->check_for_declaration(temp->second()->referencedId());
+                refptr->setValue(_val);
+            } else {
+                auto refptr = temp->second()
+                            ->check_for_declaration(temp->second()->referencedId());
+                temp->second()->setValue(refptr->value());
+            }
             //qDebug() << "EXPRESSION VALUE: " << refptr->value();
             break;
         }
