@@ -10,9 +10,9 @@ set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(GUI_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qml/)
 set(GUI_COMPONENTS_DIR qml/components)
 set(GUI_LAYOUTS_DIR qml/layouts)
-set(GUI_PLUGINS_DIR qml/plugins)
+set(GUI_PLUGINS_DIR src/)
 
-find_package(Qt6 6.2 COMPONENTS Core Gui REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Gui Widgets REQUIRED)
 
 set( COMPONENT_FILES
     ${GUI_COMPONENTS_DIR}/NaiSysAbstractPopup.qml
@@ -20,6 +20,7 @@ set( COMPONENT_FILES
     ${GUI_COMPONENTS_DIR}/NaiSysButton.qml
     ${GUI_COMPONENTS_DIR}/NaiSysComboBox.qml
     ${GUI_COMPONENTS_DIR}/NaiSysDialogBox.qml
+    ${GUI_COMPONENTS_DIR}/NaiSysDiv.qml
     ${GUI_COMPONENTS_DIR}/NaiSysImageCard.qml
     ${GUI_COMPONENTS_DIR}/NaiSysInputField.qml
     ${GUI_COMPONENTS_DIR}/NaiSysInputForm.qml
@@ -40,6 +41,7 @@ set( COMPONENT_FILES
     ${GUI_COMPONENTS_DIR}/NaiSysText.qml
     ${GUI_COMPONENTS_DIR}/NaiSysTronCard.qml
     ${GUI_COMPONENTS_DIR}/NaiSysTronWidget.qml
+    ${GUI_COMPONENTS_DIR}/NaiSysWindow.qml
 )
 
 set( LAYOUT_FILES
@@ -50,15 +52,23 @@ set( LAYOUT_FILES
     ${GUI_LAYOUTS_DIR}/NaiSysStackLayout.qml
 )
 
+set( PLUGIN_FILES
+    ${GUI_PLUGINS_DIR}/naisysmenu.h
+    ${GUI_PLUGINS_DIR}/naisysmenu.cpp
+    ${GUI_PLUGINS_DIR}/naisysmenuitem.h
+    ${GUI_PLUGINS_DIR}/naisysmenuitem.cpp
+    ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.h
+    ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.cpp
+)
+
 set( EXPORT_NAME "libgui")
 
 qt6_add_library( naisysgui STATIC )
 qt6_add_qml_module( naisysgui
     URI ${EXPORT_NAME}
     VERSION 1.0
-    QML_FILES
-    ${COMPONENT_FILES}
-    ${LAYOUT_FILES}
+    QML_FILES ${COMPONENT_FILES} ${LAYOUT_FILES}
+    SOURCES ${PLUGIN_FILES}
     RESOURCE_PREFIX dev.naisys.net
     IMPORT_PATH ${CMAKE_BINARY_DIR}
 )
@@ -80,6 +90,7 @@ set_target_properties( naisysgui PROPERTIES
 target_link_libraries( naisysgui
     PRIVATE Qt6::Core
     PRIVATE Qt6::Quick
+    PRIVATE Qt6::Widgets
 )
 
 install( TARGETS naisysgui
