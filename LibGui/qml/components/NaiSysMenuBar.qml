@@ -7,7 +7,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-Rectangle {
+NaiSysDiv {
     id: root
     //This property contains a dictionary of menubar items and their actions
     property ListModel menu_bar_items

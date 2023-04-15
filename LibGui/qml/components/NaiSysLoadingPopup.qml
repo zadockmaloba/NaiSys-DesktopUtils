@@ -8,7 +8,7 @@ Popup {
     width: 250
     height: 150
     modal: true
-    contentItem: Item {
+    contentItem: NaiSysDiv {
         Column{
             anchors.fill: parent
             Item {

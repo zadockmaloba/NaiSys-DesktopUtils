@@ -3,7 +3,8 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 
-Item {
+
+NaiSysDiv {
     id: root
     property ListModel mdl_data
     property Component cmp_delegate

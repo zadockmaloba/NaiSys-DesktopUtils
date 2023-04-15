@@ -16,11 +16,11 @@ AbstractButton {
     property string text_size: "p"
 
     //FIXME: Binding not deferred warnings
-    background: Rectangle {
+    background: NaiSysDiv {
         id: root_background
         color: "grey"
         radius: root.radius
-        border.color: root.border_color
+        border_color: root.border_color
         NaiSysLabel {
             anchors.fill: parent
             text: qsTr(root.text)

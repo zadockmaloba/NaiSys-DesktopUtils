@@ -7,7 +7,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-Rectangle {
+NaiSysDiv {
     id: root
     property bool form_title_show: true
     property double form_opacity_value: 0.8
