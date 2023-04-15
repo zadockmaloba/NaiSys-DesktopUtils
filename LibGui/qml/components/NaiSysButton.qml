@@ -9,7 +9,7 @@ import QtQuick.Layouts 1.15
 
 AbstractButton {
     id: root
-    property int radius: 0
+    property int radius: 4
     property string color: "grey"
     property string border_color: "white"
     property string secondary_color: "light grey"
