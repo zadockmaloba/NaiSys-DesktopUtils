@@ -1,17 +1,17 @@
-#include "naisysmenuitem.h"
+#include "naisysmenusection.h"
 
-NaiSysMenuItem::NaiSysMenuItem(QObject *parent)
+NaiSysMenuSection::NaiSysMenuSection(QObject *parent)
     : QObject{parent}
 {
 
 }
 
-QString NaiSysMenuItem::title() const
+QString NaiSysMenuSection::title() const
 {
     return m_title;
 }
 
-void NaiSysMenuItem::setTitle(const QString &newTitle)
+void NaiSysMenuSection::setTitle(const QString &newTitle)
 {
     if (m_title == newTitle)
         return;
@@ -19,7 +19,7 @@ void NaiSysMenuItem::setTitle(const QString &newTitle)
     emit titleChanged();
 }
 
-void NaiSysMenuItem::resetTitle()
+void NaiSysMenuSection::resetTitle()
 {
     setTitle({}); // TODO: Adapt to use your actual default value
 }

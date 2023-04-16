@@ -1,23 +1,22 @@
-#ifndef NAISYSMENUITEM_H
-#define NAISYSMENUITEM_H
+#ifndef NAISYSMENUSECTION_H
+#define NAISYSMENUSECTION_H
 
 #include <QObject>
 #include <QQuickItem>
 
-class NaiSysMenuItem : public QObject
+class NaiSysMenuSection : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(NaiSysMenuItem)
-    QML_NAMED_ELEMENT(NaiSysMenuItem)
+    Q_DISABLE_COPY(NaiSysMenuSection)
+    QML_NAMED_ELEMENT(NaiSysMenuSection)
 public:
-    explicit NaiSysMenuItem(QObject *parent = nullptr);
+    explicit NaiSysMenuSection(QObject *parent = nullptr);
 
     QString title() const;
     void setTitle(const QString &newTitle);
     void resetTitle();
 
 signals:
-
     void titleChanged();
 
 private:
@@ -26,4 +25,4 @@ private:
     Q_PROPERTY(QString title READ title WRITE setTitle RESET resetTitle NOTIFY titleChanged)
 };
 
-#endif // NAISYSMENUITEM_H
+#endif // NAISYSMENUSECTION_H

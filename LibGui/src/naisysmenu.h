@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQuickItem>
 #include <QSharedPointer>
-#include <naisysmenuitem.h>
+#include <naisysmenusection.h>
 
 class NaiSysMenu : public QObject
 {
@@ -12,31 +12,31 @@ class NaiSysMenu : public QObject
     Q_DISABLE_COPY(NaiSysMenu)
     QML_NAMED_ELEMENT(NaiSysMenu)
     Q_CLASSINFO("DefaultProperty", "items")
-    Q_PROPERTY(QQmlListProperty<NaiSysMenuItem> items READ items NOTIFY itemsChanged FINAL)
+    Q_PROPERTY(QQmlListProperty<NaiSysMenuSection> items READ items NOTIFY itemsChanged FINAL)
 public:
     explicit NaiSysMenu(QObject *parent = nullptr);
 
-    QQmlListProperty<NaiSysMenuItem> items();
-    void appendItem(NaiSysMenuItem *);
+    QQmlListProperty<NaiSysMenuSection> items();
+    void appendItem(NaiSysMenuSection *);
     qsizetype itemCount() const;
-    NaiSysMenuItem *item(qsizetype) const;
+    NaiSysMenuSection *item(qsizetype) const;
     void clearItems();
-    void replaceItem(qsizetype, NaiSysMenuItem *);
+    void replaceItem(qsizetype, NaiSysMenuSection *);
     void removeLastItem();
 
 signals:
     void itemsChanged();
 
 private:
-    static void appendItem(QQmlListProperty<NaiSysMenuItem> *list, NaiSysMenuItem *);
-    static qsizetype itemCount(QQmlListProperty<NaiSysMenuItem> *);
-    static NaiSysMenuItem *item(QQmlListProperty<NaiSysMenuItem> *, qsizetype);
-    static void clearItems(QQmlListProperty<NaiSysMenuItem> *);
-    static void replaceItem(QQmlListProperty<NaiSysMenuItem> *, qsizetype, NaiSysMenuItem *);
-    static void removeLastItem(QQmlListProperty<NaiSysMenuItem> *);
+    static void appendItem(QQmlListProperty<NaiSysMenuSection> *list, NaiSysMenuSection *);
+    static qsizetype itemCount(QQmlListProperty<NaiSysMenuSection> *);
+    static NaiSysMenuSection *item(QQmlListProperty<NaiSysMenuSection> *, qsizetype);
+    static void clearItems(QQmlListProperty<NaiSysMenuSection> *);
+    static void replaceItem(QQmlListProperty<NaiSysMenuSection> *, qsizetype, NaiSysMenuSection *);
+    static void removeLastItem(QQmlListProperty<NaiSysMenuSection> *);
 
 private:
-    QList<NaiSysMenuItem*> m_items;
+    QList<NaiSysMenuSection*> m_items;
 };
 
 #endif // NAISYSMENU_H

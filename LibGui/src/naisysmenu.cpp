@@ -6,7 +6,7 @@ NaiSysMenu::NaiSysMenu(QObject *parent)
 
 }
 
-QQmlListProperty<NaiSysMenuItem> NaiSysMenu::items()
+QQmlListProperty<NaiSysMenuSection> NaiSysMenu::items()
 {
     return { this,
              this,
@@ -18,7 +18,7 @@ QQmlListProperty<NaiSysMenuItem> NaiSysMenu::items()
              &NaiSysMenu::removeLastItem };
 }
 
-void NaiSysMenu::appendItem(NaiSysMenuItem *item)
+void NaiSysMenu::appendItem(NaiSysMenuSection *item)
 {
     m_items.append(item);
     emit itemsChanged();
@@ -29,7 +29,7 @@ qsizetype NaiSysMenu::itemCount() const
     return m_items.count();
 }
 
-NaiSysMenuItem *NaiSysMenu::item(qsizetype index) const
+NaiSysMenuSection *NaiSysMenu::item(qsizetype index) const
 {
     return m_items.at(index);
 }
@@ -42,7 +42,7 @@ void NaiSysMenu::clearItems()
     }
 }
 
-void NaiSysMenu::replaceItem(qsizetype index, NaiSysMenuItem *item)
+void NaiSysMenu::replaceItem(qsizetype index, NaiSysMenuSection *item)
 {
     if (m_items.size() > index) {
         m_items[index] = item;
@@ -58,32 +58,32 @@ void NaiSysMenu::removeLastItem()
     }
 }
 
-void NaiSysMenu::appendItem(QQmlListProperty<NaiSysMenuItem> *list, NaiSysMenuItem *item)
+void NaiSysMenu::appendItem(QQmlListProperty<NaiSysMenuSection> *list, NaiSysMenuSection *item)
 {
     static_cast<NaiSysMenu *>(list->data)->appendItem(item);
 }
 
-void NaiSysMenu::clearItems(QQmlListProperty<NaiSysMenuItem> *list)
+void NaiSysMenu::clearItems(QQmlListProperty<NaiSysMenuSection> *list)
 {
     static_cast<NaiSysMenu *>(list->data)->clearItems();
 }
 
-void NaiSysMenu::replaceItem(QQmlListProperty<NaiSysMenuItem> *list, qsizetype index, NaiSysMenuItem *item)
+void NaiSysMenu::replaceItem(QQmlListProperty<NaiSysMenuSection> *list, qsizetype index, NaiSysMenuSection *item)
 {
     static_cast<NaiSysMenu *>(list->data)->replaceItem(index, item);
 }
 
-void NaiSysMenu::removeLastItem(QQmlListProperty<NaiSysMenuItem> *list)
+void NaiSysMenu::removeLastItem(QQmlListProperty<NaiSysMenuSection> *list)
 {
     static_cast<NaiSysMenu *>(list->data)->removeLastItem();
 }
 
-NaiSysMenuItem *NaiSysMenu::item(QQmlListProperty<NaiSysMenuItem> *list, qsizetype index)
+NaiSysMenuSection *NaiSysMenu::item(QQmlListProperty<NaiSysMenuSection> *list, qsizetype index)
 {
     return static_cast<NaiSysMenu *>(list->data)->item(index);
 }
 
-qsizetype NaiSysMenu::itemCount(QQmlListProperty<NaiSysMenuItem> *list)
+qsizetype NaiSysMenu::itemCount(QQmlListProperty<NaiSysMenuSection> *list)
 {
     return static_cast<NaiSysMenu *>(list->data)->itemCount();
 }

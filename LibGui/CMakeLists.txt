@@ -55,8 +55,8 @@ set( LAYOUT_FILES
 set( PLUGIN_FILES
     ${GUI_PLUGINS_DIR}/naisysmenu.h
     ${GUI_PLUGINS_DIR}/naisysmenu.cpp
-    ${GUI_PLUGINS_DIR}/naisysmenuitem.h
-    ${GUI_PLUGINS_DIR}/naisysmenuitem.cpp
+    ${GUI_PLUGINS_DIR}/naisysmenusection.h
+    ${GUI_PLUGINS_DIR}/naisysmenusection.cpp
     ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.h
     ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.cpp
 )
