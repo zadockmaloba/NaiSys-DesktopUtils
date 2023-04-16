@@ -1,5 +1,4 @@
 #include "naisysquickwindowexstension.h"
-#include <QMenuBar>
 
 NaiSysQuickWindowExstension::NaiSysQuickWindowExstension(QQuickWindow *parent)
     : QQuickWindow{parent},
@@ -21,6 +20,7 @@ void NaiSysQuickWindowExstension::setMenu(NaiSysMenu* newMenu)
         fileMenu->addAction("1");
         fileMenu->addAction("2");
         fileMenu->addAction("3");
+        fileMenu->addMenu("Submenu");
     }
     emit menuChanged();
 }
