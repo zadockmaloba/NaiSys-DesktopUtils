@@ -56,6 +56,7 @@ NaiSysDiv {
                 height: parent.height - root_footer.height
                 ScrollView{
                     anchors.fill: parent
+                    visible: true
                     Column {
                         anchors.fill: parent
                         spacing: root.form_field_spacing

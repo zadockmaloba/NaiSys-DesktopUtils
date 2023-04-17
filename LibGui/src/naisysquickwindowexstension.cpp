@@ -16,11 +16,12 @@ void NaiSysQuickWindowExstension::setMenu(NaiSysMenu* newMenu)
 {
     m_menu = newMenu;
     for(int i=0 ; i<(int)newMenu->itemCount(); ++i) {
-        auto fileMenu = m_menubar->addMenu(newMenu->item(i)->title());
-        fileMenu->addAction("1");
-        fileMenu->addAction("2");
-        fileMenu->addAction("3");
-        fileMenu->addMenu("Submenu");
+        auto _menu = newMenu->item(i);
+        auto _section = m_menubar->addMenu(_menu->title());
+        for(int j=0 ; j<(int)_menu->optionCount(); ++j) {
+            auto _option = _menu->option(j);
+            _section->addAction(_option->title());
+        }
     }
     emit menuChanged();
 }
