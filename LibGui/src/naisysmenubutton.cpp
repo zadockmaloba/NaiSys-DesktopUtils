@@ -3,7 +3,7 @@
 NaiSysMenuButton::NaiSysMenuButton(QQuickItem *parent)
     : NaiSysMenuItem{parent}
 {
-
+    this->setType(MenuItemType::MenuButton);
 }
 
 QJSValue *NaiSysMenuButton::action() const
