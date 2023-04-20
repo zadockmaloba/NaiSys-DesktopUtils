@@ -57,3 +57,29 @@ void NaiSysFormElement::setMasked(bool newMasked)
     m_masked = newMasked;
     emit maskedChanged();
 }
+
+QString NaiSysFormElement::displayRole() const
+{
+    return m_displayRole;
+}
+
+void NaiSysFormElement::setDisplayRole(const QString &newDisplayRole)
+{
+    if (m_displayRole == newDisplayRole)
+        return;
+    m_displayRole = newDisplayRole;
+    emit displayRoleChanged();
+}
+
+bool NaiSysFormElement::editable() const
+{
+    return m_editable;
+}
+
+void NaiSysFormElement::setEditable(bool newEditable)
+{
+    if (m_editable == newEditable)
+        return;
+    m_editable = newEditable;
+    emit editableChanged();
+}
