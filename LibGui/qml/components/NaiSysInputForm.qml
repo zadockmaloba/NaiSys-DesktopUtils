@@ -6,9 +6,18 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import libgui
 
 NaiSysDiv {
     id: root
+    default property NaiSysFormModel form_model: NaiSysFormModel {
+        NaiSysFormElement{
+            label: "Default"; type: NaiSysFormElement.LineEdit; value: "Testing"
+        }
+        NaiSysFormElement{
+            label: "Default 2"; type: NaiSysFormElement.LineEdit; value: "Testing"
+        }
+    }
     property bool form_title_show: true
     property double form_opacity_value: 0.8
     property int form_field_height: 28
@@ -16,12 +25,6 @@ NaiSysDiv {
     property string form_acceptbtn_title: "Submit"
     property string form_accent_color: "light grey"
     property string form_title_text: "Title"
-    //FIXME: Find a way to include arrays into a ListModel
-    property ListModel form_data_model: ListModel {
-        ListElement{name:"Test1"; type:"input"; secure: false; data:[]}
-        ListElement{name:"Test2"; type:"input"; secure: true; data:[]}
-        ListElement{name:"Test3"; type:"combo"; secure: false; data:[]}
-    }
     signal dataSubmitted()
 
     opacity: form_opacity_value
@@ -42,7 +45,8 @@ NaiSysDiv {
                 id: root_header_label
                 anchors.fill: parent
                 text: root.form_title_text
-                text_size: "h3"
+                font.pixelSize: 26
+                font.bold: true
             }
         }
         Column{
@@ -54,7 +58,7 @@ NaiSysDiv {
                 id: root_body
                 width: parent.width
                 height: parent.height - root_footer.height
-                ScrollView{
+                Item {
                     anchors.fill: parent
                     visible: true
                     Column {
@@ -75,6 +79,11 @@ NaiSysDiv {
                 RowLayout {
                     id: root_footer_layout
                     anchors.fill: parent
+                    anchors.topMargin: 5
+                    anchors.bottomMargin: 10
+                    anchors.leftMargin: 5
+                    anchors.rightMargin: 5
+                    spacing: 10
                     NaiSysButton {
                         id: root_footer_clearBtn
                         Layout.fillHeight: true
