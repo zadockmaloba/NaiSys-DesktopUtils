@@ -11,6 +11,7 @@ Item {
     id: root
     property string text: ""
     property string text_size: "p"
+    property alias font: root_text.font
     NaiSysText {
         id: root_text
         anchors.centerIn: parent
