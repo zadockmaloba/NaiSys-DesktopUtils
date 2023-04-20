@@ -25,10 +25,20 @@ NaiSysDiv {
     property string form_acceptbtn_title: "Submit"
     property string form_accent_color: "light grey"
     property string form_title_text: "Title"
-    signal dataSubmitted()
+    signal dataSubmitted(var data)
 
     opacity: form_opacity_value
     color: form_accent_color
+
+    function get_form_data() {
+        var ret = {};
+        for(var i in form_model.elements) {
+            var _lbl = form_model.elements[i].label
+            var _val = form_model.elements[i].value
+            ret[_lbl] = _val;
+        }
+        return ret;
+    }
 
     Column {
         id: root_layout
@@ -96,7 +106,7 @@ NaiSysDiv {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         text: root.form_acceptbtn_title
-                        onClicked: root.dataSubmitted()
+                        onClicked: root.dataSubmitted(root.get_form_data())
                     }
                 }
             }
@@ -143,6 +153,7 @@ NaiSysDiv {
                             echoMode: model.masked ? TextInput.Password : TextInput.Normal
                             text: model.value
                             onTextChanged: {
+                                model.value = text
                             }
                         }
                     }
