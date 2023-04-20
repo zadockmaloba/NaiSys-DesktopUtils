@@ -62,60 +62,8 @@ NaiSysDiv {
                         spacing: root.form_field_spacing
                         Repeater {
                             id: fieldRepeater
-                            model: form_data_model
-                            delegate: Item {
-                                id: fieldDelegate
-                                //FIXME?: Find out why setting required properties affects other props
-                                required property int index
-                                required property QtObject model
-                                width: parent.width
-                                height: root.form_field_height
-                                Row {
-                                    id: fieldDelegate_layout
-                                    anchors.fill: parent
-                                    Rectangle {
-                                        id: labelField
-                                        width: parent.width * 0.4
-                                        height: parent.height
-                                        NaiSysLabel {
-                                            anchors.fill: parent
-                                            text: model["name"]
-                                        }
-                                    }
-                                    Rectangle {
-                                        id: dataField
-                                        width: parent.width * 0.6
-                                        height: parent.height
-                                        color: "grey"
-                                        StackLayout {
-                                            id: dataField_layout
-                                            anchors.fill: parent
-                                            currentIndex: {
-                                                switch(model["type"]){
-                                                case "input": return 0;
-                                                case "combo": return 1;
-                                                default: return 0;
-                                                }
-                                            }
-                                            NaiSysInputField {
-                                                id: dataField_input
-                                                echoMode: model["secure"] ? TextInput.Password : TextInput.Normal
-                                                onTextChanged: {
-                                                    //TODO: Remove debug lines
-                                                    console.log(fieldDelegate.index);
-                                                    form_data_model.set(fieldDelegate.index, {"value": dataField_input.text})
-                                                }
-                                            }
-                                            NaiSysComboBox {
-                                                id: dataField_combo
-                                                //FIXME: Get ComboBox working in input form
-                                                //Issue related to Arrays in ListModel as indicated by FIXME above
-                                                //model: fieldRepeater.model["data"]
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            model: form_model.elements
+                            delegate: FormDelegate {}
                         }
                     }
                 }
@@ -140,6 +88,61 @@ NaiSysDiv {
                         Layout.fillWidth: true
                         text: root.form_acceptbtn_title
                         onClicked: root.dataSubmitted()
+                    }
+                }
+            }
+        }
+    }
+
+    component FormDelegate : Item {
+        required property int index
+        required property QtObject model
+        width: parent.width
+        height: root.form_field_height
+        Row {
+            id: fieldDelegate_layout
+            anchors.fill: parent
+            Rectangle {
+                id: labelField
+                width: parent.width * 0.4
+                height: parent.height
+                NaiSysLabel {
+                    anchors.fill: parent
+                    text: model.label
+                }
+            }
+            Rectangle {
+                id: dataField
+                width: parent.width * 0.6
+                height: parent.height
+                color: "grey"
+                Loader {
+                    id: dataField_layout
+                    anchors.fill: parent
+                    enabled: model.editable
+                    sourceComponent: {
+                        switch(model.type){
+                        case NaiSysFormElement.LineEdit: return comp_LineEdit;
+                        case NaiSysFormElement.ComboBox: return comp_ComboBox;
+                        default: return NaiSysFormElement.LineEdit;
+                        }
+                    }
+                    Component  {
+                        id: comp_LineEdit
+                        NaiSysInputField {
+                            id: dataField_input
+                            echoMode: model.masked ? TextInput.Password : TextInput.Normal
+                            text: model.value
+                            onTextChanged: {
+                            }
+                        }
+                    }
+                    Component {
+                        id: comp_ComboBox
+                        NaiSysComboBox {
+                            id: dataField_combo
+                            model: form_model.elements[index].value
+                        }
                     }
                 }
             }
