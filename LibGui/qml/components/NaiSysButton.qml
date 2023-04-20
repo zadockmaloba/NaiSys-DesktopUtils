@@ -10,15 +10,15 @@ import QtQuick.Layouts 1.15
 AbstractButton {
     id: root
     property int radius: 4
-    property string color: "grey"
-    property string border_color: "white"
-    property string secondary_color: "light grey"
+    property string color: "light grey"
+    property string border_color: color
+    property string secondary_color: "grey"
     property string text_size: "p"
 
     //FIXME: Binding not deferred warnings
     background: NaiSysDiv {
         id: root_background
-        color: "grey"
+        color: root.color
         radius: root.radius
         border_color: root.border_color
         NaiSysLabel {
@@ -28,6 +28,6 @@ AbstractButton {
         }
     }
     onPressedChanged: {
-        root_background.color = root.pressed ? root.color : root.secondary_color
+        root_background.color = root.pressed ? root.secondary_color : root.color
     }
 }
