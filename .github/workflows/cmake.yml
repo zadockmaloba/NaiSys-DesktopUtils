@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: Install system dependencies
-        if: runner.os == 'Linux'
+      if: runner.os == 'Linux'
         run: |
           sudo apt update
           sudo apt-get update
