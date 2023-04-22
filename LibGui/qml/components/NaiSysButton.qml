@@ -1,7 +1,6 @@
 // ************************************************
 // 2022, Zadock Maloba <zadockmaloba@outlook.com>
 // ************************************************
-
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
@@ -14,6 +13,7 @@ AbstractButton {
     property string border_color: color
     property string secondary_color: "grey"
     property string text_size: "p"
+    property alias div: root_background
 
     //FIXME: Binding not deferred warnings
     background: NaiSysDiv {
