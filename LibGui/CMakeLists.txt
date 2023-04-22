@@ -62,6 +62,8 @@ set( PLUGIN_FILES
     ${GUI_PLUGINS_DIR}/naisysmenuitem.cpp
     ${GUI_PLUGINS_DIR}/naisysmenusection.h
     ${GUI_PLUGINS_DIR}/naisysmenusection.cpp
+    ${GUI_PLUGINS_DIR}/naisysnotificationcontroller.h
+    ${GUI_PLUGINS_DIR}/naisysnotificationcontroller.cpp
     ${GUI_PLUGINS_DIR}/naisyssubmenu.h
     ${GUI_PLUGINS_DIR}/naisyssubmenu.cpp
     ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.h
