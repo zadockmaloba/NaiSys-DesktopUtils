@@ -14,11 +14,14 @@ NaiSysWindowPrivate {
             case NaiSysNotification.INFO:
             case NaiSysNotification.MESSAGE:
                 comp.color = "light grey"
+                comp_view.icon.source = "qrc:/dev.naisys.net/libgui/icons/info_icon.png"
                 break
             case NaiSysNotification.WARNING:
                 comp.color = "#fff9c4"
+                comp_view.icon.source = "qrc:/dev.naisys.net/libgui/icons/info_icon.png"
                 break
             case NaiSysNotification.ERROR:
+                comp_view.icon.source = "qrc:/dev.naisys.net/libgui/icons/info_icon.png"
                 comp.color = "#ff5252" //"#ef9a9a"
                 break
             }
@@ -35,12 +38,12 @@ NaiSysWindowPrivate {
         anchors.topMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
         contentWidth: width
-        contentHeight: 100
+        contentHeight: 90
         enabled: comp.visible
         NaiSysDiv {
             id: comp
             width: parent.width
-            height: 100
+            height: 90
             color: "light grey"
             opacity: 0.6
             radius: 8
@@ -80,6 +83,7 @@ NaiSysWindowPrivate {
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             width: parent.width * 0.25
+            fillMode: Image.PreserveAspectFit
         }
         NaiSysLabel {
             id: popup_textArea
