@@ -22,7 +22,10 @@ jobs:
       run: |
           sudo apt update
           sudo apt-get update
-          sudo apt-get -y install libxcb-xkb-dev build-essential libgl1-mesa-dev qt6-base-dev libssh-dev #package ssh dependency
+          sudo apt-get -y install libxcb-xkb-dev build-essential \
+          libgl1-mesa-dev qt6-base-dev qt6-declarative-dev \
+          qt6-httpserver-dev qt6-tools-dev qt6-5compat-dev \
+          libssh-dev #package ssh dependency
           while read -r cmd
           do
             eval sudo $cmd
