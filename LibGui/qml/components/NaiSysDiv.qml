@@ -4,6 +4,7 @@ import Qt5Compat.GraphicalEffects
 Item {
     id: root
     property string color: "#ffffff"
+    property alias border: background.border
     property string border_color: color
     property int border_width: 0
     property int radius: 2
