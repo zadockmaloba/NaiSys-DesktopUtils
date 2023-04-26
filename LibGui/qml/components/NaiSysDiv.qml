@@ -24,23 +24,23 @@ Item {
         radius: root.radius
     }
     DropShadow {
-            anchors.fill: background
-            visible: root.enable_shadow
-            horizontalOffset: root.shadow_offset_h
-            verticalOffset: root.shadow_offset_v
-            radius: root.shadow_radius
-            samples: root.shadow_samples
-            color: "grey"
-            source: background
+        anchors.fill: background
+        visible: root.enable_shadow
+        horizontalOffset: root.shadow_offset_h
+        verticalOffset: root.shadow_offset_v
+        radius: root.shadow_radius
+        samples: root.shadow_samples
+        color: "grey"
+        source: background
     }
     DropShadow {
-            anchors.fill: background
-            visible: root.enable_bloom
-            horizontalOffset: -(root.shadow_offset_h)
-            verticalOffset: -(root.shadow_offset_v)
-            radius: root.shadow_radius
-            samples: root.shadow_samples
-            color: "white"
-            source: background
+        anchors.fill: background
+        visible: root.enable_bloom
+        horizontalOffset: -(root.shadow_offset_h)
+        verticalOffset: -(root.shadow_offset_v)
+        radius: root.shadow_radius
+        samples: root.shadow_samples
+        color: "white"
+        source: background
     }
 }
