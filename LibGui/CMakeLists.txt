@@ -32,6 +32,7 @@ set( COMPONENT_FILES
     ${GUI_COMPONENTS_DIR}/NaiSysNavigationPane.qml
     ${GUI_COMPONENTS_DIR}/NaiSysProfileHeader.qml
     ${GUI_COMPONENTS_DIR}/NaiSysSlideShow.qml
+    ${GUI_COMPONENTS_DIR}/NaiSysTabWidget.qml
     ${GUI_COMPONENTS_DIR}/NaiSysTabButton.qml
     ${GUI_COMPONENTS_DIR}/NaiSysTable.qml
     ${GUI_COMPONENTS_DIR}/NaiSysTableWidget.qml
@@ -69,6 +70,8 @@ set( PLUGIN_FILES
     ${GUI_PLUGINS_DIR}/naisyssubmenu.cpp
     ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.h
     ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.cpp
+    ${GUI_PLUGINS_DIR}/naisystabelement.h
+    ${GUI_PLUGINS_DIR}/naisystabelement.cpp
 )
 
 set( ICON_FILES
