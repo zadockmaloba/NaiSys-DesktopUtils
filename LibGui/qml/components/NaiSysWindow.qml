@@ -38,12 +38,12 @@ NaiSysWindowPrivate {
         anchors.topMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
         contentWidth: width
-        contentHeight: 90
+        contentHeight: 70
         enabled: comp.visible
         NaiSysDiv {
             id: comp
             width: parent.width
-            height: 90
+            height: 70
             color: "light grey"
             opacity: 0.6
             radius: 8
@@ -51,6 +51,7 @@ NaiSysWindowPrivate {
             enabled: visible
             border_color: "grey"
             border_width: 2
+            enable_bloom: false
             PopupView {
                 id: comp_view
                 anchors.fill: parent
