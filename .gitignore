@@ -86,6 +86,6 @@ _deps
 
 # Binaries
 # --------
-*.dll
-*.exe
+#*.dll
+#*.exe
 
