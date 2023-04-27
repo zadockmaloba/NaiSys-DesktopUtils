@@ -13,7 +13,7 @@ set(GUI_LAYOUTS_DIR qml/layouts)
 set(GUI_PLUGINS_DIR src/)
 set(GUI_ICONS_DIR icons/)
 
-find_package(Qt6 6.2 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Core Gui Widgets REQUIRED)
 
 set( COMPONENT_FILES
     ${GUI_COMPONENTS_DIR}/NaiSysAbstractPopup.qml
