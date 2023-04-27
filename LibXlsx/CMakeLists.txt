@@ -9,6 +9,8 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
 find_package(Qt6 6.2 COMPONENTS Core Network Sql REQUIRED)
 
+add_subdirectory(SimpleXlsx)
+
 qt_add_library( naisysxlsx STATIC )
 
 target_include_directories( naisysxlsx PUBLIC
@@ -39,6 +41,7 @@ set_target_properties( naisysxlsx PROPERTIES
 
 target_link_libraries( naisysxlsx
     PRIVATE Qt6::Core
+    SimpleXlsx
 )
 
 install( TARGETS naisysxlsx

@@ -18,9 +18,12 @@ target_include_directories( naisyssettings PUBLIC
 
 set(PROJECT_HEADERS
     ${SOURCE_DIR}/systemconfig.h
+    naisyssettings.h
+
 )
 set(PROJECT_SOURCES
     ${SOURCE_DIR}/systemconfig.cpp
+    naisyssettings.cpp
 )
 
 target_sources( naisyssettings
