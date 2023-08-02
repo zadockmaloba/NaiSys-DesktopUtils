@@ -1,7 +1,10 @@
 #include "naisystabelement.h"
 
 NaiSysTabElement::NaiSysTabElement(QObject *parent)
-    : QObject{parent}
+    : QObject{parent},
+    m_closable{false},
+    m_editable{false},
+    m_visible{true}
 {
 
 }
@@ -32,12 +35,12 @@ void NaiSysTabElement::setSource(const QString &newSource)
     emit sourceChanged();
 }
 
-QQuickPaintedItem *NaiSysTabElement::sourceComponent() const
+QObject *NaiSysTabElement::sourceComponent() const
 {
     return m_sourceComponent;
 }
 
-void NaiSysTabElement::setSourceComponent(QQuickPaintedItem *newSourceComponent)
+void NaiSysTabElement::setSourceComponent(QObject *newSourceComponent)
 {
     if (m_sourceComponent == newSourceComponent)
         return;
@@ -56,4 +59,30 @@ void NaiSysTabElement::setClosable(bool newClosable)
         return;
     m_closable = newClosable;
     emit closableChanged();
+}
+
+bool NaiSysTabElement::visible() const
+{
+    return m_visible;
+}
+
+void NaiSysTabElement::setVisible(bool newVisible)
+{
+    if (m_visible == newVisible)
+        return;
+    m_visible = newVisible;
+    emit visibleChanged();
+}
+
+bool NaiSysTabElement::editable() const
+{
+    return m_editable;
+}
+
+void NaiSysTabElement::setEditable(bool newEditable)
+{
+    if (m_editable == newEditable)
+        return;
+    m_editable = newEditable;
+    emit editableChanged();
 }
