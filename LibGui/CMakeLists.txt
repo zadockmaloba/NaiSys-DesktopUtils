@@ -52,6 +52,8 @@ set( LAYOUT_FILES
 )
 
 set( PLUGIN_FILES
+    ${GUI_PLUGINS_DIR}/naisysapplicationcontroller.h
+    ${GUI_PLUGINS_DIR}/naisysapplicationcontroller.cpp
     ${GUI_PLUGINS_DIR}/naisysformelement.h
     ${GUI_PLUGINS_DIR}/naisysformelement.cpp
     ${GUI_PLUGINS_DIR}/naisysformmodel.h
