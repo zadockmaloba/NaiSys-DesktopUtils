@@ -18,7 +18,7 @@ AbstractButton {
     //FIXME: Binding not deferred warnings
     background: NaiSysDiv {
         id: root_background
-        color: root.color
+        color: root.pressed ? root.secondary_color : root.color
         radius: root.radius
         border_color: root.border_color
         NaiSysLabel {
@@ -26,8 +26,5 @@ AbstractButton {
             text: qsTr(root.text)
             text_size: root.text_size
         }
-    }
-    onPressedChanged: {
-        root_background.color = root.pressed ? root.secondary_color : root.color
     }
 }
