@@ -13,7 +13,7 @@ Item {
         Item {
             id: header_area
             width: parent.width
-            height: 35
+            height: 40
             NaiSysDiv {
                 id: header_background
                 anchors.fill: parent
@@ -21,7 +21,7 @@ Item {
                 anchors.bottomMargin: 2
                 anchors.leftMargin: 2
                 anchors.rightMargin: 2
-                color: "grey"
+                color: "light grey"
                 radius: 4
                 RowLayout {
                     id: header
@@ -38,10 +38,13 @@ Item {
                             div.enable_shadow: false
                             div.enable_bloom: false
                             div.border.color: "black"
-                            div.border.width: 1
-                            color: "grey"
+                            div.border.width: 0
+                            color: index === body_area_stack.currentIndex ? "grey" : "light grey"
                             secondary_color: "light grey"
                             text: model.title
+                            onClicked: {
+                                body_area_stack.currentIndex = index
+                            }
                         }
                     }
                 }
@@ -51,6 +54,22 @@ Item {
             id: body_area
             width: parent.width
             height: parent.height - header_area.height
+            StackLayout {
+                id: body_area_stack
+                anchors.fill: parent
+                Repeater {
+                    model: elements
+                    delegate: Loader {
+                        Component.onCompleted: {
+                            if (model.source === "") {
+                                sourceComponent = model.sourceComponent
+                            } else {
+                                source = model.source
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
