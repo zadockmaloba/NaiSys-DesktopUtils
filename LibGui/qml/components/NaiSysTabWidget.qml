@@ -58,8 +58,23 @@ Item {
                             color: index === body_area_stack.currentIndex ? "grey" : "light grey"
                             secondary_color: "light grey"
                             text: model.title
+                            hoverEnabled: true
                             onClicked: {
                                 body_area_stack.currentIndex = index
+                            }
+                            NaiSysButton {
+                                id: close_button
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                height: parent.height * 0.5
+                                width: height
+                                anchors.leftMargin: 5
+                                div.enable_bloom: false
+                                // div.enable_shadow: false
+                                div.color: "#c14b45"
+                                visible: model.closable && parent.hovered
+                                radius: width * 0.5
+                                onClicked: closeTab(index)
                             }
                         }
                     }
