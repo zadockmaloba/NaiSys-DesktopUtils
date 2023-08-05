@@ -6,6 +6,22 @@ import libgui
 Item {
     id: root
     default property list<NaiSysTabElement> elements
+    property list<NaiSysTabElement> elements_buffer
+
+    function newTab(tabIdentifier) {
+        elements_buffer.push(elements[tabIdentifier])
+    }
+
+    function closeTab(tabIdentifier) {
+        elements_buffer.splice(tabIdentifier, 1)
+    }
+
+    Component.onCompleted: {
+        for (var i in elements) {
+            if (elements[i].visible)
+                elements_buffer.push(elements[i])
+        }
+    }
 
     Column {
         id: root_layout
@@ -31,7 +47,7 @@ Item {
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
                     Repeater {
-                        model: elements
+                        model: elements_buffer
                         delegate: NaiSysButton {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -58,7 +74,7 @@ Item {
                 id: body_area_stack
                 anchors.fill: parent
                 Repeater {
-                    model: elements
+                    model: elements_buffer
                     delegate: Loader {
                         Component.onCompleted: {
                             if (model.source === "") {
