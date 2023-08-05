@@ -1,7 +1,7 @@
+
 // ************************************************
 // 2022, Zadock Maloba <zadockmaloba@outlook.com>
 // ************************************************
-
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
@@ -18,4 +18,5 @@ Item {
         text: qsTr(root.text)
         text_size: root.text_size
     }
+    //TODO: Implement editable property
 }
