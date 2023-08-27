@@ -5,7 +5,7 @@
 #include <QFile>
 
 #include "serverlangcore.h"
-#include "libpython.h"
+//#include "libpython.h"
 
 namespace NaiSys {
 namespace ServerLang {
@@ -136,7 +136,8 @@ void RunTime::interprate(const STNode::nodeptr &ast)
         }
 
         case NodeType::PY_SCOPE:
-            LibPython::execute_string(temp->second()->value()->toString().toStdString().c_str());
+            //LibPython::execute_string(temp->second()->value()->toString().toStdString().c_str());
+            fprintf(stderr, "[WARNING]: Python scopes are depricated");
             break;
 
         case NodeType::RETURN_EXPRESSION: {
