@@ -27,7 +27,7 @@ Item {
                 anchors.fill: parent
                 opacity: 0.8
                 color: "light grey"
-                Button{
+NaiSysButton {
                     id: previousBtn
                     width: 30
                     height: 40

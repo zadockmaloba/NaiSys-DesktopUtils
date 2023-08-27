@@ -2,40 +2,50 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-
 import "../components"
 
 Item {
     id: root
     property Component cmp_pageMenuBtns
     property ListModel mdl_pageArray
-    property ListModel mdl_quickLinks: ListModel{
-        ListElement{title:"Home"}
-        ListElement{title:"View"}
+    property ListModel mdl_quickLinks: ListModel {
+        ListElement {
+            title: "Home"
+        }
+        ListElement {
+            title: "View"
+        }
     }
 
-    ToolBar{
+    ToolBar {
         id: root_header
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 25
-        background: Rectangle{
-            gradient: Gradient{
-                GradientStop{position: 0; color: "#e0e0e0"}
-                GradientStop{position: 1; color: "#bdbdbd"}
+        height: 0
+        visible: false
+        background: Rectangle {
+            gradient: Gradient {
+                GradientStop {
+                    position: 0
+                    color: "#e0e0e0"
+                }
+                GradientStop {
+                    position: 1
+                    color: "#bdbdbd"
+                }
             }
         }
-        RowLayout{
+        RowLayout {
             anchors.fill: parent
             spacing: 2
-            RowLayout{
-                Layout.fillHeight: true;
-                Repeater{
+            RowLayout {
+                Layout.fillHeight: true
+                Repeater {
                     model: mdl_quickLinks
-                    ToolButton{
+                    ToolButton {
                         Layout.fillHeight: true
-                        Text{
+                        Text {
                             anchors.centerIn: parent
                             text: model["title"]
                             font.pointSize: 10
@@ -44,10 +54,12 @@ Item {
                         }
                     }
                 }
-                ToolSeparator{Layout.fillHeight: true}
-                Loader{
+                ToolSeparator {
+                    Layout.fillHeight: true
+                }
+                Loader {
                     id: root_header_loader
-                    Layout.fillHeight: true;
+                    Layout.fillHeight: true
                     sourceComponent: cmp_pageMenuBtns
                 }
             }
@@ -56,6 +68,7 @@ Item {
     Item {
         id: root_body
         anchors.top: root_header.bottom
+        anchors.topMargin: 5
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
@@ -65,19 +78,19 @@ Item {
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             anchors.right: root_body_sidePane.left
-            Loader{
+            Loader {
                 id: root_body_contentDiv_loader
                 anchors.fill: parent
                 source: mdl_pageArray.get(0)["source"]
                 onLoaded: {
-                    console.log("[COMPONENT LOADED]");
-                    if(root_body_contentDiv_loader.item.page_menu_bar){
-                        root.cmp_pageMenuBtns = root_body_contentDiv_loader.item.page_menu_bar;
-                        root_header_loader.visible = true;
-                        return;
-                    }
-                    else root_header_loader.visible = false;
-                    return;
+                    console.log("[COMPONENT LOADED]")
+                    if (root_body_contentDiv_loader.item.page_menu_bar) {
+                        root.cmp_pageMenuBtns = root_body_contentDiv_loader.item.page_menu_bar
+                        root_header_loader.visible = true
+                        return
+                    } else
+                        root_header_loader.visible = false
+                    return
                 }
             }
         }
@@ -86,7 +99,9 @@ Item {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             anchors.top: parent.top
-            color: "light grey"
+            color: "#eceff1"
+            shadow_offset_h: -4
+            shadow_radius: 12
             implicitWidth: 40
             width: parent.width * 0.2
             int_layoutSpaceWidth: root_body.width

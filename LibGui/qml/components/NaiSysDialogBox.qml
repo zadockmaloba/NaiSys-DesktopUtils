@@ -40,12 +40,12 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            Button{
+NaiSysButton {
                 text: "Cancel"
                 Layout.fillWidth: true; Layout.fillHeight: true
                 onClicked: closeDialog()
             }
-            Button{
+NaiSysButton {
                 text: "Okay"
                 Layout.fillWidth: true; Layout.fillHeight: true
                 onClicked: acceptDialog()

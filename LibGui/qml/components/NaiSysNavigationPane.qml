@@ -8,6 +8,8 @@ NaiSysDiv {
     property Loader ld_view
     property ListModel mdl_pages
 
+    signal pageSelected(var page)
+
     enable_bloom: false
 
     Behavior on width {
@@ -17,13 +19,19 @@ NaiSysDiv {
             duration: 200
         }
     }
-    Column {
+    ColumnLayout {
         anchors.fill: parent
         spacing: 2
-        ToolButton {
+        anchors.leftMargin: 5
+        anchors.rightMargin: 5
+        anchors.topMargin: 5
+        anchors.bottomMargin: 5
+        NaiSysButton {
             //FIXME: Binding loop
-            width: root.width
-            height: 25
+            Layout.fillWidth: true
+            Layout.preferredHeight: 25
+            Layout.minimumHeight: 25
+            div.enable_bloom: false
             onClicked: {
                 root.width = (root.width === 40 ? (int_layoutSpaceWidth * 0.2) : 40)
             }
@@ -34,8 +42,8 @@ NaiSysDiv {
             Row {
                 anchors.fill: parent
                 Text {
-                    height: parent.height
                     width: parent.width - 40
+                    anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("Menu")
                     font.pointSize: 12
                     font.family: "Arial"
@@ -54,10 +62,12 @@ NaiSysDiv {
             anchors.fill: parent
             model: mdl_pages
             delegate: ItemDelegate {
-                width: root.width
-                height: 25
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                Layout.minimumHeight: 25
                 onClicked: {
                     ld_view.setSource(model["source"])
+                    pageSelected(model["source"])
                 }
                 Rectangle {
                     anchors.fill: parent
@@ -66,8 +76,8 @@ NaiSysDiv {
                 Row {
                     anchors.fill: parent
                     Text {
-                        height: parent.height
                         width: parent.width - 40
+                        anchors.verticalCenter: parent.verticalCenter
                         text: qsTr(model["name"])
                         font.family: "Arial"
                         font.pointSize: 10
@@ -81,6 +91,11 @@ NaiSysDiv {
                     }
                 }
             }
+        }
+        Item {
+            id: spacer
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
     }
 }

@@ -85,7 +85,7 @@ NaiSysDiv {
                 font.bold: true
                 font.family: "Arial"
             }
-            Button{
+NaiSysButton {
                 id: addRowBtn
                 width: 40
                 height: parent.height * 0.8

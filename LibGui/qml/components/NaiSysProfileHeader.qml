@@ -2,17 +2,16 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-
 Item {
     id: root
 
     property string header_img_dir: "qrc:/background/images/vector-art-5-full.jpg"
     property string profile_img_dir: "qrc:/icons/images/misc-images/default-pfp.png"
     property string profile_title: "...."
-    property string accent_color: "teal"
-    property string background_color: "teal"
+    property string accent_color: "#eceff1"
+    property string background_color: "#eceff1"
 
-    Rectangle{
+    Rectangle {
         color: background_color
         anchors.fill: parent
         Image {
@@ -21,7 +20,7 @@ Item {
             fillMode: Image.PreserveAspectCrop
             source: header_img_dir
         }
-        Column{
+        Column {
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -30,7 +29,7 @@ Item {
             anchors.leftMargin: 2
             anchors.bottomMargin: 2
             anchors.rightMargin: 2
-            Rectangle{
+            Rectangle {
                 width: parent.width
                 height: parent.height * 0.2
                 opacity: 0.8
@@ -46,7 +45,7 @@ Item {
                 }
             }
         }
-        Rectangle{
+        Rectangle {
             id: root_body_profileHeader_picture_div
             anchors.top: parent.top
             anchors.right: parent.right

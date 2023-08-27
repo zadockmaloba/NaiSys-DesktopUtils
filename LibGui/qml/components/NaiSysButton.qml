@@ -21,6 +21,7 @@ AbstractButton {
         color: root.pressed ? root.secondary_color : root.color
         radius: root.radius
         border_color: root.border_color
+        enable_bloom: false
         NaiSysLabel {
             anchors.fill: parent
             text: qsTr(root.text)

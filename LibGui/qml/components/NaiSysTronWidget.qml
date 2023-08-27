@@ -55,13 +55,13 @@ Item {
             anchors.leftMargin: 5
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            Button{
+NaiSysButton {
                 id: tronOpenBtn
                 anchors.top: parent.top
                 anchors.left: parent.left
                 text: "Open"
                 onClicked: {
-                    root.openNewTab(mdl_AppModel.get(currContext).name, mdl_AppModel.get(currContext).cardobj)
+                    root.openNewTab(mdl_AppModel.get(currContext).name, mdl_AppModel.get(currContext).source)
                 }
             }
         }
