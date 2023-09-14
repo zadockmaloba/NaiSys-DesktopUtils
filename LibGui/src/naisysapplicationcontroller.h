@@ -8,7 +8,7 @@ class NaiSysApplicationController: public QQuickItem
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_UNCREATABLE("This is a class with static members")
+    QML_SINGLETON
 public:
     NaiSysApplicationController();
 
