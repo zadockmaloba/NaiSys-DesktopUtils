@@ -74,6 +74,8 @@ set( PLUGIN_FILES
     ${GUI_PLUGINS_DIR}/naisysquickwindowexstension.cpp
     ${GUI_PLUGINS_DIR}/naisystabelement.h
     ${GUI_PLUGINS_DIR}/naisystabelement.cpp
+    ${GUI_PLUGINS_DIR}/naisysnetworkwrapper.h
+    ${GUI_PLUGINS_DIR}/naisysnetworkwrapper.cpp
 )
 
 set( ICON_FILES
@@ -112,6 +114,7 @@ target_link_libraries( naisysgui
     PRIVATE Qt6::Core
     PRIVATE Qt6::Quick
     PRIVATE Qt6::Widgets
+    PRIVATE naisysnetwork
 )
 
 install( TARGETS naisysgui
