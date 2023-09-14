@@ -17,10 +17,10 @@ target_include_directories( naisysnetwork PUBLIC
 )
 
 set(PROJECT_HEADERS
-
+    ${SOURCE_DIR}/networkapi.h
 )
 set(PROJECT_SOURCES
-
+    ${SOURCE_DIR}/networkapi.cpp
 )
 
 target_sources( naisysnetwork
