@@ -25,8 +25,19 @@ public:
     static const job_map &requestHeap();
     Q_INVOKABLE static void createPushRequest(const QString& path, const QByteArray &data);
     Q_INVOKABLE static QByteArray createPushRequestAwait(const QString& path, const QByteArray &data);
-    Q_INVOKABLE static void createGetRequest(const QString& path, const QByteArray &data);
-    Q_INVOKABLE static QByteArray createGetRequestAwait(const QString& path, const QByteArray &data);
+    Q_INVOKABLE static void createGetRequest(const QString& path, const QByteArray &data={});
+    Q_INVOKABLE static QByteArray createGetRequestAwait(const QString& path, const QByteArray &data={});
+
+    Q_INVOKABLE static void createPushRequestSecure(const QString& path, const QByteArray &data);
+    Q_INVOKABLE static QByteArray createPushRequestAwaitSecure(const QString& path, const QByteArray &data);
+    Q_INVOKABLE static void createGetRequestSecure(const QString& path, const QByteArray &data={});
+    Q_INVOKABLE static QByteArray createGetRequestAwaitSecure(const QString& path, const QByteArray &data={});
+
+    static QString serverHost();
+    static void setServerHost(const QString &newServerHost);
+
+    static int serverPort();
+    static void setServerPort(int newServerPort);
 
 public slots:
     void onRequestComplete();
