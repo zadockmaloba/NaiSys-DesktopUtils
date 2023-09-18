@@ -41,6 +41,7 @@ NaiSysDiv {
             }
             Row {
                 anchors.fill: parent
+                anchors.leftMargin: 5
                 Text {
                     width: parent.width - 40
                     anchors.verticalCenter: parent.verticalCenter
@@ -61,23 +62,22 @@ NaiSysDiv {
         Repeater {
             anchors.fill: parent
             model: mdl_pages
-            delegate: ItemDelegate {
+            delegate: NaiSysButton {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 25
                 Layout.minimumHeight: 25
+                div.enable_bloom: false
                 onClicked: {
                     ld_view.setSource(model["source"])
                     pageSelected(model["source"])
                 }
-                Rectangle {
-                    anchors.fill: parent
-                    opacity: 0.3
-                }
+
                 Row {
                     anchors.fill: parent
                     Text {
                         width: parent.width - 40
                         anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: 10
                         text: qsTr(model["name"])
                         font.family: "Arial"
                         font.pointSize: 10
