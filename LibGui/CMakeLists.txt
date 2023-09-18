@@ -41,6 +41,7 @@ set( COMPONENT_FILES
     ${GUI_COMPONENTS_DIR}/NaiSysTronCard.qml
     ${GUI_COMPONENTS_DIR}/NaiSysTronWidget.qml
     ${GUI_COMPONENTS_DIR}/NaiSysWindow.qml
+    ${GUI_COMPONENTS_DIR}/NaiSysDropDownCard.qml
 )
 
 set( LAYOUT_FILES
