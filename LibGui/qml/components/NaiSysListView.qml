@@ -2,33 +2,34 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-
-
 NaiSysDiv {
     id: root
     property ListModel mdl_data
     property Component cmp_delegate
     property string title: "Title"
     property bool displaySearchBox: true
-    signal clicked(var index);
-    signal rightClicked(var index, var xpos, var ypos);
+    signal clicked(var index)
+    signal rightClicked(var index, var xpos, var ypos)
     property int selectedIndex
     property int delegateHeight: 25
     property bool clipList: false
-    property bool enableGlobalMapping : false
+    property bool enableGlobalMapping: false
     property QtObject selectedData
 
-    Column{
+    enable_bloom: false
+
+    Column {
         id: root_column
         anchors.fill: parent
         Item {
             id: root_column_header
             width: parent.width
             height: displaySearchBox ? parent.height * 0.12 : parent.height * 0.06
-            ColumnLayout{
+            ColumnLayout {
                 anchors.fill: parent
                 Item {
-                    Layout.fillWidth: true; Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     Text {
                         id: root_column_header_title
                         anchors.centerIn: parent
@@ -39,7 +40,8 @@ NaiSysDiv {
                     }
                 }
                 Item {
-                    Layout.fillWidth: true; Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     visible: displaySearchBox
                     TextField {
                         id: root_column_header_searchBox
@@ -49,40 +51,39 @@ NaiSysDiv {
                 }
             }
         }
-        Item{
+        Item {
             id: root_column_body
             width: parent.width
             height: parent.height - root_column_header.height
-            ListView{
+            ListView {
                 id: root_column_body_listView
                 anchors.fill: parent
                 model: mdl_data
                 clip: clipList
                 spacing: 2
-                delegate: Item{
+                delegate: Item {
                     width: root_column_body.width
                     height: delegateHeight
 
-                    MouseArea{
+                    MouseArea {
                         id: mouseRegion
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        onClicked: (mouse) => {
-                            if(mouse.button === Qt.LeftButton){
-                                console.log(index);
-                                root.clicked(index);
-                                selectedData = root_column_body_listView.model;
-                            }
-
-                            else if(mouse.button === Qt.RightButton) {
-                                var globalPos = enableGlobalMapping? mapToGlobal(mouseX, mouseY) : Qt.point(mouseX, mouseY);
-                                root.rightClicked(index, globalPos.x, globalPos.y);
-                            }
-
-                        }
+                        onClicked: mouse => {
+                                       if (mouse.button === Qt.LeftButton) {
+                                           console.log(index)
+                                           root.clicked(index)
+                                           selectedData = root_column_body_listView.model
+                                       } else if (mouse.button === Qt.RightButton) {
+                                           var globalPos = enableGlobalMapping ? mapToGlobal(mouseX, mouseY) : Qt.point(mouseX, mouseY)
+                                           root.rightClicked(index,
+                                                             globalPos.x,
+                                                             globalPos.y)
+                                       }
+                                   }
                     }
 
-                    Loader{
+                    Loader {
                         anchors.fill: parent
                         property int modelIndex: index
                         property QtObject model_obj: model
