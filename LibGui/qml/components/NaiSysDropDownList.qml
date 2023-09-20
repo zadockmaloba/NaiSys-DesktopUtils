@@ -1,20 +1,23 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import libgui
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-// import "networkmethods.js" as NetH
-ListView {
+Item {
     id: root
-    property string groupRole: ""
-    property string groupTitleRole: ""
-    property var groupList: []
-    property var data: []
+    required property var m_data
+    required property string groupRole
+    required property string nameRole
+    property int spacing: 5
 
+    QtObject {
+        id: p
+        property var groupList: ([])
+        property var sorted: groupBy(m_data, root.groupRole)
+    }
     function groupBy(mdl, rl) {
         let ret = []
-        const uniqueNames = []
-        const seenNames = {}
+        var uniqueNames = []
+        var seenNames = {}
 
         mdl.forEach(item => {
                         if (!seenNames[item[rl]]) {
@@ -23,7 +26,7 @@ ListView {
                         }
                     })
 
-        root.groupList = uniqueNames
+        p.groupList = uniqueNames
         for (var i in uniqueNames) {
             console.log(uniqueNames[i])
 
@@ -37,17 +40,22 @@ ListView {
                                                }
                                                return result
                                            }, {})
-
             ret.push(groupedData)
         }
 
+        //console.log(JSON.stringify(ret))
         return ret
     }
 
-    model: groupBy(data, root.groupRole)
-    delegate: NaiSysDropDownCard {
-        width: root.width
-        title: groupList[index]
-        items: model[title]
+    ListView {
+        anchors.fill: parent
+        spacing: root.spacing
+        model: p.sorted
+        delegate: NaiSysDropDownCard {
+            width: root.width
+            title: p.groupList[index]
+            items: model[root.title]
+            nameRole: root.nameRole
+        }
     }
 }

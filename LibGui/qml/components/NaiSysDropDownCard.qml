@@ -7,11 +7,10 @@ NaiSysButton {
 
     property int min_height: 60
     property int max_height: 300
-    property ListModel model: ListModel {
-        ListElement {}
-        ListElement {}
-        ListElement {}
-    }
+    property string title: ""
+    required property string nameRole
+    required property var items
+
     height: min_height
     onClicked: {
         if (height === min_height)
@@ -27,6 +26,11 @@ NaiSysButton {
             id: header
             width: parent.width
             height: min_height
+            NaiSysLabel {
+                anchors.fill: parent
+                text: root.title
+                text_size: "h2"
+            }
         }
         Rectangle {
             id: seperator
@@ -51,13 +55,14 @@ NaiSysButton {
                     anchors.fill: parent
                     spacing: 5
                     Repeater {
-                        model: 10
+                        model: items
                         delegate: NaiSysButton {
                             div.border_color: "grey"
                             div.border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
                             width: 100
                             height: 100
+                            text: modelData[nameRole]
                         }
                     }
                 }
