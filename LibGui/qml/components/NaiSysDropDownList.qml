@@ -13,6 +13,11 @@ Item {
         id: p
         property var groupList: ([])
         property var sorted: groupBy(m_data, root.groupRole)
+        property ListModel sorted_mdl: ListModel {
+            onCountChanged: {
+                console.log(model['Food'])
+            }
+        }
     }
     function groupBy(mdl, rl) {
         let ret = []
@@ -41,21 +46,31 @@ Item {
                                                return result
                                            }, {})
             ret.push(groupedData)
+            p.sorted_mdl.append(groupedData)
         }
 
         //console.log(JSON.stringify(ret))
         return ret
     }
 
+    Component.onCompleted: {
+
+    }
+
     ListView {
         anchors.fill: parent
         spacing: root.spacing
-        model: p.sorted
+        model: p.sorted_mdl
         delegate: NaiSysDropDownCard {
             width: root.width
+
             title: p.groupList[index]
-            items: model[root.title]
+            m_items: model[title]
             nameRole: root.nameRole
+
+            Component.onCompleted: {
+                console.log(model)
+            }
         }
     }
 }

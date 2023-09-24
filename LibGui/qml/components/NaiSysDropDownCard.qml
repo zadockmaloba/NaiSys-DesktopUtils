@@ -8,8 +8,8 @@ NaiSysButton {
     property int min_height: 60
     property int max_height: 300
     property string title: ""
-    required property string nameRole
-    required property var items
+    property string nameRole
+    property var m_items
 
     height: min_height
     onClicked: {
@@ -55,14 +55,14 @@ NaiSysButton {
                     anchors.fill: parent
                     spacing: 5
                     Repeater {
-                        model: items
+                        model: m_items
                         delegate: NaiSysButton {
                             div.border_color: "grey"
                             div.border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
                             width: 100
                             height: 100
-                            text: modelData[nameRole]
+                            text: model[nameRole]
                         }
                     }
                 }
