@@ -163,9 +163,12 @@ void ConnectionThread::onReadChannelFinished()
 void ConnectionThread::onErrorOccurred(QAbstractSocket::SocketError socketError)
 {
     auto const _b = qobject_cast<QTcpSocket*> (sender());
-    StreamIO::println("ERROR: %arg PORT %arg",
-                      QSTRING_TO_CSTR(_b->errorString()),
-                      QSTRING_TO_CSTR(QString::number(_b->localPort())));
+    if(_b){
+        StreamIO::println("ERROR: %arg PORT %arg",
+                          QSTRING_TO_CSTR(_b->errorString()),
+                          QSTRING_TO_CSTR(QString::number(_b->localPort())));
+    }
+
     qDebug() << socketError;
 }
 
