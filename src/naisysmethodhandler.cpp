@@ -83,6 +83,15 @@ const NaiSysHttpResponse MethodHandler::get()
 
         //qDebug() << "Content-Type: " << _hdr->value();
         //qDebug() << "Body: " << _bdy->value();
+        if(_hdr->value()->isNull()) {
+            qWarning() << "[WARNING]: Header value is null";
+            return {};
+        }
+
+        if(_bdy->value()->isNull()) {
+            qWarning() << "[WARNING]: Body value is null";
+            return {};
+        }
 
         NaiSysHttpResponse postResp("HTTP/1.1 200 Ok\r\n", _bdy->value()->toByteArray());
         //postResp.appendRawHeader("Connection", "keep-alive");
