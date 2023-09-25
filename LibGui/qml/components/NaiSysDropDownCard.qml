@@ -20,6 +20,12 @@ NaiSysButton {
     }
     div.enable_bloom: false
 
+    Behavior on height {
+        SmoothedAnimation {
+            duration: 300
+        }
+    }
+
     Column {
         anchors.fill: parent
         Item {
