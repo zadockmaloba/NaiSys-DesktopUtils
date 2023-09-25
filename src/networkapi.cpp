@@ -39,7 +39,9 @@ void NetworkController::createGetRequest(const QString& path, const QByteArray &
 QByteArray NetworkController::createGetRequestAwait(const QString& path, const QByteArray &data)
 {
     QByteArray ret;
-    auto reply = netManager()->get(QNetworkRequest("http://"+m_serverHost+":"+QString::number(m_serverPort)+path));
+
+    auto reply = netManager()->get(
+        QNetworkRequest("http://" + m_serverHost + ":" + QString::number(m_serverPort) + path));
 
     connect(reply, &QNetworkReply::finished, [reply, &ret]() {
         ret = reply->readAll();
@@ -78,7 +80,9 @@ void NetworkController::createGetRequestSecure(const QString &path, const QByteA
 QByteArray NetworkController::createGetRequestAwaitSecure(const QString &path, const QByteArray &data)
 {
     QByteArray ret;
-    auto reply = netManager()->get(QNetworkRequest("https://"+m_serverHost+":"+QString::number(m_serverPort)+path));
+
+    auto reply = netManager()->get(
+        QNetworkRequest("https://" + m_serverHost + ":" + QString::number(m_serverPort) + path));
 
     connect(reply, &QNetworkReply::finished, [reply, &ret]() {
         ret = reply->readAll();
