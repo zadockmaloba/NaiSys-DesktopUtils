@@ -2,14 +2,14 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-
 Popup {
     id: root
     width: 250
     height: 150
     modal: true
+    focus: true
     contentItem: NaiSysDiv {
-        Column{
+        Column {
             anchors.fill: parent
             Item {
                 height: parent.height * 0.3
@@ -24,9 +24,11 @@ Popup {
             Item {
                 height: parent.height * 0.7
                 width: parent.width
-                ProgressBar{
+                AnimatedImage {
+                    id: loadingIcon
                     anchors.fill: parent
-                    indeterminate: true
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/dev.naisys.net/libgui/resources/loading4.gif"
                 }
             }
         }
