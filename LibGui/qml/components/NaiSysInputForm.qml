@@ -164,6 +164,14 @@ NaiSysDiv {
                             model: form_model.elements[index].value
                         }
                     }
+                    Component {
+                        id: comp_CheckBox
+                        CheckBox {
+                            id: dataField_check
+                            checkable: model.editable
+                            checkState: model.value ? Qt.Checked : Qt.Unchecked
+                        }
+                    }
                 }
             }
         }
