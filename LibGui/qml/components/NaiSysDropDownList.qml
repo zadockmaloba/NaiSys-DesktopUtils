@@ -15,7 +15,8 @@ Item {
         property var sorted: groupBy(m_data, root.groupRole)
         property ListModel sorted_mdl: ListModel {
             onCountChanged: {
-                console.log(model['Food'])
+
+                //console.log(model['Food'])
             }
         }
     }
