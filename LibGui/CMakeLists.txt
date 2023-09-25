@@ -12,6 +12,7 @@ set(GUI_COMPONENTS_DIR qml/components)
 set(GUI_LAYOUTS_DIR qml/layouts)
 set(GUI_PLUGINS_DIR src/)
 set(GUI_ICONS_DIR icons/)
+set(GUI_RESOURCES_DIR resources/)
 
 find_package(Qt6 6.2 COMPONENTS Quick Core Gui Widgets REQUIRED)
 
@@ -85,6 +86,14 @@ set( ICON_FILES
     ${GUI_ICONS_DIR}/warning_icon.png
 )
 
+set( MISC_RESOURCES
+    ${GUI_RESOURCES_DIR}/loading.gif
+    ${GUI_RESOURCES_DIR}/loading2.gif
+    ${GUI_RESOURCES_DIR}/loading3.gif
+    ${GUI_RESOURCES_DIR}/loading4.gif
+    ${GUI_RESOURCES_DIR}/loading-icon.png
+)
+
 set( EXPORT_NAME "libgui")
 
 qt6_add_library( naisysgui STATIC )
@@ -93,7 +102,7 @@ qt6_add_qml_module( naisysgui
     VERSION 1.0
     QML_FILES ${COMPONENT_FILES} ${LAYOUT_FILES}
     SOURCES ${PLUGIN_FILES}
-    RESOURCES ${ICON_FILES}
+    RESOURCES ${ICON_FILES} ${MISC_RESOURCES}
     RESOURCE_PREFIX dev.naisys.net
     IMPORT_PATH ${CMAKE_BINARY_DIR}
 )
