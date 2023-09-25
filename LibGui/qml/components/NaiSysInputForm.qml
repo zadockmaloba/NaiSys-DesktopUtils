@@ -1,7 +1,6 @@
 // ************************************************
 // 2022, Zadock Maloba <zadockmaloba@outlook.com>
 // ************************************************
-
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
@@ -11,11 +10,15 @@ import libgui
 NaiSysDiv {
     id: root
     default property NaiSysFormModel form_model: NaiSysFormModel {
-        NaiSysFormElement{
-            label: "Default"; type: NaiSysFormElement.LineEdit; value: "Testing"
+        NaiSysFormElement {
+            label: "Default"
+            type: NaiSysFormElement.LineEdit
+            value: "Testing"
         }
-        NaiSysFormElement{
-            label: "Default 2"; type: NaiSysFormElement.LineEdit; value: "Testing"
+        NaiSysFormElement {
+            label: "Default 2"
+            type: NaiSysFormElement.LineEdit
+            value: "Testing"
         }
     }
     property bool form_title_show: true
@@ -31,13 +34,13 @@ NaiSysDiv {
     color: form_accent_color
 
     function get_form_data() {
-        var ret = {};
-        for(var i in form_model.elements) {
+        var ret = {}
+        for (var i in form_model.elements) {
             var _lbl = form_model.elements[i].label
             var _val = form_model.elements[i].value
-            ret[_lbl] = _val;
+            ret[_lbl] = _val
         }
-        return ret;
+        return ret
     }
 
     Column {
@@ -59,7 +62,7 @@ NaiSysDiv {
                 font.bold: true
             }
         }
-        Column{
+        Column {
             id: root_body_layout
             width: parent.width
             height: parent.height * 0.8
@@ -113,7 +116,7 @@ NaiSysDiv {
         }
     }
 
-    component FormDelegate : Item {
+    component FormDelegate: Item {
         required property int index
         required property QtObject model
         width: parent.width
@@ -140,18 +143,22 @@ NaiSysDiv {
                     anchors.fill: parent
                     enabled: model.editable
                     sourceComponent: {
-                        switch(model.type){
-                        case NaiSysFormElement.LineEdit: return comp_LineEdit;
-                        case NaiSysFormElement.ComboBox: return comp_ComboBox;
-                        default: return NaiSysFormElement.LineEdit;
+                        switch (model.type) {
+                        case NaiSysFormElement.LineEdit:
+                            return comp_LineEdit
+                        case NaiSysFormElement.ComboBox:
+                            return comp_ComboBox
+                        default:
+                            return NaiSysFormElement.LineEdit
                         }
                     }
-                    Component  {
+                    Component {
                         id: comp_LineEdit
                         NaiSysInputField {
                             id: dataField_input
                             echoMode: model.masked ? TextInput.Password : TextInput.Normal
                             text: model.value
+                            readOnly: !model.editable
                             onTextChanged: {
                                 model.value = text
                             }
@@ -161,6 +168,7 @@ NaiSysDiv {
                         id: comp_ComboBox
                         NaiSysComboBox {
                             id: dataField_combo
+                            editable: form_model.elements[index].editable
                             model: form_model.elements[index].value
                         }
                     }
