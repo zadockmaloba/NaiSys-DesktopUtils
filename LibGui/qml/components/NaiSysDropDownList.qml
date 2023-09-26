@@ -9,6 +9,8 @@ Item {
     required property string nameRole
     property int spacing: 5
 
+    property list<var> selected_items: []
+
     QtObject {
         id: p
         property var groupList: ([])
@@ -68,6 +70,7 @@ Item {
             title: p.groupList[index]
             m_items: model[title]
             nameRole: root.nameRole
+            list_delegate: selected_items
 
             Component.onCompleted: {
                 console.log(model)
