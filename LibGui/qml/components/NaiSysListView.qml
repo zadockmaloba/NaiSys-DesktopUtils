@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.12
 
 NaiSysDiv {
     id: root
-    property ListModel mdl_data
+    property alias mdl_data: root_column_body_listView.model
     property Component cmp_delegate
     property string title: "Title"
     property bool displaySearchBox: true
@@ -58,7 +58,6 @@ NaiSysDiv {
             ListView {
                 id: root_column_body_listView
                 anchors.fill: parent
-                model: mdl_data
                 clip: clipList
                 spacing: 2
                 delegate: Item {
