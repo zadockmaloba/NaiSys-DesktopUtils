@@ -11,6 +11,10 @@ NaiSysButton {
     property string nameRole
     property var m_items
 
+    property var list_delegate: []
+
+    signal itemSelected(var itm)
+
     height: min_height
     onClicked: {
         if (height === min_height)
@@ -56,6 +60,7 @@ NaiSysButton {
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
                 anchors.bottomMargin: 5
+                ScrollBar.vertical.interactive: false
                 //orientation: Qt.Horizontal
                 Row {
                     anchors.fill: parent
@@ -69,6 +74,11 @@ NaiSysButton {
                             width: 100
                             height: 100
                             text: model[nameRole]
+                            onClicked: {
+                                console.log(m_items.get(index)["primary_name"])
+                                itemSelected(m_items.get(index))
+                                selected_items.push(m_items.get(index))
+                            }
                         }
                     }
                 }
