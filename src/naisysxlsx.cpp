@@ -4,7 +4,7 @@
 #include "Xlsx/Worksheet.h"
 
 #if __has_include(<bsd/stdlib.h>)
-#define arc4random(x) srandom(x)
+#define arc4random srandom
 #endif
 
 namespace NaiSys {
