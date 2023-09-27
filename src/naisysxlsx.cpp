@@ -3,6 +3,10 @@
 #include "Xlsx/Workbook.h"
 #include "Xlsx/Worksheet.h"
 
+#if __has_include(<bsd/stdlib.h>)
+#define arc4random(x) srandom(x)
+#endif
+
 namespace NaiSys {
 
 NaiSysXLSX::NaiSysXLSX(QObject *parent)
