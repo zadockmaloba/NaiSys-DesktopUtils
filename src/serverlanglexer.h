@@ -9,7 +9,7 @@
 #include "serverlangtypes.h"
 
 #if __has_include(<bsd/stdlib.h>)
-#define arc4random srandom
+#define arc4random random
 #endif
 
 
