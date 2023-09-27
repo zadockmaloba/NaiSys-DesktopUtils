@@ -8,6 +8,10 @@
 #include "serverlangnode.h"
 #include "serverlangtypes.h"
 
+#if __has_include(<bsd/stdlib.h>)
+#define arc4random(x) srandom(x)
+#endif
+
 
 #define __MATCH_ITERATOR(x,y) for(auto &v : x)\
 {\
