@@ -23,7 +23,7 @@ jobs:
           sudo apt update
           sudo apt-get update
           sudo apt-get -y install libbsd-dev libxcb-xkb-dev build-essential \
-          libgl1-mesa-dev qt6-base-dev qt6-declarative-dev \
+          libgl1-mesa-dev qt6-base-dev qt6-declarative-dev qml-module-qtquick2 \
           qt6-tools-dev \
           libssh-dev #package ssh dependency
           while read -r cmd
