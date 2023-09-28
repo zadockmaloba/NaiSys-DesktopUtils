@@ -85,7 +85,7 @@ NaiSysDiv {
                     Loader {
                         anchors.fill: parent
                         property int modelIndex: index
-                        property QtObject model_obj: model
+                        property var model_obj: model
                         sourceComponent: cmp_delegate
                     }
                 }
