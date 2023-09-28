@@ -9,7 +9,7 @@ Item {
     required property string nameRole
     property int spacing: 5
 
-    property list<var> selected_items: []
+    property list<var> selected_items
 
     QtObject {
         id: p
