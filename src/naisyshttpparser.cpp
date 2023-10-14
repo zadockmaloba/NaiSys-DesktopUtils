@@ -58,7 +58,7 @@ const DesirializedData HttpParser::getDesirializedData([[maybe_unused]]QByteArra
 const QJsonObject HttpParser::getJsonHeader(const QByteArray &header)
 {
     QJsonObject jsObj;
-    auto const _b = QString::fromUtf8(header).split("\r\n");
+    auto const _b = QString::fromUtf8(QByteArray::fromPercentEncoding(header)).split("\r\n");
     auto const _d = _b[0].split(" ");
     if(_d.size() >= 3){
         jsObj = {{"Method", _d[0]},
