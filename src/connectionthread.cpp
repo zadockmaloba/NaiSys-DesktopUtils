@@ -53,7 +53,7 @@ void ConnectionThread::run()
 
             EOH = (rd == "\r\n");
 
-            EOH ? _headerBA : _headerBA.append(rd);
+            EOH ? _headerBA : _headerBA.append(QByteArray::fromPercentEncoding(rd));
         }
         _headerBA.chop(2); //has no effect when expecting body
 
