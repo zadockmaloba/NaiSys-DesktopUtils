@@ -67,17 +67,24 @@ NaiSysButton {
                     spacing: 5
                     Repeater {
                         model: m_items
-                        delegate: NaiSysButton {
-                            div.border_color: "grey"
-                            div.border.width: 1
+                        delegate: NaiSysSelectButton {
+                            property int arrayIndex
+                            //div.border_color: "grey"
+                            //div.border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
                             width: 100
                             height: 100
                             text: model[nameRole]
+                            single_select: true
                             onClicked: {
-                                console.log(m_items.get(index)["primary_name"])
-                                itemSelected(m_items.get(index))
-                                selected_items.push(m_items.get(index))
+                                if (selected) {
+                                    var itm = m_items.get(index)["primary_name"]
+                                    console.log(itm)
+                                    itemSelected(m_items.get(index))
+                                    selected_items[itm] = m_items.get(index)
+                                    console.log(JSON.stringify(selected_items))
+                                    //arrayIndex = selected_items.size() - 1
+                                }
                             }
                         }
                     }

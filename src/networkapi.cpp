@@ -43,8 +43,12 @@ QByteArray NetworkController::createGetRequestAwait(const QString& path, const Q
     auto reply = netManager()->get(
         QNetworkRequest("http://" + m_serverHost + ":" + QString::number(m_serverPort) + path));
 
-    connect(reply, &QNetworkReply::finished, [reply, &ret]() {
-        ret = reply->readAll();
+    connect(reply, &QNetworkReply::finished, [reply, &ret]() { ret = reply->readAll(); });
+
+    connect(reply, &QNetworkReply::errorOccurred, [&]() {
+        auto tmp = reply->errorString();
+        qDebug() << tmp;
+        // emit requestError(tmp);
     });
 
     reply->waitForReadyRead(3000);
@@ -84,9 +88,9 @@ QByteArray NetworkController::createGetRequestAwaitSecure(const QString &path, c
     auto reply = netManager()->get(
         QNetworkRequest("https://" + m_serverHost + ":" + QString::number(m_serverPort) + path));
 
-    connect(reply, &QNetworkReply::finished, [reply, &ret]() {
-        ret = reply->readAll();
-    });
+    connect(reply, &QNetworkReply::finished, [reply, &ret]() { ret = reply->readAll(); });
+
+    connect(reply, &QNetworkReply::errorOccurred, [&]() { qDebug() << reply->errorString(); });
 
     reply->waitForReadyRead(3000);
 

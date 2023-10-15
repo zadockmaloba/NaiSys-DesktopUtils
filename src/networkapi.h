@@ -45,6 +45,7 @@ public slots:
 signals:
     void requestStarted();
     void requestComplete();
+    void requestError(const QString);
 
 private:
     static netman_ptr m_netManager;
