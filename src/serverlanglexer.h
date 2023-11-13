@@ -106,6 +106,7 @@ public:
 private://methods
     static const QStringList find_regex_match(const QRegularExpression &exp, const QString &str)
     {
+        exp.optimize();
         QStringList ret;
         auto itr = exp.globalMatch(str);
         while(itr.hasNext()){
