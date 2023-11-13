@@ -10,6 +10,7 @@ NaiSysButton {
     property string title: ""
     property string nameRole
     property var m_items
+    property bool single_select: true
 
     property var list_delegate: []
 
@@ -75,7 +76,7 @@ NaiSysButton {
                             width: 100
                             height: 100
                             text: model[nameRole]
-                            single_select: true
+                            single_select: root.single_select
                             onClicked: {
                                 if (selected) {
                                     var itm = m_items.get(index)["primary_name"]
