@@ -83,7 +83,8 @@ public:
     size_t size() const {
         return m_size;
     }
-    const T_vl at(const T_ky &_key) const {
+    T_vl at(T_ky _key) const
+    {
         if(m_pairs.begin() != m_pairs.end()) {
             for(auto &v : m_pairs) {
                 if(_key == v->first()) return v->second();

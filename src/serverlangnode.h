@@ -49,19 +49,19 @@ class STNode
 {
 public://Typedefs
     using nodeptr = std::shared_ptr<STNode>;
-    using declscope = NaiSys::Core::IndexedMap<const QString, nodeptr>;
+    using declscope = NaiSys::Core::IndexedMap<QStringView, nodeptr>;
 
 public:
     STNode() = default;
     ~STNode(){}
 
 public: // helper methods
-    const nodeptr check_for_declaration(const QString &name);
+    const nodeptr check_for_declaration(QStringView name);
     void add_declaration(const nodeptr &decl);
-    static NodeType get_typecode_from_typename(const QString &tname);
+    static NodeType get_typecode_from_typename(QStringView tname);
 
 public: //GETTERS AND SETTERS
-    QString name() const;
+    QStringView name() const;
     void setName(const QString &newName);
 
     nodeptr parentScope() const;
@@ -94,13 +94,13 @@ public: //GETTERS AND SETTERS
     declscope declarationMap() const;
     void setDeclarationMap(const declscope newDeclarationMap);
 
-    QString typeName() const;
+    QStringView typeName() const;
     void setTypeName(const QString &newTypeName);
 
     QVariantMap parametersMap() const;
     void setParametersMap(const QVariantMap &newParametersMap);
 
-    QString referencedId() const;
+    QStringView referencedId() const;
     void setReferencedId(const QString &newReferencedId);
 
 protected:

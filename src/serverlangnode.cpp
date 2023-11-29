@@ -3,7 +3,7 @@
 namespace NaiSys {
 namespace ServerLang {
 
-const STNode::nodeptr STNode::check_for_declaration(const QString &name)
+const STNode::nodeptr STNode::check_for_declaration(QStringView name)
 {
     qDebug() << "Checking for: " << name << " in: " << this->name();
     if(declarationMap().has(name)){
@@ -23,7 +23,7 @@ void STNode::add_declaration(const nodeptr &decl)
     m_declarationMap.push_back(decl->name(), decl);
 }
 
-QString STNode::name() const
+QStringView STNode::name() const
 {
     return m_name;
 }
@@ -140,7 +140,7 @@ void STNode::setDeclarationMap(const declscope newDeclarationMap)
 #endif
 }
 
-QString STNode::typeName() const
+QStringView STNode::typeName() const
 {
     return m_typeName;
 }
@@ -160,7 +160,7 @@ void STNode::setParametersMap(const QVariantMap &newParametersMap)
     m_parametersMap = newParametersMap;
 }
 
-QString STNode::referencedId() const
+QStringView STNode::referencedId() const
 {
     return m_referencedId;
 }
@@ -170,13 +170,18 @@ void STNode::setReferencedId(const QString &newReferencedId)
     m_referencedId = newReferencedId;
 }
 
-NodeType STNode::get_typecode_from_typename(const QString &tname)
+NodeType STNode::get_typecode_from_typename(QStringView tname)
 {
-    if(tname == "I16") return NodeType::INTEGER;
-    else if(tname == "Float") return NodeType::FLOAT;
-    else if(tname == "Double") return NodeType::DOUBLE;
-    else if(tname == "String") return NodeType::STRING;
-    else if(tname == "ByteArray") return NodeType::BYTEARRAY;
+    if (tname.toString() == "I16")
+        return NodeType::INTEGER;
+    else if (tname.toString() == "Float")
+        return NodeType::FLOAT;
+    else if (tname.toString() == "Double")
+        return NodeType::DOUBLE;
+    else if (tname.toString() == "String")
+        return NodeType::STRING;
+    else if (tname.toString() == "ByteArray")
+        return NodeType::BYTEARRAY;
 
     return NodeType::VARIANT;
 }

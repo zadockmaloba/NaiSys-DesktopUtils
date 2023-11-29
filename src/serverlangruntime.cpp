@@ -30,7 +30,8 @@ void RunTime::interprate(const STNode::nodeptr &ast)
         case NodeType::CALL_EXPRESSION:{
             auto nm = temp->second()->name();
             qDebug() << "Executing Function symbol: " << nm;
-            if(nm.contains("://")) nm = nm.split("://").at(1);
+            if (nm.toString().contains("://"))
+                nm = nm.toString().split("://").at(1);
 
             QVariantMap _plist;
             for(auto &_v : temp->second()->declarationMap()) {
@@ -84,13 +85,13 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                         qWarning() << "WARNING: Cannot interprate parameter label";
                     }
                 }
-                _plist.insert(_v->second()->name(), *_v->second()->value());
+                _plist.insert(_v->second()->name().toString(), *_v->second()->value());
             }
             //TODO: Make parameters map a variant list
             temp->second()->setParametersMap(_plist);
-            if(temp->second()->name().contains("://Core::")) {
+            if (temp->second()->name().toString().contains("://Core::")) {
                 try {
-                    temp->second()->setValue( Core::exec(nm, temp->second()->parametersMap()) );
+                    temp->second()->setValue(Core::exec(nm, temp->second()->parametersMap()));
                 }
                 catch(...) {
                     qWarning() << "[WARNING]: Calling undefined function: " << temp->second()->name();

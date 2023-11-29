@@ -284,11 +284,9 @@ struct Struct : STNode
 
         m_data = QJsonDocument::fromJson(this->raw()).object();
     }
-    const QString checkFor(const QString &key)
-    {
-        return m_data.value(key).toString();
-    }
-private://members
+    const QString checkFor(QStringView key) { return m_data.value(key.toString()).toString(); }
+
+private: //members
     QJsonObject m_data;
 
 private:
@@ -323,8 +321,8 @@ private:
         this->setValue(operand()->value());
         return {};
     };
-    const ast_operator access = [this]()mutable->value_ptr{
-        this->setReturnval(value_ptr{ new QVariant(operand()->name())});
+    const ast_operator access = [this]() mutable -> value_ptr {
+        this->setReturnval(value_ptr{new QVariant(operand()->name().toString())});
         return {};
     };
 };

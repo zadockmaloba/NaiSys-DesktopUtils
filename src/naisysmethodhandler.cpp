@@ -59,8 +59,8 @@ const NaiSysHttpResponse MethodHandler::get()
         qDebug() << "[ROUTER]: Path found";
         auto sc = rt.BufferAST()->declarationMap().at(l);
         rt.interprate(sc);
-        auto const _hdr = sc->declarationMap().at("Header");
-        auto const _bdy = sc->declarationMap().at("Body");
+        auto const _hdr = sc->declarationMap().at(QString("Header"));
+        auto const _bdy = sc->declarationMap().at(QString("Body"));
 
         //qDebug() << "Content-Type: " << _hdr->value();
         //qDebug() << "Body: " << _bdy->value();
@@ -73,13 +73,12 @@ const NaiSysHttpResponse MethodHandler::get()
                                      QByteArray::number(postResp.body().size()));
 
         return postResp;
-    }
-    else if(rt.BufferAST()->declarationMap().has("/*")) {
+    } else if (rt.BufferAST()->declarationMap().has(QString("/*"))) {
         qDebug() << "[ROUTER]: Default path found";
-        auto sc = rt.BufferAST()->declarationMap().at("/*");
+        auto sc = rt.BufferAST()->declarationMap().at(QString("/*"));
         rt.interprate(sc);
-        auto const _hdr = sc->declarationMap().at("Header");
-        auto const _bdy = sc->declarationMap().at("Body");
+        auto const _hdr = sc->declarationMap().at(QString("Header"));
+        auto const _bdy = sc->declarationMap().at(QString("Body"));
 
         //qDebug() << "Content-Type: " << _hdr->value();
         //qDebug() << "Body: " << _bdy->value();
