@@ -12,15 +12,14 @@
 #define arc4random random
 #endif
 
-
-#define __MATCH_ITERATOR(x,y) for(auto &v : x)\
-{\
-    auto const __obj = STNode::nodeptr(new y);\
-    __obj->setName(QString::number(arc4random()));\
-    __obj->setRaw(v.toUtf8());\
-    node_recursive_analysis(__obj);\
-    m_tokenList.push_back(__obj);\
-    }\
+#define __MATCH_ITERATOR(x, y) \
+    for (auto &v : x) { \
+        auto const __obj = STNode::nodeptr(new y); \
+        __obj->setName(QString::number(arc4random())); \
+        __obj->setRaw(v.toUtf8()); \
+        node_recursive_analysis(__obj); \
+        m_tokenList.push_back(__obj); \
+    }
 
 namespace NaiSys {
 namespace ServerLang {
@@ -35,6 +34,35 @@ public:
     {
         QString m_lexicalScope = data;
         std::vector<STNode::nodeptr> m_tokenList;
+
+        //JIT the regex
+        {
+            py_scope_capture.optimize();
+            hook_decl.optimize();
+            function_decl.optimize();
+            function_call.optimize();
+            param_labels_capture.optimize();
+            variadic_param_capture.optimize();
+            class_decl.optimize();
+            class_decl_inner.optimize();
+            struct_decl.optimize();
+            struct_decl_inner.optimize();
+            variable_decl.optimize();
+            array_decl.optimize();
+            //parameters_capture.optimize();
+            scope_capture.optimize();
+            varvalue_capture.optimize();
+            binexpression_capture.optimize();
+            returnexpression_capture.optimize();
+            squarebrackets_capture.optimize();
+            brackets_capture.optimize();
+            var_identifier_capture.optimize();
+            string_literal_capture.optimize();
+            numeric_literal_capture.optimize();
+            field_accessor_internal.optimize();
+            field_accessor_external.optimize();
+            struct_accessor.optimize();
+        }
 
         auto const py_scope = find_regex_match(py_scope_capture, m_lexicalScope);
         m_lexicalScope.remove(py_scope_capture);
@@ -106,7 +134,7 @@ public:
 private://methods
     static const QStringList find_regex_match(const QRegularExpression &exp, const QString &str)
     {
-        exp.optimize();
+        //exp.optimize();
         QStringList ret;
         auto itr = exp.globalMatch(str);
         while(itr.hasNext()){
@@ -432,134 +460,110 @@ private://static members
     static const QRegularExpression struct_accessor;
 };
 
-inline const QRegularExpression Lexer::import_capture = QRegularExpression {
-        "(?:(^\\s*))(?<main>\\!import\\s*\\<(?<file>[\\s\\S]*?)\\>)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::import_capture
+    = QRegularExpression{"(?:(^\\s*))(?<main>\\!import\\s*\\<(?<file>[\\s\\S]*?)\\>)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
 //TODO: Improve expression of multiline comments
-inline const QRegularExpression Lexer::multiline_comment_capture = QRegularExpression {
-        "(?<main>\\/\\*[\\s\\S]*\\*\\/)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::multiline_comment_capture
+    = QRegularExpression{"(?<main>\\/\\*[\\s\\S]*\\*\\/)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::py_scope_capture = QRegularExpression {
-        "(?<main>\\!py\\{[\\s\\S]*?\\}\\s*(\\([\\s\\S]*?\\))*\\;\\!)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::py_scope_capture
+    = QRegularExpression{"(?<main>\\!py\\{[\\s\\S]*?\\}\\s*(\\([\\s\\S]*?\\))*\\;\\!)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::hook_decl = QRegularExpression {
-        "(?<main>@\\s*\\/[\\*\\@\\-]*[\\w*\\@\\-\\!\\s\\/\\#]*\\s*[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::hook_decl
+    = QRegularExpression{"(?<main>@\\s*\\/[\\*\\@\\-]*[\\w*\\@\\-\\!\\s\\/"
+                         "\\#]*\\s*[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::function_decl = QRegularExpression {
-        "(?<main>def\\s+\\w+\\s*\\([\\s\\S]*?\\)*\\s*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::function_decl = QRegularExpression{
+    "(?<main>def\\s+\\w+\\s*\\([\\s\\S]*?\\)*\\s*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
+    QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::function_call = QRegularExpression {
-        "(?:(^\\s*))(?<main>(\\w+\\:\\:)*\\w+\\s*\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\))",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::function_call = QRegularExpression{
+    "(?:(^\\s*))(?<main>(\\w+\\:\\:)*\\w+\\s*\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\))",
+    QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::param_labels_capture = QRegularExpression {
-        "(?<main>\\!(?<param>\\w+)\\s*\\:\\s*(?<value>[^,]+?)(?=,|\\)))",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::param_labels_capture
+    = QRegularExpression{"(?<main>\\!(?<param>\\w+)\\s*\\:\\s*(?<value>[^,]+?)(?=,|\\)))",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::variadic_param_capture = QRegularExpression {
-        "(?<main>\\!\\s*\\[...\\]\\:\\s*(?<value>((\\[[^\\[\\]]*\\])|[^\\[\\]])+?))",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::variadic_param_capture = QRegularExpression{
+    "(?<main>\\!\\s*\\[...\\]\\:\\s*(?<value>((\\[[^\\[\\]]*\\])|[^\\[\\]])+?))",
+    QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::class_decl = QRegularExpression {
-        "(?<main>class\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::class_decl
+    = QRegularExpression{"(?<main>class\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::class_decl_inner =
-        QRegularExpression{"class\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};//Depricated
+inline const QRegularExpression Lexer::class_decl_inner = QRegularExpression{
+    "class\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"}; //Depricated
 
-inline const QRegularExpression Lexer::struct_decl = QRegularExpression {
-        "(?<main>struct\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::struct_decl
+    = QRegularExpression{"(?<main>struct\\s+\\w+[=\\s]*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::struct_decl_inner =
-        QRegularExpression{"struct\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"};//Depricated
+inline const QRegularExpression Lexer::struct_decl_inner = QRegularExpression{
+    "struct\\s+\\w+[=\\s]*\\{[\\s\\S]*?\\}"}; //Depricated
 
-inline const QRegularExpression Lexer::variable_decl = QRegularExpression {
-        "(?<main>var\\s+\\w+\\s*(\\:\\s*\\w+\\s*)*(\\=[\\s\\S]*?\\;)*)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::variable_decl
+    = QRegularExpression{"(?<main>var\\s+\\w+\\s*(\\:\\s*\\w+\\s*)*(\\=[\\s\\S]*?\\;)*)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::scope_capture = QRegularExpression {
-        "(?<main>\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\})",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::scope_capture
+    = QRegularExpression{"(?<main>\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\})",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::varvalue_capture = QRegularExpression {
-        "(?<main>(?==)\\=[\\s\\S]*(?=;))",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::varvalue_capture
+    = QRegularExpression{"(?<main>(?==)\\=[\\s\\S]*(?=;))",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::binexpression_capture = QRegularExpression {
-        "(?<main>[\\s\\S]*?[\\+\\-\\*][\\s\\S]*?\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::binexpression_capture
+    = QRegularExpression{"(?<main>[\\s\\S]*?[\\+\\-\\*][\\s\\S]*?\\;)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::returnexpression_capture = QRegularExpression {
-        "(?<main>return\\:\\=[\\s\\S]*\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::returnexpression_capture
+    = QRegularExpression{"(?<main>return\\:\\=[\\s\\S]*\\;)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::array_decl = QRegularExpression {
-        "(?<main>var\\s\\w+\\[[\\s\\S]*?\\]\\s*(\\:\\s*\\w+\\s*)*\\=\\s*\\{[^{}]*((\\{[^{}]*\\})|[^{}])*?\\}\\;)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::array_decl
+    = QRegularExpression{"(?<main>var\\s\\w+\\[[\\s\\S]*?\\]\\s*(\\:\\s*\\w+\\s*)*\\=\\s*\\{[^{}]*("
+                         "(\\{[^{}]*\\})|[^{}])*?\\}\\;)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::squarebrackets_capture =
-        QRegularExpression{
-        "(?<main>\\[\\d*\\])",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::squarebrackets_capture
+    = QRegularExpression{"(?<main>\\[\\d*\\])", QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::brackets_capture = QRegularExpression {
-        "(?<main>\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\))",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::brackets_capture
+    = QRegularExpression{"(?<main>\\([^\\(\\)]*((\\([^\\(\\)]*\\))|[^\\(\\)])*?\\))",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::var_identifier_capture = QRegularExpression {
-        "(?<main>\\$\\w+(\\s*[\\=\\-\\>\\.\\:]\\s*[\\s\\S]*?\\;)*)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::var_identifier_capture
+    = QRegularExpression{"(?<main>\\$\\w+(\\s*[\\=\\-\\>\\.\\:]\\s*[\\s\\S]*?\\;)*)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::string_literal_capture = QRegularExpression {
-        "(?<main>\"[\\s\\S]*?\")",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::string_literal_capture
+    = QRegularExpression{"(?<main>\"[\\s\\S]*?\")",
+                         QRegularExpression::PatternOption::MultilineOption};
 
-inline const QRegularExpression Lexer::numeric_literal_capture = QRegularExpression {
-        "(?<main>\\d+(\\.\\d)*)",
-        QRegularExpression::PatternOption::MultilineOption
-};
+inline const QRegularExpression Lexer::numeric_literal_capture
+    = QRegularExpression{"(?<main>\\d+(\\.\\d)*)",
+                         QRegularExpression::PatternOption::MultilineOption};
 
 inline const QRegularExpression Lexer::field_accessor_internal = QRegularExpression {
         "(?<main>\\.\\w+(\\s*=\\s*[\\s\\S]*\\;)*)",
         QRegularExpression::PatternOption::MultilineOption
 };
 
-inline const QRegularExpression Lexer::field_accessor_external =
-        QRegularExpression{};
+inline const QRegularExpression Lexer::field_accessor_external = QRegularExpression{};
 
-inline const QRegularExpression Lexer::struct_accessor = QRegularExpression {
-        "(?<main>\\$\\w+\\[[\\s\\S]*\\])",
-        QRegularExpression::PatternOption::MultilineOption
-};
-
-}
-}
+inline const QRegularExpression Lexer::struct_accessor
+    = QRegularExpression{"(?<main>\\$\\w+\\[[\\s\\S]*\\])",
+                         QRegularExpression::PatternOption::MultilineOption};
+} // namespace ServerLang
+} // namespace NaiSys
 
 #undef __MATCH_ITERATOR
 #endif // SERVERLANGLEXER_H
