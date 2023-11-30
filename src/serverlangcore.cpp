@@ -9,8 +9,8 @@ namespace ServerLang {
 
 const std::shared_ptr<QVariant> Core::exec(QStringView symbol, const QVariantMap &args) throw()
 {
-    if(auto _mp = CoreFunctions::functionMap(); _mp.find(symbol) != _mp.end()) {
-        auto func = _mp[symbol];
+    if (auto _mp = CoreFunctions::functionMap(); _mp.find(symbol.toString()) != _mp.end()) {
+        auto func = _mp[symbol.toString()];
         CoreFunctions::registerParameters(args);
         return func();
     }
@@ -23,7 +23,7 @@ const void Core::define(const STNode::nodeptr &func) throw()
         auto const ret = QVariant::fromValue(func);
         return std::make_shared<QVariant>(ret);
     };
-    CoreFunctions::functionMap().insert({func->name(), opr});
+    CoreFunctions::functionMap().insert({func->name().toString(), opr});
 }
 
 } // namespace ServerLang

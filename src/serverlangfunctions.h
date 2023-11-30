@@ -20,7 +20,7 @@ class CoreFunctions
 public:
     CoreFunctions() = default;
 
-    static std::map<QStringView, const ast_operator> &functionMap() { return m_functionMap; }
+    static std::map<const QString, const ast_operator> &functionMap() { return m_functionMap; }
 
     static void registerParameters(const QVariantMap &params)
     {
@@ -43,7 +43,7 @@ private://private members
 
 private://registers
     static QVariantMap args_reg, params_reg;
-    static std::map<QStringView, const ast_operator> m_functionMap;
+    static std::map<const QString, const ast_operator> m_functionMap;
 };
 
 inline QVariantMap CoreFunctions::args_reg = {};
@@ -243,16 +243,16 @@ inline const ast_operator CoreFunctions::jsnstringify = []()mutable->value_ptr
     return std::make_shared<QVariant>(string);
 };
 
-inline std::map<QStringView, const ast_operator> CoreFunctions::m_functionMap
-    = {{QString("Core::Exec"), exec_cmd},
-       {QString("Core::Println"), println},
-       {QString("Core::FileRead"), readfile},
-       {QString("Core::FileWrite"), writefile},
-       {QString("Core::Db::Open"), dbopen},
-       {QString("Core::Db::Exec"), dbexec},
-       {QString("Core::Db::Close"), dbclose},
-       {QString("Core::Json::Make"), mkjson},
-       {QString("Core::Json::Stringify"), jsnstringify}};
+inline std::map<const QString, const ast_operator> CoreFunctions::m_functionMap
+    = {{"Core::Exec", exec_cmd},
+       {"Core::Println", println},
+       {"Core::FileRead", readfile},
+       {"Core::FileWrite", writefile},
+       {"Core::Db::Open", dbopen},
+       {"Core::Db::Exec", dbexec},
+       {"Core::Db::Close", dbclose},
+       {"Core::Json::Make", mkjson},
+       {"Core::Json::Stringify", jsnstringify}};
 } // namespace ServerLang
 }
 

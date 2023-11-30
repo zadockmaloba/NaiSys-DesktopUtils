@@ -32,8 +32,8 @@ public:
     const STNode::nodeptr &BufferAST() const;
     void setBufferAST(const STNode::nodeptr &newBufferAST);
 
-    const QMap<QString, std::function<const QVariantMap ()> > &hookMap() const;
-    void setHookMap(const QMap<QString, std::function<const QVariantMap ()> > &newHookMap);
+    const QMap<const QString, std::function<const QVariantMap()>> &hookMap() const;
+    void setHookMap(const QMap<const QString, std::function<const QVariantMap()>> &newHookMap);
 
     void interprate(const STNode::nodeptr &ast);
 
@@ -108,13 +108,13 @@ private: //helpers
     }
 
 private:
-     QMap<QString, std::function<void()>> m_functionMap;
-     QMap<QString, std::function<const QVariantMap ()>> m_hookMap;
-     //std::map<QString, std::shared_ptr<DatabaseHandler>> m_databaseMap;
-     DatabasePool m_databaseMap;
-     STNode::nodeptr m_BufferAST, m_tmpParentScope;
-     QVariantMap::Iterator m_BufferCursor;
-     std::shared_ptr<DatabaseHandler> m_dbHandler;
+    QMap<const QString, std::function<void()>> m_functionMap;
+    QMap<const QString, std::function<const QVariantMap()>> m_hookMap;
+    //std::map<QString, std::shared_ptr<DatabaseHandler>> m_databaseMap;
+    DatabasePool m_databaseMap;
+    STNode::nodeptr m_BufferAST, m_tmpParentScope;
+    QVariantMap::Iterator m_BufferCursor;
+    std::shared_ptr<DatabaseHandler> m_dbHandler;
 
 private:
     static const QRegularExpression arrmatch;

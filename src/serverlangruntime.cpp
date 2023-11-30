@@ -231,10 +231,10 @@ void RunTime::UPDATE_SCOPE_DECLARATIONS_VALUE(const QString &vname, QVariantMap 
     scope.find("declarations").value() = decl;
 }
 
-const QMap<QString, std::function<const QVariantMap ()> > &RunTime::hookMap() const
+const QMap<const QString, std::function<const QVariantMap()> > &RunTime::hookMap() const
 {return m_hookMap;}
 
-void RunTime::setHookMap(const QMap<QString, std::function<const QVariantMap ()> > &newHookMap)
+void RunTime::setHookMap(const QMap<const QString, std::function<const QVariantMap()> > &newHookMap)
 {m_hookMap = newHookMap;}
 
 const STNode::nodeptr &RunTime::BufferAST() const

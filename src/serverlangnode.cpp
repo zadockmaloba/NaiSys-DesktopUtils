@@ -6,10 +6,9 @@ namespace ServerLang {
 const STNode::nodeptr STNode::check_for_declaration(QStringView name)
 {
     qDebug() << "Checking for: " << name << " in: " << this->name();
-    if(declarationMap().has(name)){
+    if (declarationMap().has(name)) {
         return declarationMap().at(name);
-    }
-    else if(parentScope().get() != nullptr)
+    } else if (parentScope().get() != nullptr)
         return parentScope()->check_for_declaration(name);
 
     //throw "WARNING: Unable to find referenced variable";
