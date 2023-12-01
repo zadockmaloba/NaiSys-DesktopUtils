@@ -56,8 +56,8 @@ public:
     STNode() = default;
     ~STNode()
     {
-        delete m_value;
-        delete m_returnval;
+        //delete m_value;
+        //delete m_returnval;
     }
 
 public: // helper methods

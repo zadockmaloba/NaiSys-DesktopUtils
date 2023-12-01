@@ -36,7 +36,7 @@ public:
         std::vector<STNode::nodeptr> m_tokenList;
 
         //JIT the regex
-        /*{
+        {
             py_scope_capture.optimize();
             hook_decl.optimize();
             function_decl.optimize();
@@ -62,7 +62,7 @@ public:
             field_accessor_internal.optimize();
             field_accessor_external.optimize();
             struct_accessor.optimize();
-        }*/
+        }
 
         auto const py_scope = find_regex_match(py_scope_capture, m_lexicalScope);
         m_lexicalScope.remove(py_scope_capture);
