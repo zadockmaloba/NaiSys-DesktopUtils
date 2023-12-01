@@ -59,8 +59,9 @@ private: //helpers
             break;
         }
     }
-    inline const value_ptr get_rhs_value(const STNode::nodeptr &rhs) {
-        value_ptr ret = {};
+    inline const value_raw_ptr get_rhs_value(const STNode::nodeptr &rhs)
+    {
+        value_raw_ptr ret = {};
         for(auto &_v : rhs->declarationMap()) {
             if(_v->second()->type() == NodeType::VARIABLE_EXPRESSION) {
                 try {
@@ -96,7 +97,7 @@ private: //helpers
                                 _dict.find(_key).value() :
                                 QJsonValue{"__NULL__"};
 
-                    _v->second()->setValue(std::make_shared<QVariant>(_key_val));
+                    _v->second()->setValue(new QVariant(_key_val));
                 }
                 catch(...) {
                     qWarning() << "WARNING: Cannot find struct field";

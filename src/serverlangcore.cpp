@@ -7,7 +7,7 @@
 namespace NaiSys {
 namespace ServerLang {
 
-const std::shared_ptr<QVariant> Core::exec(QStringView symbol, const QVariantMap &args) throw()
+const value_raw_ptr Core::exec(QStringView symbol, const QVariantMap &args) throw()
 {
     if (auto _mp = CoreFunctions::functionMap(); _mp.find(symbol.toString()) != _mp.end()) {
         auto func = _mp[symbol.toString()];
@@ -19,9 +19,9 @@ const std::shared_ptr<QVariant> Core::exec(QStringView symbol, const QVariantMap
 
 const void Core::define(const STNode::nodeptr &func) throw()
 {
-    ast_operator opr = [func]()mutable->value_ptr {
+    ast_operator opr = [func]()mutable->value_raw_ptr {
         auto const ret = QVariant::fromValue(func);
-        return std::make_shared<QVariant>(ret);
+        return new QVariant(ret);
     };
     CoreFunctions::functionMap().insert({func->name().toString(), opr});
 }

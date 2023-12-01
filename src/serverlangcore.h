@@ -45,8 +45,7 @@ private:
     Core() = default;
 
 public:
-    static const std::shared_ptr<QVariant> exec(QStringView symbol,
-                                                const QVariantMap &args = {}) throw();
+    static const value_raw_ptr exec(QStringView symbol, const QVariantMap &args = {}) throw();
     static const void define(const STNode::nodeptr &func = {}) throw();
 };
 

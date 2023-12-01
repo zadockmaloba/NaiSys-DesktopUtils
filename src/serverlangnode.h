@@ -40,8 +40,9 @@ enum class NodeType {
     VARIADIC_PARAMETER_LABEL
 };
 
-using value_ptr = std::shared_ptr<QVariant>;
-using ast_operator = std::function<value_ptr ()>;
+using value_ptr = std::unique_ptr<QVariant>;
+using value_raw_ptr = QVariant *;
+using ast_operator = std::function<value_raw_ptr()>;
 using operatorscope = QMap<const QString, ast_operator>;
 
 
@@ -53,7 +54,11 @@ public://Typedefs
 
 public:
     STNode() = default;
-    ~STNode(){}
+    ~STNode()
+    {
+        delete m_value;
+        delete m_returnval;
+    }
 
 public: // helper methods
     const nodeptr check_for_declaration(QStringView name);
@@ -67,8 +72,8 @@ public: //GETTERS AND SETTERS
     nodeptr parentScope() const;
     void setParentScope(const nodeptr &newParentScope);
 
-    value_ptr value() const;
-    void setValue(const value_ptr &newValue);
+    value_raw_ptr value() const;
+    void setValue(const value_raw_ptr newValue);
 
     nodeptr innerScope() const;
     void setInnerScope(const nodeptr &newInnerScope);
@@ -85,8 +90,8 @@ public: //GETTERS AND SETTERS
     nodeptr operand() const;
     void setOperand(const nodeptr &newOperand);
 
-    value_ptr returnval() const;
-    void setReturnval(const value_ptr &newReturnval);
+    value_raw_ptr returnval() const;
+    void setReturnval(const value_raw_ptr newReturnval);
 
     QByteArray raw() const;
     void setRaw(const QByteArray &newRaw);
@@ -114,8 +119,7 @@ private: //Private members
     QVariantMap m_parametersMap;
     QByteArray m_raw;
     QString m_name, m_typeName, m_referencedId;
-    value_ptr m_value = value_ptr{new QVariant},
-    m_returnval = value_ptr{new QVariant};
+    value_raw_ptr m_value, m_returnval;
     NodeType m_type;
 };
 

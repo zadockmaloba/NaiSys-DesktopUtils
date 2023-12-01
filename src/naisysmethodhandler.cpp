@@ -37,15 +37,15 @@ const NaiSysHttpResponse MethodHandler::get()
 
     ServerLang::String http_body(m_desirialized._body);
     http_body.setName("RUNTIME_HTTP_BODY");
-    http_body.setValue(std::make_shared<QVariant>(m_desirialized._body));
+    http_body.setValue(new QVariant(m_desirialized._body));
 
     ServerLang::Struct http_params;
     http_params.setName("RUNTIME_HTTP_PARAMS");
-    http_params.setValue(std::make_shared<QVariant>(m_parameters.url_dict));
+    http_params.setValue(new QVariant(m_parameters.url_dict));
 
     ServerLang::Struct http_headers;
     http_headers.setName("RUNTIME_HTTP_HEADERS");
-    http_headers.setValue(std::make_shared<QVariant>(m_desirialized._header));
+    http_headers.setValue(new QVariant(m_desirialized._header));
 
     rt.injectRTDeclarations({
         std::make_shared<ServerLang::STNode>(http_body),

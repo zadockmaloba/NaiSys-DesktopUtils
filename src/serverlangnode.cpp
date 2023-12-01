@@ -42,12 +42,12 @@ void STNode::setParentScope(const nodeptr &newParentScope)
     m_parentScope = newParentScope;
 }
 
-value_ptr STNode::value() const
+value_raw_ptr STNode::value() const
 {
     return m_value;
 }
 
-void STNode::setValue(const value_ptr &newValue)
+void STNode::setValue(const value_raw_ptr newValue)
 {
     m_value = std::move(newValue);
 }
@@ -106,14 +106,14 @@ void STNode::setOperand(const nodeptr &newOperand)
     m_operand = newOperand;
 }
 
-value_ptr STNode::returnval() const
+value_raw_ptr STNode::returnval() const
 {
     return m_returnval;
 }
 
-void STNode::setReturnval(const value_ptr &newReturnval)
+void STNode::setReturnval(const value_raw_ptr newReturnval)
 {
-    m_returnval = newReturnval;
+    m_returnval = std::move(newReturnval);
 }
 
 QByteArray STNode::raw() const

@@ -77,7 +77,7 @@ void RunTime::interprate(const STNode::nodeptr &ast)
                             _l.insert(QString::number(tmp_indx), *_t->second()->value());
                             tmp_indx += 1;
                         }
-                        auto const _var = std::make_shared<QVariant>(_l);
+                        auto const _var = new QVariant(_l);
                         _v->second()->setValue(_var);
                         //qDebug() << "Value after call: " << _v->second()->value();
                     }
@@ -182,7 +182,7 @@ void RunTime::injectRTDeclarations(const std::vector<STNode::nodeptr> &rtDecls)
 {
     for(auto &v: rtDecls) {
         v->setParentScope(m_BufferAST);
-        m_BufferAST->add_declaration(v);
+        m_BufferAST->add_declaration(std::move(v));
     }
 }
 
