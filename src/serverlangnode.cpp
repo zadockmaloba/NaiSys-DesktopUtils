@@ -19,7 +19,7 @@ void STNode::add_declaration(const nodeptr &decl)
 {
     //FIXME: find out why size() causes segfault
     //qDebug() << m_declarationMap.size();
-    m_declarationMap.push_back(decl->name(), decl);
+    m_declarationMap.push_back(decl->name(), std::move(decl));
 }
 
 QStringView STNode::name() const
@@ -44,12 +44,12 @@ void STNode::setParentScope(const nodeptr &newParentScope)
 
 value_raw_ptr STNode::value() const
 {
-    return m_value;
+    return m_value.get();
 }
 
 void STNode::setValue(const value_raw_ptr newValue)
 {
-    m_value = std::move(newValue);
+    m_value.reset(std::move(newValue));
 }
 
 STNode::nodeptr STNode::innerScope() const
@@ -108,12 +108,12 @@ void STNode::setOperand(const nodeptr &newOperand)
 
 value_raw_ptr STNode::returnval() const
 {
-    return m_returnval;
+    return m_returnval.get();
 }
 
 void STNode::setReturnval(const value_raw_ptr newReturnval)
 {
-    m_returnval = std::move(newReturnval);
+    m_returnval.reset(std::move(newReturnval));
 }
 
 QByteArray STNode::raw() const

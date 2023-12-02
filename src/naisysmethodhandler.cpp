@@ -47,11 +47,7 @@ const NaiSysHttpResponse MethodHandler::get()
     http_headers.setName("RUNTIME_HTTP_HEADERS");
     http_headers.setValue(new QVariant(m_desirialized._header));
 
-    rt.injectRTDeclarations({
-        std::make_shared<ServerLang::STNode>(http_body),
-        std::make_shared<ServerLang::STNode>(http_params),
-        std::make_shared<ServerLang::STNode>(http_headers)
-    });
+    rt.injectRTDeclarations({&http_body, &http_params, &http_headers});
 
     rt.start();
 

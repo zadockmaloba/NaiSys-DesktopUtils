@@ -119,7 +119,7 @@ private: //Private members
     QVariantMap m_parametersMap;
     QByteArray m_raw;
     QString m_name, m_typeName, m_referencedId;
-    value_raw_ptr m_value, m_returnval;
+    value_ptr m_value, m_returnval;
     NodeType m_type;
 };
 

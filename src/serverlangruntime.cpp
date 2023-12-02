@@ -178,11 +178,12 @@ void RunTime::start()
     interprate(m_BufferAST);
 }
 
-void RunTime::injectRTDeclarations(const std::vector<STNode::nodeptr> &rtDecls)
+void RunTime::injectRTDeclarations(const std::vector<STNode *> &rtDecls)
 {
     for(auto &v: rtDecls) {
         v->setParentScope(m_BufferAST);
-        m_BufferAST->add_declaration(std::move(v));
+        auto tmp = STNode::nodeptr(v);
+        m_BufferAST->add_declaration(tmp);
     }
 }
 
