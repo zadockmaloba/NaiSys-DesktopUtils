@@ -62,9 +62,49 @@ QByteArray NetworkController::createGetRequestAwait(const QString& path, const Q
     return ret;
 }
 
+void NetworkController::createPostRequest(const QString &path,
+                                          const QByteArray &data,
+                                          const QByteArray &type)
+{
+    QNetworkRequest req("http://" + m_serverHost + ":" + QString::number(m_serverPort) + path);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, type);
+    req.setHeader(QNetworkRequest::ContentLengthHeader, data.length());
+
+    auto reply = netManager()->post(req, data);
+
+    connect(reply, &QNetworkReply::finished, [reply]() { qDebug() << reply->readAll(); });
+}
+
+QByteArray NetworkController::createPostRequestAwait(const QString &path,
+                                                     const QByteArray &data,
+                                                     const QByteArray &type)
+{
+    QByteArray ret;
+
+    QNetworkRequest req("http://" + m_serverHost + ":" + QString::number(m_serverPort) + path);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, type);
+    req.setHeader(QNetworkRequest::ContentLengthHeader, data.length());
+
+    auto reply = netManager()->post(req, data);
+
+    connect(reply, &QNetworkReply::finished, [reply, &ret]() { ret = reply->readAll(); });
+
+    connect(reply, &QNetworkReply::errorOccurred, [reply]() { qDebug() << reply->errorString(); });
+
+    reply->waitForReadyRead(3000);
+
+    while (!reply->isFinished()) {
+        QCoreApplication::processEvents();
+    }
+
+    qDebug() << "Got response";
+
+    return ret;
+}
+
 void NetworkController::createPushRequestSecure(const QString &path, const QByteArray &data)
 {
-
+    
 }
 
 QByteArray NetworkController::createPushRequestAwaitSecure(const QString &path, const QByteArray &data)

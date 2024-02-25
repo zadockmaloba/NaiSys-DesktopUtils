@@ -17,6 +17,8 @@ public:
 public:
     Q_INVOKABLE QObject *instance() { return global_net_ctrl; }
 
+    Q_INVOKABLE QString serverUrl() { return NetworkController::serverUrl(); }
+
     Q_INVOKABLE void createPushRequest(const QString &path, const QByteArray &data)
     {
         return NetworkController::createPushRequest(path, data);
@@ -26,6 +28,23 @@ public:
     {
         emit requestStarted();
         auto ret = NetworkController::createPushRequestAwait(path, data);
+        emit requestComplete();
+        return ret;
+    }
+
+    Q_INVOKABLE void createPostRequest(const QString &path,
+                                       const QByteArray &data,
+                                       const QByteArray &type = "application/json")
+    {
+        return NetworkController::createPostRequest(path, data, type);
+    }
+
+    Q_INVOKABLE QByteArray createPostRequestAwait(const QString &path,
+                                                  const QByteArray &data,
+                                                  const QByteArray &type = "application/json")
+    {
+        emit requestStarted();
+        auto ret = NetworkController::createPostRequestAwait(path, data, type);
         emit requestComplete();
         return ret;
     }

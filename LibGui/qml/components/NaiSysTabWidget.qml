@@ -5,7 +5,7 @@ import libgui
 
 Item {
     id: root
-    default property list<NaiSysTabElement> elements
+    default property list<Item> elements
     property list<NaiSysTabElement> elements_buffer
 
     function newTab(tabIdentifier) {

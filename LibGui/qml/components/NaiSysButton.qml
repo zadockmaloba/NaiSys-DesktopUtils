@@ -22,10 +22,28 @@ AbstractButton {
         radius: root.radius
         border_color: root.border_color
         enable_bloom: false
-        NaiSysLabel {
+        ColumnLayout {
             anchors.fill: parent
-            text: qsTr(root.text)
-            text_size: root.text_size
+            Item {
+                visible: icn.source.toString().length > 0
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Image {
+                    id: icn
+                    width: parent.width * 0.6
+                    height: parent.height * 0.6
+                    anchors.centerIn: parent
+                    fillMode: Image.PreserveAspectFit
+                    source: icon.source ? icon.source : ""
+                }
+            }
+
+            NaiSysLabel {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                text: qsTr(root.text)
+                text_size: root.text_size
+            }
         }
     }
 }

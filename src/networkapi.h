@@ -27,6 +27,12 @@ public:
     static QByteArray createPushRequestAwait(const QString &path, const QByteArray &data);
     static void createGetRequest(const QString &path, const QByteArray &data = {});
     static QByteArray createGetRequestAwait(const QString &path, const QByteArray &data = {});
+    static void createPostRequest(const QString &path,
+                                  const QByteArray &data,
+                                  const QByteArray &type = "text/html");
+    static QByteArray createPostRequestAwait(const QString &path,
+                                             const QByteArray &data,
+                                             const QByteArray &type = "text/html");
 
     static void createPushRequestSecure(const QString &path, const QByteArray &data);
     static QByteArray createPushRequestAwaitSecure(const QString &path, const QByteArray &data);
@@ -38,6 +44,11 @@ public:
 
     static int serverPort();
     static void setServerPort(int newServerPort);
+
+    static QString serverUrl()
+    {
+        return "http://" + serverHost() + ":" + QString::number(serverPort()) + "/";
+    }
 
 public slots:
     void onRequestComplete();
