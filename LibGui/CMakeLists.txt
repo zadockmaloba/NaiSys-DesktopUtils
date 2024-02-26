@@ -85,6 +85,7 @@ set( PLUGIN_FILES
 set( ICON_FILES
     ${GUI_ICONS_DIR}/info_icon.png
     ${GUI_ICONS_DIR}/warning_icon.png
+    ${GUI_ICONS_DIR}/power_icon.png
 )
 
 set( MISC_RESOURCES
